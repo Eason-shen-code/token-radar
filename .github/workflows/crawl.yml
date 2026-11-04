@@ -24,6 +24,20 @@ jobs:
         with:
           node-version: '22'
 
+      # 自检只输出令牌长度和哈希前缀，不输出令牌本身
+      - name: 环境自检
+        env:
+          INGEST_TOKEN: ${{ secrets.INGEST_TOKEN }}
+        run: |
+          set +e
+          echo "端点连通性：$(curl -sS -o /dev/null -w '%{http_code}' -m 20 https://ai-token-price-radar.app.workbuddy.host/ 2>&1)"
+          if [ -z "$INGEST_TOKEN" ]; then
+            echo "::error::INGEST_TOKEN 为空——仓库 Secret 没有配置，或名字拼错（必须正好是 INGEST_TOKEN）"
+            exit 1
+          fi
+          echo "令牌长度：${#INGEST_TOKEN}（应为 48）"
+          echo "令牌指纹：$(printf '%s' "$INGEST_TOKEN" | sha256sum | cut -c1-12)（应为 b0d827fdbd8b）"
+
       - name: 抓取各平台价格
         run: node scripts/run.mjs
 
@@ -33,6 +47,7 @@ jobs:
         run: node scripts/push.mjs
 
       - name: 留存本次结果
+        if: always()
         uses: actions/upload-artifact@v4
         with:
           name: snapshot-${{ github.run_id }}
