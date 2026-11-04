@@ -1,0 +1,121 @@
+{
+  "meta": {
+    "project": "AI算力资源价格监测",
+    "origin": "逆向自 Token采购比价报告_2026-10-15.html",
+    "note": "A级=可确定性解析并自动更新数值；B级=页面内容变更监控（价格需人工复核）；C级=人工基线（无公开可抓价格）"
+  },
+  "fx": {
+    "usdCny": 7.1,
+    "note": "USD→CNY 用于 OpenRouter 参考价折算，固定值人工维护（汇率源接口在本机不可达）",
+    "updated": "2026-11-03"
+  },
+  "autoSources": [
+    {
+      "id": "zhipu-api",
+      "name": "智谱开放平台 · API 定价",
+      "url": "https://docs.bigmodel.cn/cn/guide/start/pricing.md",
+      "type": "md-table",
+      "tier": "A",
+      "feeds": ["glm-5.3"]
+    },
+    {
+      "id": "zhipu-plan",
+      "name": "智谱 · GLM Coding Plan 套餐",
+      "url": "https://docs.bigmodel.cn/cn/coding-plan/overview.md",
+      "type": "md-table",
+      "tier": "A",
+      "feeds": ["glm-5.3"]
+    },
+    {
+      "id": "deepseek-api",
+      "name": "DeepSeek · 官方 API 定价",
+      "url": "https://api-docs.deepseek.com/zh-cn/quick_start/pricing",
+      "type": "html-table",
+      "tier": "A",
+      "feeds": ["deepseek-v4-pro", "deepseek-v41-flash"]
+    },
+    {
+      "id": "openrouter",
+      "name": "OpenRouter · 多模型聚合参考价",
+      "url": "https://openrouter.ai/api/v1/models",
+      "type": "json-openrouter",
+      "tier": "A",
+      "feeds": ["glm-5.3", "deepseek-v4-pro", "deepseek-v41-flash", "doubao", "qwen", "kimi"]
+    }
+  ],
+  "watchSources": [
+    {
+      "id": "volcengine-codingplan",
+      "name": "火山引擎 · Coding Plan 活动页",
+      "url": "https://www.volcengine.com/activity/ai618",
+      "tier": "B",
+      "hint": "促销折扣与套餐价"
+    },
+    {
+      "id": "volcengine-price",
+      "name": "火山方舟 · 模型价格与抵扣系数",
+      "url": "https://docs.volcengine.com/docs/82379/1544106",
+      "tier": "B",
+      "hint": "抵扣系数调整会改变套餐等效单价"
+    },
+    {
+      "id": "aliyun-tokenplan",
+      "name": "阿里百炼 · Token Plan 个人版",
+      "url": "https://help.aliyun.com/zh/model-studio/token-plan-personal-overview",
+      "tier": "B",
+      "hint": "Credits 档位与限时价"
+    },
+    {
+      "id": "aliyun-models",
+      "name": "阿里百炼 · 模型价格",
+      "url": "https://help.aliyun.com/zh/model-studio/models",
+      "tier": "B",
+      "hint": "Qwen 系列按量价"
+    },
+    {
+      "id": "qianfan-codingplan",
+      "name": "百度千帆 · Token Plan",
+      "url": "https://cloud.baidu.com/product/codingplan.html",
+      "tier": "B",
+      "hint": "活动折扣与套餐档位"
+    },
+    {
+      "id": "tencent-tokenhub",
+      "name": "腾讯云 · TokenHub",
+      "url": "https://cloud.tencent.com/document/product/1823/130060",
+      "tier": "B",
+      "hint": "积分兑换系数"
+    },
+    {
+      "id": "ctyun-tokenhub",
+      "name": "天翼云 · 星辰 TokenHub",
+      "url": "https://www.ctyun.cn/products/31761580",
+      "tier": "B",
+      "hint": "积分制档位"
+    },
+    {
+      "id": "unicom-tokenplan",
+      "name": "联通云 · Token Plan",
+      "url": "https://www.cucloud.cn/product/tokenplan.html",
+      "tier": "B",
+      "hint": "个人版/团队版档位（站点有 WAF，可能抓取失败）"
+    },
+    {
+      "id": "kimi-pricing",
+      "name": "Kimi 开放平台 · 模型定价",
+      "url": "https://platform.kimi.com/docs/pricing/chat",
+      "tier": "B",
+      "hint": "前端渲染，正文需 JS 执行"
+    },
+    {
+      "id": "huawei-maas",
+      "name": "华为云 · MaaS Token Plan",
+      "url": "https://www.huaweicloud.com/intl/zh-cn/product/maas.html",
+      "tier": "B",
+      "hint": "档位与共享额度（原 support.huaweicloud.com/Token-plan-maas 文档路径已 404，2026-11-03 核验）"
+    }
+  ],
+  "forecast": {
+    "note": "移动云为政企报价口径，无公开价格页，纳入 C 级人工基线；每 30 天提示复核"
+  }
+}

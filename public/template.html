@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#0f2137">
+<title>AI算力价格监测台</title>
+<script>/*__SDK__*/</script>
+<script>
+  // 云服务公开配置（publishableKey 仅标识应用，无权限，服务端强制同源校验）
+  window.__CLOUD_CFG = {
+    endpoint: "https://ai-token-price-radar.app.workbuddy.host",
+    oauthRelayBaseUrl: "https://www.workbuddy.cn/v2/as/genie-baas/oauth",
+    publishableKey: "wbpk_WrIQWYOUJjbr1mwyDHziWZ_hFp2n35XQIMB21DcqEcxNfy1Aatjgmeo"
+  };
+</script>
+<style>
+:root{
+  --bg:#f2f5f9; --card:#fff; --card2:#f8fafc; --line:#e3e9f1;
+  --tx:#132133; --tx2:#5b6b80; --tx3:#8b9aad;
+  --brand:#12304f; --brand2:#1f4d79; --accent:#e0761c;
+  --up:#cf3f32; --down:#12855c; --warn:#b8860b;
+  --r:14px; --sh:0 1px 2px rgba(16,38,62,.06),0 4px 16px rgba(16,38,62,.05);
+}
+@media (prefers-color-scheme: dark){
+  :root{
+    --bg:#0b1219; --card:#131c26; --card2:#0f1720; --line:#22303f;
+    --tx:#e7eef6; --tx2:#96a7ba; --tx3:#6d7f93;
+    --brand:#0b1219; --brand2:#16283c; --accent:#f0952f;
+    --up:#ff6b5e; --down:#31c48d; --warn:#e0b341;
+    --sh:0 1px 2px rgba(0,0,0,.4),0 6px 20px rgba(0,0,0,.3);
+  }
+}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{
+  font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei","Segoe UI",Roboto,sans-serif;
+  background:var(--bg);color:var(--tx);line-height:1.55;
+  padding-bottom:calc(24px + env(safe-area-inset-bottom));
+  -webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:720px;margin:0 auto;padding:0 14px}
+
+/* 顶栏 */
+.top{
+  position:sticky;top:0;z-index:20;
+  background:linear-gradient(135deg,var(--brand),var(--brand2));
+  color:#fff;padding:calc(12px + env(safe-area-inset-top)) 14px 14px;
+  box-shadow:0 2px 12px rgba(10,25,42,.18);
+}
+.top .row{display:flex;align-items:center;gap:8px;max-width:720px;margin:0 auto}
+.top h1{font-size:16px;font-weight:700;letter-spacing:.4px;flex:1}
+.pill{
+  display:inline-flex;align-items:center;gap:5px;
+  font-size:11px;padding:3px 9px;border-radius:20px;
+  background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.22);
+  white-space:nowrap;
+}
+.dot{width:6px;height:6px;border-radius:50%;background:#3ddc84;box-shadow:0 0 6px #3ddc84}
+.dot.warn{background:#ffc046;box-shadow:0 0 6px #ffc046}
+.dot.err{background:#ff7b6b;box-shadow:0 0 6px #ff7b6b}
+.top .sub{
+  max-width:720px;margin:8px auto 0;display:flex;flex-wrap:wrap;gap:6px 14px;
+  font-size:11.5px;color:rgba(255,255,255,.72);
+}
+.top .sub b{color:#ffd9a8;font-weight:600}
+
+/* 卡片 */
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--sh);margin:14px 0;overflow:hidden}
+.ch{display:flex;align-items:center;gap:8px;padding:13px 14px;border-bottom:1px solid var(--line)}
+.ch .idx{
+  width:20px;height:20px;border-radius:6px;background:var(--brand2);color:#fff;
+  font-size:11px;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-weight:700;
+}
+.ch h2{font-size:14px;font-weight:700;flex:1;letter-spacing:.2px}
+.ch .more{font-size:11.5px;color:var(--tx3)}
+.cb{padding:0 14px 14px}
+.hint{font-size:11.5px;color:var(--tx3);padding:12px 0 2px;line-height:1.6}
+
+/* 概览格 */
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;padding:12px 14px 4px}
+.stat{background:var(--card2);border:1px solid var(--line);border-radius:10px;padding:9px 10px;text-align:center}
+.stat .n{font-size:18px;font-weight:800;letter-spacing:-.5px;font-variant-numeric:tabular-nums}
+.stat .l{font-size:10.5px;color:var(--tx3);margin-top:1px}
+.stat.hot .n{color:var(--up)}
+
+/* 变动条目 */
+.diff{display:flex;gap:10px;padding:11px 0;border-bottom:1px dashed var(--line)}
+.diff:last-child{border-bottom:none}
+.diff .ic{width:22px;height:22px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;flex-shrink:0;margin-top:1px}
+.diff .ic.up{background:rgba(207,63,50,.12);color:var(--up)}
+.diff .ic.down{background:rgba(18,133,92,.12);color:var(--down)}
+.diff .ic.watch{background:rgba(184,134,11,.14);color:var(--warn)}
+.diff .m{flex:1;min-width:0}
+.diff .t{font-size:13px;font-weight:600;line-height:1.4}
+.diff .v{font-size:12px;color:var(--tx2);margin-top:2px;font-variant-numeric:tabular-nums;word-break:break-word}
+.diff .v em{font-style:normal;color:var(--tx3)}
+.diff .p{font-size:12px;font-weight:800;font-variant-numeric:tabular-nums;white-space:nowrap;align-self:center}
+.p.up{color:var(--up)} .p.down{color:var(--down)}
+
+/* 报价行 */
+.quote{padding:11px 0;border-bottom:1px solid var(--line)}
+.quote:last-child{border-bottom:none}
+.qh{display:flex;align-items:baseline;gap:8px}
+.qh .nm{font-size:13px;font-weight:600;flex:1;min-width:0;line-height:1.35;word-break:break-word}
+.qh .pr{font-size:15px;font-weight:800;font-variant-numeric:tabular-nums;letter-spacing:-.3px;white-space:nowrap;flex-shrink:0}
+.qh .pr span{font-size:10.5px;font-weight:500;color:var(--tx3);margin-left:1px}
+.bar{height:4px;border-radius:3px;background:var(--card2);margin:7px 0 5px;overflow:hidden;position:relative}
+.bar i{display:block;height:100%;border-radius:3px;background:linear-gradient(90deg,var(--brand2),var(--accent))}
+.qm{font-size:11px;color:var(--tx3);display:flex;flex-wrap:wrap;gap:3px 10px;font-variant-numeric:tabular-nums}
+.qm b{color:var(--tx2);font-weight:600}
+.tag{display:inline-block;font-size:10px;padding:1px 6px;border-radius:5px;border:1px solid var(--line);color:var(--tx2);background:var(--card2);margin-left:6px;vertical-align:1px}
+.tag.live{border-color:rgba(18,133,92,.35);color:var(--down);background:rgba(18,133,92,.08)}
+.tag.base{border-color:rgba(224,118,28,.35);color:var(--accent);background:rgba(224,118,28,.08)}
+.tag.pend{border-color:var(--line);color:var(--tx3)}
+.tag.no{border-color:rgba(207,63,50,.3);color:var(--up);background:rgba(207,63,50,.07)}
+
+/* Tab */
+.tabs{display:flex;gap:6px;overflow-x:auto;padding:12px 14px 10px;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+.tabs::-webkit-scrollbar{display:none}
+.tab{
+  flex:0 0 auto;font-size:12px;padding:6px 12px;border-radius:20px;
+  border:1px solid var(--line);background:var(--card2);color:var(--tx2);white-space:nowrap;cursor:pointer;
+  transition:.15s;
+}
+.tab.on{background:var(--brand2);border-color:var(--brand2);color:#fff;font-weight:600}
+.seg{display:flex;gap:6px;padding:0 14px 4px}
+.seg button{font-size:11.5px;padding:4px 10px;border-radius:8px;border:1px solid var(--line);background:transparent;color:var(--tx3);cursor:pointer}
+.seg button.on{background:var(--card2);color:var(--tx);border-color:var(--tx3)}
+
+/* 监控表 */
+.wt{display:flex;align-items:center;gap:9px;padding:9px 0;border-bottom:1px dashed var(--line);font-size:12.5px}
+.wt:last-child{border-bottom:none}
+.wt .st{width:7px;height:7px;border-radius:50%;flex-shrink:0}
+.wt .st.ok{background:var(--down)} .wt .st.dynamic{background:var(--warn)} .wt .st.fail{background:var(--up)}
+.wt .nm{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.wt .rs{font-size:11px;color:var(--tx3);white-space:nowrap}
+.wt .rs.chg{color:var(--warn);font-weight:600}
+
+/* 折叠 */
+details{border-top:1px solid var(--line)}
+details summary{
+  list-style:none;cursor:pointer;padding:11px 0;font-size:12.5px;color:var(--tx2);
+  display:flex;align-items:center;justify-content:space-between;
+}
+details summary::-webkit-details-marker{display:none}
+details summary::after{content:'＋';color:var(--tx3);font-size:13px}
+details[open] summary::after{content:'－'}
+.src{font-size:11.5px;color:var(--tx3);padding:7px 0;border-bottom:1px dashed var(--line);line-height:1.55;word-break:break-all}
+.src:last-child{border-bottom:none}
+.src a{color:var(--brand2);text-decoration:none}
+@media (prefers-color-scheme: dark){.src a{color:#6fa8dc}}
+
+.foot{text-align:center;font-size:11px;color:var(--tx3);padding:18px 0 6px;line-height:1.9}
+.btn{
+  display:block;width:100%;margin-top:12px;padding:11px;border-radius:10px;border:1px solid var(--line);
+  background:var(--card2);color:var(--tx);font-size:13px;font-weight:600;cursor:pointer;
+}
+.btn:active{transform:scale(.99)}
+@media(min-width:760px){ .wrap{padding:0 20px} .top h1{font-size:17px} }
+</style>
+</head>
+<body>
+
+<div class="top">
+  <div class="row">
+    <h1>AI算力资源价格监测</h1>
+    <span class="pill" id="cloudPill"><i class="dot" id="cloudDot"></i><span id="cloudTag">连接云端</span></span>
+  </div>
+  <div class="sub">
+    <span>数据时间 <b id="stamp">—</b></span>
+    <span>基线 <b id="bv">—</b></span>
+    <span>下次抓取 <b>每日 08:30</b></span>
+  </div>
+</div>
+
+<div class="wrap">
+  <div id="app"></div>
+  <div class="foot">
+    价格数据由脚本自动抓取自各平台官方文档页<br>
+    抓取与分析口径见文末说明 · 仅供内部比价参考
+  </div>
+</div>
+
+<script id="payload" type="application/json">__PAYLOAD__</script>
+<script>
+(function(){
+  const D = JSON.parse(document.getElementById('payload').textContent);
+  const $ = s => document.querySelector(s);
+  const esc = s => String(s==null?'':s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+  // 单价：元/百万Token，固定两位
+  const u2 = v => (v==null||isNaN(v)) ? '—' : Number(v).toFixed(2);
+  // 金额：月费等，去掉无意义的尾零
+  const money = v => {
+    if(v==null||isNaN(v)) return '—';
+    const a=Math.abs(v);
+    if(a>=1000) return Number(v).toLocaleString('zh-CN',{maximumFractionDigits:0});
+    if(a>=100) return Number(v).toFixed(1).replace(/\.0$/,'');
+    return Number(v).toFixed(2).replace(/0$/,'').replace(/\.$/,'');
+  };
+
+  $('#stamp').textContent = D.stamp;
+  $('#bv').textContent = D.baselineVersion;
+
+  /* ---------------- 云服务：价格历史 ---------------- */
+  const CFG = window.__CLOUD_CFG || {};
+  const CLOUD = { status: 'loading', note: '', snaps: [], trend: [] };
+  const num = v => (v == null || v === '' || isNaN(Number(v))) ? null : Number(v);
+
+  function setCloud(state, text){
+    const dot = $('#cloudDot'), tag = $('#cloudTag');
+    if(!dot || !tag) return;
+    dot.className = 'dot' + (state === 'ok' ? '' : (state === 'loading' ? ' warn' : ' err'));
+    tag.textContent = text;
+  }
+
+  const TREND_MODELS = [
+    { id: 'v4pro',   name: 'V4 Pro',      match: k => k.includes('deepseek-v4-pro') },
+    { id: 'v4flash', name: 'V4.1 Flash',  match: k => k.includes('deepseek-v41-flash') },
+    { id: 'glm',     name: 'GLM-5.3',     match: k => k === 'zhipu:GLM-5.3' }
+  ];
+  let trendSel = 'v4pro';
+
+  async function loadCloud(){
+    if(!window.WorkBuddyCloud || !CFG.endpoint || !CFG.publishableKey){
+      CLOUD.status = 'fail';
+      CLOUD.note = '云端客户端未加载，当前展示页面内置快照';
+      setCloud('err', '云端离线');
+      render();
+      return;
+    }
+    try{
+      const cloud = WorkBuddyCloud.createWorkBuddyCloud({
+        endpoint: CFG.endpoint,
+        oauthRelayBaseUrl: CFG.oauthRelayBaseUrl,
+        publishableKey: CFG.publishableKey
+      });
+      const db = cloud.database;
+
+      const r1 = await db.from('price_snapshots')
+        .select('as_of_date,stamp,baseline_version,quote_count,diff_count,a_ok,a_fail,b_ok,b_fail')
+        .order('as_of_date', { ascending: false }).limit(30);
+      if(r1.error) throw r1.error;
+
+      const snaps = (r1.data || []).map(s => Object.assign({}, s, { date: String(s.as_of_date).slice(0, 10) }));
+      if(!snaps.length){
+        CLOUD.status = 'empty';
+        CLOUD.note = '云端尚无历史快照，当前展示页面内置数据';
+        setCloud('warn', '云端无数据');
+        render();
+        return;
+      }
+
+      const latest = snaps[0].date;
+      const [rq, rd, rt] = await Promise.all([
+        db.from('price_quotes').select('*').eq('as_of_date', latest).order('blended', { ascending: true }),
+        db.from('price_diffs').select('*').eq('as_of_date', latest).order('pct', { ascending: false }),
+        db.from('price_quotes').select('as_of_date,quote_key,blended').order('as_of_date', { ascending: true }).limit(2000)
+      ]);
+      if(rq.error) throw rq.error;
+      if(rd.error) throw rd.error;
+
+      const quotes = (rq.data || []).map(r => ({
+        key: r.quote_key, label: r.label, source: r.source, billing: r.billing,
+        input: num(r.input_price), inputCacheHit: num(r.cache_hit_price),
+        output: num(r.output_price), blended: num(r.blended), unit: r.unit
+      })).filter(q => q.blended != null);
+
+      if(quotes.length) D.liveQuotes = quotes;
+      D.diffs = (rd.data || []).map(r => ({
+        level: 'med', scope: r.scope, title: r.title,
+        from: r.from_value, to: r.to_value, pct: num(r.pct), kind: r.kind
+      }));
+      D.stamp = snaps[0].stamp || D.stamp;
+      D.health = {
+        aOk: snaps[0].a_ok || 0, aFail: snaps[0].a_fail || 0,
+        bOk: snaps[0].b_ok || 0, bFail: snaps[0].b_fail || 0
+      };
+
+      CLOUD.snaps = snaps;
+      CLOUD.trend = (rt.data || []).map(r => ({
+        date: String(r.as_of_date).slice(0, 10), key: r.quote_key, v: num(r.blended)
+      })).filter(x => x.v != null);
+      CLOUD.status = 'ok';
+      CLOUD.note = '';
+
+      $('#stamp').textContent = D.stamp;
+      setCloud('ok', '云端已同步');
+      render();
+    }catch(e){
+      let msg = e && (e.message || e.hint || e.error_description || e.error || e.code);
+      if(!msg){ try { msg = JSON.stringify(e).slice(0, 90); } catch(_) { msg = ''; } }
+      if(!msg) msg = '网络或凭证异常';
+      CLOUD.status = 'fail';
+      CLOUD.note = '云端读取失败（' + msg + '），已回退到页面内置快照';
+      setCloud('err', '云端离线');
+      render();
+    }
+  }
+
+  const VER = {
+    measured:  ['base', '已实测'],
+    nominal:   ['base', '标称口径'],
+    unverified:['pend', '未实测'],
+    pending:   ['pend', '待实测'],
+    unsupported:['no', '不支持']
+  };
+
+  let curModel = D.models[0].id;
+  let curOrder = 'promo';
+
+  function unitOf(r){ return curOrder==='normal' ? (r.unitPriceNormal ?? r.unitPrice) : (r.unitPrice ?? r.unitPriceNormal); }
+
+  function head(){
+    const h = D.health;
+    const hi = D.diffs.filter(d=>d.level!=='low').length;
+    return `<div class="card">
+      <div class="stats">
+        <div class="stat"><div class="n">${h.aOk+h.bOk}</div><div class="l">数据源正常</div></div>
+        <div class="stat ${hi?'hot':''}"><div class="n">${hi}</div><div class="l">本期变动</div></div>
+        <div class="stat"><div class="n">${D.liveQuotes.length}</div><div class="l">实时官方报价</div></div>
+      </div>
+      <div class="cb"><div class="hint">基线版本 ${esc(D.baselineVersion)}（逆向自原比价报告），A 级源每次运行自动覆盖，B 级源监控页面变更，C 级为无公开价格的政企报价。当前抓取成功率 ${h.aOk}/${h.aOk+h.aFail}（A级）、${h.bOk}/${h.bOk+h.bFail}（B级）。</div></div>
+    </div>`;
+  }
+
+  function diffCard(){
+    if(!D.diffs.length) return `<div class="card"><div class="ch"><span class="idx">!</span><h2>本期无变动</h2></div>
+      <div class="cb"><div class="hint">本次抓取与基线及上次快照一致，无价格变化。</div></div></div>`;
+    const rows = D.diffs.slice(0,8).map(d=>{
+      const kind = d.kind==='watch' ? 'watch' : d.kind;
+      const ic = d.kind==='up' ? '↑' : d.kind==='down' ? '↓' : '!';
+      const pc = d.pct==null ? '' : `<div class="p ${d.kind}">${d.pct>0?'+':''}${d.pct}%</div>`;
+      const extra = (d.samples&&d.samples.length) ? `<div class="v" style="color:var(--tx3);font-size:11px">${d.samples.map(esc).join('；')}</div>` : '';
+      return `<div class="diff">
+        <div class="ic ${kind}">${ic}</div>
+        <div class="m"><div class="t">${esc(d.title)}</div>
+        <div class="v"><em>原</em> ${esc(d.from)} → <b>${esc(d.to)}</b></div>${extra}</div>
+        ${pc}
+      </div>`;
+    }).join('');
+    return `<div class="card">
+      <div class="ch"><span class="idx">1</span><h2>本期价格变动</h2><span class="more">${D.diffs.length} 条</span></div>
+      <div class="cb">${rows}</div>
+    </div>`;
+  }
+
+  function liveCard(){
+    const max = Math.max(...D.liveQuotes.map(q=>q.blended||0), 0.001);
+    const rows = D.liveQuotes.map(q=>{
+      const w = Math.max(2, (q.blended/max)*100);
+      return `<div class="quote">
+        <div class="qh"><div class="nm">${esc(q.label)}</div>
+          <div class="pr">¥${u2(q.blended)}<span>/百万</span></div></div>
+        <div class="bar"><i style="width:${w}%"></i></div>
+        <div class="qm">
+          <span>输入 <b>¥${u2(q.input)}</b></span>
+          <span>缓存命中 <b>¥${u2(q.inputCacheHit)}</b></span>
+          <span>输出 <b>¥${u2(q.output)}</b></span>
+          <span class="tag live">自动抓取</span>
+        </div>
+      </div>`;
+    }).join('');
+    return `<div class="card">
+      <div class="ch"><span class="idx">2</span><h2>官方按量报价（实时）</h2></div>
+      <div class="cb">${rows}
+        <div class="hint">综合单价 =（2×输入 + 输出）÷ 3，输入:输出按 2:1 混合、不含缓存命中假设。峰谷分时的平台按空闲/高峰分别列出。</div>
+      </div>
+    </div>`;
+  }
+
+  function planCard(){
+    const m = D.models.find(x=>x.id===curModel);
+    const sorted = [...m.rows].sort((a,b)=>{
+      const A = unitOf(a), B = unitOf(b);
+      if(A==null&&B==null) return 0; if(A==null) return 1; if(B==null) return -1;
+      return A-B;
+    });
+    const vals = sorted.map(unitOf).filter(v=>v!=null);
+    const max = vals.length ? Math.max(...vals) : 1;
+
+    const tabs = D.models.map(x=>`<div class="tab ${x.id===curModel?'on':''}" data-m="${x.id}">${esc(x.name)}</div>`).join('');
+
+    const rows = sorted.map(r=>{
+      const u = unitOf(r);
+      const w = u==null ? 0 : Math.max(1.5,(u/max)*100);
+      const v = VER[r.verify] || ['pend','待核'];
+      const priceTxt = r.priceMonthly!=null
+        ? `¥${money(r.priceMonthly)}<span>/月</span>${r.listMonthly&&r.listMonthly>r.priceMonthly?` <s style="font-size:10.5px;color:var(--tx3)">¥${money(r.listMonthly)}</s>`:''}`
+        : (r.priceIn!=null ? `输入 ¥${u2(r.priceIn)} / 输出 ¥${u2(r.priceOut)}` : '—');
+      const liveTag = r.live ? `<span class="tag live">实时</span>` : '';
+      const liveRow = r.live ? `<div class="qm" style="margin-top:3px"><span>官方现价 输入 <b>¥${u2(r.live.input)}</b> / 输出 <b>¥${u2(r.live.output)}</b>${r.live.inputPeak?`（高峰 ¥${u2(r.live.inputPeak)} / ¥${u2(r.live.outputPeak)}）`:''}</span></div>` : '';
+      return `<div class="quote">
+        <div class="qh">
+          <div class="nm">${esc(r.platform)} <span style="font-weight:400;color:var(--tx2);font-size:12px">${esc(r.product)}</span></div>
+          <div class="pr">${u==null?'<span style="font-size:12px;color:var(--tx3)">待核</span>':'¥'+u2(u)}${u==null?'':'<span>/百万</span>'}</div>
+        </div>
+        <div class="bar"><i style="width:${w}%"></i></div>
+        <div class="qm">
+          <span>${priceTxt}</span>
+          <span>${esc(r.billing)}</span>
+          ${r.modelNote?`<span>${esc(r.modelNote)}</span>`:''}
+        </div>
+        <div class="qm" style="margin-top:2px">
+          <span class="tag ${v[0]}">${v[1]}</span>${liveTag}
+          ${r.unitPriceNormal!=null&&r.unitPriceNormal!==r.unitPrice?`<span>常态 ¥${u2(r.unitPriceNormal)}</span>`:''}
+        </div>
+        ${liveRow}
+      </div>`;
+    }).join('');
+
+    return `<div class="card">
+      <div class="ch"><span class="idx">4</span><h2>套餐折算价排行</h2></div>
+      <div class="tabs" id="tabs">${tabs}</div>
+      <div class="seg"><button data-o="promo" class="${curOrder==='promo'?'on':''}">按活动/当前价</button><button data-o="normal" class="${curOrder==='normal'?'on':''}">按常态刊例价</button></div>
+      <div class="cb">
+        <div class="hint" style="padding-top:8px">${esc(m.scene)} · 折算单价 = 月单价 ÷（月额度Token ÷ 100万），以额度用满为假设的下限值</div>
+        ${rows}
+      </div>
+    </div>`;
+  }
+
+  function watchCard(){
+    const rows = D.watch.map(w=>{
+      const cls = w.changed ? 'chg' : '';
+      const rs = w.status==='ok' ? (w.changed?'有变更':`${w.signals} 处价格`) : w.status==='dynamic' ? '动态渲染' : '抓取失败';
+      return `<div class="wt">
+        <i class="st ${w.status}"></i>
+        <span class="nm">${esc(w.name)}</span>
+        <span class="rs ${cls}">${rs}</span>
+      </div>`;
+    }).join('');
+    const orRows = (D.openrouterRef||[]).slice(0,8).map(o=>
+      `<div class="wt"><i class="st ok"></i><span class="nm" style="font-family:ui-monospace,Menlo,monospace;font-size:11.5px">${esc(o.id)}</span><span class="rs">¥${u2(o.blendedCny)}/百万</span></div>`
+    ).join('');
+    return `<div class="card">
+      <div class="ch"><span class="idx">5</span><h2>变更监控（B级源）</h2></div>
+      <div class="cb">${rows}
+        <div class="hint">B 级源的页面由前端渲染或需登录，抓不到稳定价格字段。系统每日抓取其正文中的价格表述并做指纹比对，出现变化会在此标记，价格需人工复核后更新基线。</div>
+        ${orRows?`<details><summary>OpenRouter 聚合参考价（第三方口径，USD 折算）</summary>${orRows}<div class="hint">按 1 USD = ${D.fx.usdCny} CNY 折算，用于交叉校验官方报价是否偏离市场水平。</div></details>`:''}
+      </div>
+    </div>`;
+  }
+
+  function srcCard(){
+    const a = D.sources.map(s=>{
+      const st = s.status==='ok'?'ok':(s.status==='dynamic'?'dynamic':'fail');
+      return `<div class="wt"><i class="st ${st}"></i>
+        <span class="nm"><a href="${esc(s.url)}" target="_blank" rel="noopener" style="color:inherit;text-decoration:none">${esc(s.name)}</a></span>
+        <span class="rs">${s.status==='ok'?'A级自动':s.status==='dynamic'?'监控':(s.error||'失败')}</span></div>`;
+    }).concat(D.watch.map(s=>{
+      const st = s.status==='ok'?'ok':(s.status==='dynamic'?'dynamic':'fail');
+      return `<div class="wt"><i class="st ${st}"></i>
+        <span class="nm"><a href="${esc(s.url)}" target="_blank" rel="noopener" style="color:inherit;text-decoration:none">${esc(s.name)}</a></span>
+        <span class="rs">${s.status==='ok'?'B级监控':s.status==='dynamic'?'动态渲染':(s.error||'失败')}</span></div>`;
+    })).join('');
+    return `<div class="card">
+      <div class="ch"><span class="idx">6</span><h2>数据来源与口径</h2></div>
+      <div class="cb">
+        <details open><summary>抓取源（${D.sources.length} 个 A 级源 + ${D.watch.length} 个 B 级源）</summary>${a}</details>
+        <details><summary>计算口径</summary>
+          <div class="src">${esc(D.method.unitFromPlan)}</div>
+          <div class="src">${esc(D.method.blended)}</div>
+          <div class="src">${esc(D.method.measured)}</div>
+          <div class="src">${esc(D.method.freshness)}</div>
+        </details>
+      </div>
+      <div class="cb"><button class="btn" id="share">复制分享链接</button></div>
+    </div>`;
+  }
+
+  function cloudBanner(){
+    if(!CLOUD.note) return '';
+    return `<div class="card" style="border-color:rgba(207,63,50,.3)"><div class="cb" style="padding:11px 14px">
+      <div class="hint" style="padding:0">${esc(CLOUD.note)}</div></div></div>`;
+  }
+
+  function trendCard(){
+    if(CLOUD.status !== 'ok' || !CLOUD.trend.length) return '';
+    const m = TREND_MODELS.find(t => t.id === trendSel);
+    const byDate = new Map();
+    CLOUD.trend.filter(r => m.match(r.key)).forEach(r => {
+      const cur = byDate.get(r.date) || { date: r.date, min: Infinity, max: -Infinity };
+      cur.min = Math.min(cur.min, r.v);
+      cur.max = Math.max(cur.max, r.v);
+      byDate.set(r.date, cur);
+    });
+    const series = [...byDate.values()].sort((a, b) => a.date.localeCompare(b.date));
+    if(!series.length) return '';
+
+    const W = 320, H = 140, PL = 36, PR = 12, PT = 16, PB = 26;
+    const vals = [];
+    series.forEach(s => { vals.push(s.min); if(s.max !== s.min) vals.push(s.max); });
+    let lo = Math.min(...vals), hi = Math.max(...vals);
+    const span = (hi - lo) || (hi * 0.5) || 1;
+    lo = Math.max(0, lo - span * 0.25); hi = hi + span * 0.25;
+    const X = i => series.length === 1 ? PL + (W - PL - PR) / 2 : PL + i * (W - PL - PR) / (series.length - 1);
+    const Y = v => PT + (1 - (v - lo) / (hi - lo)) * (H - PT - PB);
+
+    const grid = [lo, (lo + hi) / 2, hi].map(v =>
+      `<line x1="${PL}" y1="${Y(v).toFixed(1)}" x2="${W - PR}" y2="${Y(v).toFixed(1)}" stroke="var(--line)" stroke-width="1"/>
+       <text x="${PL - 5}" y="${(Y(v) + 3.2).toFixed(1)}" text-anchor="end" font-size="8.5" fill="var(--tx3)">${v.toFixed(2)}</text>`
+    ).join('');
+
+    const line = (key, color, dash) => {
+      const pts = series.map((s, i) => `${X(i).toFixed(1)},${Y(s[key]).toFixed(1)}`).join(' ');
+      const dots = series.map((s, i) => `<circle cx="${X(i).toFixed(1)}" cy="${Y(s[key]).toFixed(1)}" r="2.6" fill="${color}"/>`).join('');
+      return `<polyline points="${pts}" fill="none" stroke="${color}" stroke-width="2" stroke-linejoin="round" stroke-linecap="round" ${dash ? 'stroke-dasharray="4 3"' : ''}/>${dots}`;
+    };
+
+    const hasRange = series.some(s => s.max !== s.min);
+    const xLabel = series.map((s, i) => {
+      if(series.length > 4 && i !== 0 && i !== series.length - 1) return '';
+      return `<text x="${X(i).toFixed(1)}" y="${H - 8}" text-anchor="middle" font-size="8.5" fill="var(--tx3)">${s.date.slice(5)}</text>`;
+    }).join('');
+
+    const last = series[series.length - 1];
+    const prev = series[series.length - 2];
+    let deltaTxt = '';
+    if(prev){
+      const d = ((last.min - prev.min) / prev.min) * 100;
+      deltaTxt = `　较上次 <b style="color:${d > 0 ? 'var(--up)' : 'var(--down)'}">${d > 0 ? '+' : ''}${d.toFixed(1)}%</b>`;
+    }
+
+    const chips = TREND_MODELS.map(t => `<div class="tab ${t.id === trendSel ? 'on' : ''}" data-t="${t.id}">${esc(t.name)}</div>`).join('');
+    const snaps = CLOUD.snaps.slice(0, 6).map(s =>
+      `<div class="wt"><i class="st ok"></i><span class="nm">${s.date}</span>
+        <span class="rs">${s.quote_count || 0} 条报价 · ${s.diff_count || 0} 条变动</span></div>`
+    ).join('');
+
+    return `<div class="card">
+      <div class="ch"><span class="idx">3</span><h2>历史趋势（云端存档）</h2><span class="more">${series.length} 个记录日</span></div>
+      <div class="tabs" id="ttabs">${chips}</div>
+      <div class="cb" style="padding-top:0">
+        <div style="background:var(--card2);border:1px solid var(--line);border-radius:10px;padding:6px 2px 0;margin-top:2px">
+          <svg viewBox="0 0 ${W} ${H}" style="width:100%;height:auto;display:block">
+            ${grid}${hasRange ? line('max', 'var(--tx3)', true) : ''}${line('min', '#e0761c', false)}${xLabel}
+          </svg>
+        </div>
+        <div class="qm" style="margin-top:8px">
+          <span>${esc(m.name)} 官方综合单价</span>
+          <span>最新 <b>¥${u2(last.min)}</b>${last.max !== last.min ? ` ~ <b>¥${u2(last.max)}</b>` : ''}</span>
+          ${deltaTxt}
+        </div>
+        <div class="hint">${hasRange ? '实线=当日最优时段，虚线=当日最差时段；' : ''}每日抓取自动写入云端，页面实时读取，无需重新发布。下方为云端已存档的记录日。</div>
+        ${snaps}
+      </div>
+    </div>`;
+  }
+
+  function render(){
+    $('#app').innerHTML = cloudBanner()+head()+diffCard()+liveCard()+trendCard()+planCard()+watchCard()+srcCard();
+    document.querySelectorAll('#tabs .tab').forEach(t=>t.onclick=()=>{curModel=t.dataset.m;render();});
+    document.querySelectorAll('#ttabs .tab').forEach(t=>t.onclick=()=>{trendSel=t.dataset.t;render();});
+    document.querySelectorAll('.seg button').forEach(b=>b.onclick=()=>{curOrder=b.dataset.o;render();});
+    const sb = $('#share');
+    if(sb) sb.onclick = async ()=>{
+      const url = location.href;
+      try{
+        if(navigator.share){ await navigator.share({title:'AI算力资源价格监测',url}); }
+        else { await navigator.clipboard.writeText(url); sb.textContent='链接已复制'; }
+      }catch(e){ sb.textContent='复制失败，请手动复制'; }
+    };
+  }
+  render();
+  loadCloud();
+})();
+</script>
+</body>
+</html>

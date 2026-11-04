@@ -1,0 +1,12 @@
+# 含写入令牌，不要提交
+config/ingest.json
+
+# 运行时缓存与中间产物
+.cache/
+node_modules/
+
+# 每日快照：按需保留，默认不进版本库
+data/snapshots/
+
+# Agent 工作区内部记录，不进代码仓库
+.workbuddy/

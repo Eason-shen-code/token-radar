@@ -1,0 +1,42 @@
+name: token-radar-crawl
+
+# UTC 00:00 = 北京时间 08:00
+# 注意：GitHub 的 schedule 不是精确定时，高峰期可能延迟 5-20 分钟
+on:
+  schedule:
+    - cron: '0 0 * * *'
+  workflow_dispatch:
+
+concurrency:
+  group: token-radar-crawl
+  cancel-in-progress: false
+
+jobs:
+  crawl:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: 检出代码
+        uses: actions/checkout@v4
+
+      - name: 准备 Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: 抓取各平台价格
+        run: node scripts/run.mjs
+
+      - name: 推送到云端数据库
+        env:
+          INGEST_TOKEN: ${{ secrets.INGEST_TOKEN }}
+        run: node scripts/push.mjs
+
+      - name: 留存本次结果
+        uses: actions/upload-artifact@v4
+        with:
+          name: snapshot-${{ github.run_id }}
+          path: |
+            data/latest.json
+            data/changelog.json
+          retention-days: 30
