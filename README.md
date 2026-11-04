@@ -147,9 +147,11 @@ node scripts/push.mjs    # 推送云端（唯一需要的凭据是 INGEST_TOKEN�
 
 ### GitHub Actions 启用步骤
 
-1. 把 `token-radar/` 推到 GitHub 私有仓库（`config/ingest.json` 已在 .gitignore 里，不会泄露）
-2. 仓库 Settings → Secrets and variables → Actions → 新建 `INGEST_TOKEN`，值取本机 `config/ingest.json` 的 `ingestToken`
-3. Actions 页面启用 workflow，可先点一次 `Run workflow` 手动验证
+代码仓库：https://github.com/Eason-shen-code/token-radar （main 分支，2026-11-04 首推）
+
+1. ~~推送代码~~ —— 已完成。`config/ingest.json` 已被 .gitignore 排除，写入令牌不在仓库里
+2. 仓库 Settings → Secrets and variables → Actions → 新建 `INGEST_TOKEN`，值取本机 `config/ingest.json` 的 `ingestToken`（**这一步没做，定时任务会在推送环节失败**）
+3. Actions 页面点一次 `Run workflow` 手动验证，跑通后再交给 cron
 
 ### 已知限制
 
