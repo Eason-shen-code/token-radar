@@ -1,10 +1,16 @@
 {
-  "updatedAt": "2026-11-04 20:28",
+  "updatedAt": "2026-11-05 22:31",
   "sources": {
+    "huawei-maas": {
+      "fingerprint": "1505",
+      "signalsSample": [],
+      "checkedAt": "2026-11-05 22:31",
+      "name": "华为云 · MaaS Token Plan"
+    },
     "unicom-tokenplan": {
       "fingerprint": "1505",
       "signalsSample": [],
-      "checkedAt": "2026-11-04 20:28",
+      "checkedAt": "2026-11-05 22:31",
       "name": "联通云 · Token Plan"
     },
     "qianfan-codingplan": {
@@ -13,14 +19,8 @@
         "型每日22:00-次日8:00享2折，闲时成本立降80%！ 首购五折：新用户最低4.9元起！ 最低 4.9 元即可畅享 Token Plan 全场景",
         "AI 与 Anthropic 协议 产品优势 极致性价比长效省心 首购半价低至 4.9 元起，高倍率、超大容量的 积分/Token 供给，让用户彻底放"
       ],
-      "checkedAt": "2026-11-04 20:28",
+      "checkedAt": "2026-11-05 22:31",
       "name": "百度千帆 · Token Plan"
-    },
-    "huawei-maas": {
-      "fingerprint": "1505",
-      "signalsSample": [],
-      "checkedAt": "2026-11-04 20:28",
-      "name": "华为云 · MaaS Token Plan"
     },
     "tencent-tokenhub": {
       "fingerprint": "6c0e255c",
@@ -34,38 +34,33 @@
         "进阶套餐 （Pro） 每订阅月 4760 积分 238元/月 高频 AI 开发，Token 配额相比基础版提升至 3 倍",
         "专业套餐 （Max） 每订阅月 9360 积分 468元/月 更多额度加持，重度 AI 开发首选"
       ],
-      "checkedAt": "2026-11-04 20:28",
+      "checkedAt": "2026-11-05 22:31",
       "name": "腾讯云 · TokenHub"
     },
     "aliyun-models": {
       "fingerprint": "1505",
       "signalsSample": [],
-      "checkedAt": "2026-11-04 20:28",
+      "checkedAt": "2026-11-05 22:31",
       "name": "阿里百炼 · 模型价格"
     },
     "aliyun-tokenplan": {
-      "fingerprint": "cf41ce17",
+      "fingerprint": "5068c33f",
       "signalsSample": [
-        "餐 Essential 套餐 Standard 套餐 Pro 套餐 定价 原价 60 元/月 限时 39 元/月 原价 120 元/月 限时 79 元/",
-        "月 原价 180 元/月 限时 139 元/月 原价 600 元/月 限时 499",
+        "e 套餐 Essential 套餐 Standard 套餐 Pro 套餐 定价 39 元/月 新用户限时价 19.5 元/月 79 元/月 新用户限时价",
+        "39.5 元/月 139 元/月 499 元/月 每月限额 11,500 C",
         "用量包 ：定价 100 元/个/月，每个用量包含 20,000 Credits",
         "例如：9 月 2 日订阅 Lite 套餐（39 元/月，月额度 11,500 Credits），9 月 12 日升级至 E",
         "ssential 套餐（79 元/月，月额度 25,500 Credits），当前订阅周期剩余 20 天",
         "：补差金额为 (79 − 39) × 20 ÷ 30 ≈ 26.67 元，当前周期新增额度为 20 ÷ 30 × (25,500 −"
       ],
-      "checkedAt": "2026-11-04 20:28",
+      "checkedAt": "2026-11-05 22:31",
       "name": "阿里百炼 · Token Plan 个人版"
     },
-    "ctyun-tokenhub": {
-      "fingerprint": "e67ddc8",
-      "signalsSample": [
-        "聚力AI赋能 天翼云大模型专项 大模型特惠专区·Token Plan 轻享包低至9.9元起 青云志云端助力计划 NEW 一站式科研助手，海外资源安全",
-        "laude Code 等主流编程工具 套餐额度 3000积分 模型范围动态更新 29.00 元/月 立即订购 编程Token Plan 10000积分 日常使",
-        "aude Code 等主流编程工具 套餐额度 10000积分 模型范围动态更新 89.00 元/月 立即订购 编程Token Plan 25000积分 轻量开",
-        "aude Code 等主流编程工具 套餐额度 25000积分 模型范围动态更新 199.00 元/月 立即订购 为什么选择天翼云 星辰TokenHub运营服务平"
-      ],
-      "checkedAt": "2026-11-04 20:28",
-      "name": "天翼云 · 星辰 TokenHub"
+    "kimi-pricing": {
+      "fingerprint": "1505",
+      "signalsSample": [],
+      "checkedAt": "2026-11-05 22:31",
+      "name": "Kimi 开放平台 · 模型定价"
     },
     "volcengine-codingplan": {
       "fingerprint": "d253312",
@@ -76,7 +71,7 @@
         "旗舰模型 ，赋能业务高效落地 精选豆包旗舰模型，新客限时优惠16.8元起！ 活动规则&gt",
         "业旗舰版 价格查询中... 3个席位起 1个月 立即购买 专业团队深度安全管控 100 元会话用量+代码补全不限量 IDE/插件/CLI 全形态+Ad"
       ],
-      "checkedAt": "2026-11-04 20:28",
+      "checkedAt": "2026-11-05 22:31",
       "name": "火山引擎 · Coding Plan 活动页"
     },
     "volcengine-price": {
@@ -109,14 +104,19 @@
         "​ ​ 套餐类型 ​ 价格 ​ 套餐类型 ​ 价格 ​ Small 套餐 ​ 40 元/月 ​ Medium 套餐 ​ 200 元/月 ​ Large",
         "套餐 ​ 500 元/月 ​ Max 套餐 ​ 1000 元/月 ​ ​ 套餐信息参"
       ],
-      "checkedAt": "2026-11-04 20:28",
+      "checkedAt": "2026-11-05 22:31",
       "name": "火山方舟 · 模型价格与抵扣系数"
     },
-    "kimi-pricing": {
-      "fingerprint": "1505",
-      "signalsSample": [],
-      "checkedAt": "2026-11-04 20:28",
-      "name": "Kimi 开放平台 · 模型定价"
+    "ctyun-tokenhub": {
+      "fingerprint": "e67ddc8",
+      "signalsSample": [
+        "聚力AI赋能 天翼云大模型专项 大模型特惠专区·Token Plan 轻享包低至9.9元起 青云志云端助力计划 NEW 一站式科研助手，海外资源安全",
+        "laude Code 等主流编程工具 套餐额度 3000积分 模型范围动态更新 29.00 元/月 立即订购 编程Token Plan 10000积分 日常使",
+        "aude Code 等主流编程工具 套餐额度 10000积分 模型范围动态更新 89.00 元/月 立即订购 编程Token Plan 25000积分 轻量开",
+        "aude Code 等主流编程工具 套餐额度 25000积分 模型范围动态更新 199.00 元/月 立即订购 为什么选择天翼云 星辰TokenHub运营服务平"
+      ],
+      "checkedAt": "2026-11-05 22:31",
+      "name": "天翼云 · 星辰 TokenHub"
     }
   }
 }

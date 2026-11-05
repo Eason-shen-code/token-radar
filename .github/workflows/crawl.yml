@@ -1,10 +1,13 @@
 name: token-radar-crawl
 
-# UTC 00:00 = 北京时间 08:00
-# 注意：GitHub 的 schedule 不是精确定时，高峰期可能延迟 5-20 分钟
+# 两条定时，都是 UTC，换算北京时间见注释
+# 主触发 21:30 UTC = 北京 05:30
+# 兜底   19:30 UTC = 北京 03:30（GitHub 排队延迟实测可达 6 小时，多一条提高准时概率）
+# 写入按日期 upsert，重复跑不会写坏数据
 on:
   schedule:
-    - cron: '0 0 * * *'
+    - cron: '30 21 * * *'
+    - cron: '30 19 * * *'
   workflow_dispatch:
 
 concurrency:

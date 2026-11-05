@@ -1,7 +1,7 @@
 {
-  "generatedAt": "2026-11-04T12:28:25.644Z",
-  "stamp": "2026-11-04 20:28",
-  "asOfDate": "2026-11-04",
+  "generatedAt": "2026-11-05T14:31:01.256Z",
+  "stamp": "2026-11-05 22:31",
+  "asOfDate": "2026-11-05",
   "baselineVersion": "2026-10-15",
   "baselineOrigin": "Token采购比价报告_2026-10-15.html",
   "fx": {
@@ -14,7 +14,7 @@
     "aFail": 0,
     "bOk": 10,
     "bFail": 0,
-    "bChanged": 0
+    "bChanged": 1
   },
   "liveQuotes": [
     {
@@ -790,9 +790,39 @@
       "to": "¥2/百万（空闲） / ¥4/百万（高峰）",
       "pct": 50.4,
       "kind": "up"
+    },
+    {
+      "level": "med",
+      "scope": "阿里百炼 · Token Plan 个人版",
+      "title": "阿里百炼 · Token Plan 个人版 页面价格内容出现变化",
+      "from": "上次快照",
+      "to": "新增 2 处价格表述",
+      "pct": null,
+      "kind": "watch",
+      "samples": [
+        "e 套餐 Essential 套餐 Standard 套餐 Pro 套餐 定价 39 元/月 新用户限时价 19.5 元/月 79 元/月 新用户限时价",
+        "39.5 元/月 139 元/月 499 元/月 每月限额 11,500 C"
+      ]
     }
   ],
   "watch": [
+    {
+      "id": "aliyun-tokenplan",
+      "name": "阿里百炼 · Token Plan 个人版",
+      "url": "https://help.aliyun.com/zh/model-studio/token-plan-personal-overview",
+      "tier": "B",
+      "status": "ok",
+      "hint": "Credits 档位与限时价",
+      "changed": true,
+      "samples": [
+        "e 套餐 Essential 套餐 Standard 套餐 Pro 套餐 定价 39 元/月 新用户限时价 19.5 元/月 79 元/月 新用户限时价",
+        "39.5 元/月 139 元/月 499 元/月 每月限额 11,500 C"
+      ],
+      "ms": 572,
+      "signals": 6,
+      "fingerprint": "5068c33f",
+      "checkedAt": "2026-11-05 22:31"
+    },
     {
       "id": "aliyun-models",
       "name": "阿里百炼 · 模型价格",
@@ -803,24 +833,10 @@
       "changed": false,
       "samples": [],
       "note": "页面正文由前端渲染，抓不到价格文本，仅能监控 HTTP 可达性",
-      "ms": 535,
+      "ms": 524,
       "signals": 0,
       "fingerprint": "1505",
-      "checkedAt": "2026-11-04 20:28"
-    },
-    {
-      "id": "aliyun-tokenplan",
-      "name": "阿里百炼 · Token Plan 个人版",
-      "url": "https://help.aliyun.com/zh/model-studio/token-plan-personal-overview",
-      "tier": "B",
-      "status": "ok",
-      "hint": "Credits 档位与限时价",
-      "changed": false,
-      "samples": [],
-      "ms": 603,
-      "signals": 6,
-      "fingerprint": "cf41ce17",
-      "checkedAt": "2026-11-04 20:28"
+      "checkedAt": "2026-11-05 22:31"
     },
     {
       "id": "qianfan-codingplan",
@@ -832,10 +848,10 @@
       "changed": false,
       "samples": [],
       "note": "页面正文由前端渲染，抓不到价格文本，仅能监控 HTTP 可达性",
-      "ms": 258,
+      "ms": 265,
       "signals": 2,
       "fingerprint": "66407d59",
-      "checkedAt": "2026-11-04 20:28"
+      "checkedAt": "2026-11-05 22:31"
     },
     {
       "id": "huawei-maas",
@@ -847,10 +863,10 @@
       "changed": false,
       "samples": [],
       "note": "页面正文由前端渲染，抓不到价格文本，仅能监控 HTTP 可达性",
-      "ms": 328,
+      "ms": 228,
       "signals": 0,
       "fingerprint": "1505",
-      "checkedAt": "2026-11-04 20:28"
+      "checkedAt": "2026-11-05 22:31"
     },
     {
       "id": "volcengine-price",
@@ -861,10 +877,10 @@
       "hint": "抵扣系数调整会改变套餐等效单价",
       "changed": false,
       "samples": [],
-      "ms": 1156,
+      "ms": 1223,
       "signals": 26,
       "fingerprint": "ce3912f1",
-      "checkedAt": "2026-11-04 20:28"
+      "checkedAt": "2026-11-05 22:31"
     },
     {
       "id": "volcengine-codingplan",
@@ -875,10 +891,10 @@
       "hint": "促销折扣与套餐价",
       "changed": false,
       "samples": [],
-      "ms": 641,
+      "ms": 1011,
       "signals": 5,
       "fingerprint": "d253312",
-      "checkedAt": "2026-11-04 20:28"
+      "checkedAt": "2026-11-05 22:31"
     },
     {
       "id": "unicom-tokenplan",
@@ -890,10 +906,10 @@
       "changed": false,
       "samples": [],
       "note": "页面正文由前端渲染，抓不到价格文本，仅能监控 HTTP 可达性",
-      "ms": 212,
+      "ms": 258,
       "signals": 0,
       "fingerprint": "1505",
-      "checkedAt": "2026-11-04 20:28"
+      "checkedAt": "2026-11-05 22:31"
     },
     {
       "id": "tencent-tokenhub",
@@ -904,10 +920,10 @@
       "hint": "积分兑换系数",
       "changed": false,
       "samples": [],
-      "ms": 442,
+      "ms": 466,
       "signals": 8,
       "fingerprint": "6c0e255c",
-      "checkedAt": "2026-11-04 20:28"
+      "checkedAt": "2026-11-05 22:31"
     },
     {
       "id": "ctyun-tokenhub",
@@ -918,10 +934,10 @@
       "hint": "积分制档位",
       "changed": false,
       "samples": [],
-      "ms": 629,
+      "ms": 1640,
       "signals": 4,
       "fingerprint": "e67ddc8",
-      "checkedAt": "2026-11-04 20:28"
+      "checkedAt": "2026-11-05 22:31"
     },
     {
       "id": "kimi-pricing",
@@ -933,10 +949,10 @@
       "changed": false,
       "samples": [],
       "note": "页面正文由前端渲染，抓不到价格文本，仅能监控 HTTP 可达性",
-      "ms": 1913,
+      "ms": 917,
       "signals": 0,
       "fingerprint": "1505",
-      "checkedAt": "2026-11-04 20:28"
+      "checkedAt": "2026-11-05 22:31"
     }
   ],
   "sources": [
@@ -946,7 +962,7 @@
       "url": "https://api-docs.deepseek.com/zh-cn/quick_start/pricing",
       "tier": "A",
       "status": "ok",
-      "ms": 376,
+      "ms": 371,
       "parsed": true,
       "items": 2,
       "columns": [
@@ -960,7 +976,7 @@
       "url": "https://openrouter.ai/api/v1/models",
       "tier": "A",
       "status": "ok",
-      "ms": 887,
+      "ms": 1075,
       "parsed": true,
       "items": 98
     },
@@ -970,7 +986,7 @@
       "url": "https://docs.bigmodel.cn/cn/guide/start/pricing.md",
       "tier": "A",
       "status": "ok",
-      "ms": 132,
+      "ms": 176,
       "parsed": true,
       "items": 27
     },
@@ -980,20 +996,12 @@
       "url": "https://docs.bigmodel.cn/cn/coding-plan/overview.md",
       "tier": "A",
       "status": "ok",
-      "ms": 262,
+      "ms": 150,
       "parsed": true,
       "items": 3
     }
   ],
   "openrouterRef": [
-    {
-      "id": "z-ai/glm-5.3-flash",
-      "name": "Z.ai: GLM 5.3 Flash",
-      "context": 1048576,
-      "inputCny": 0.191,
-      "outputCny": 0.707,
-      "blendedCny": 0.363
-    },
     {
       "id": "qwen/qwen3.7-flash",
       "name": "Qwen: Qwen3.7 Flash",
@@ -1097,6 +1105,14 @@
       "inputCny": 1.065,
       "outputCny": 3.337,
       "blendedCny": 1.822
+    },
+    {
+      "id": "z-ai/glm-5.3-flash",
+      "name": "Z.ai: GLM 5.3 Flash",
+      "context": 1048576,
+      "inputCny": 1.065,
+      "outputCny": 3.55,
+      "blendedCny": 1.893
     }
   ],
   "method": {

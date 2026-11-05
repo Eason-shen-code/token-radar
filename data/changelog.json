@@ -206,5 +206,70 @@
         "kind": "up"
       }
     ]
+  },
+  {
+    "stamp": "2026-11-05 22:31",
+    "asOfDate": "2026-11-05",
+    "count": 6,
+    "diffs": [
+      {
+        "level": "high",
+        "scope": "DeepSeek V4 Pro",
+        "title": "DeepSeek V4 Pro 官方输入价（缓存未命中）变动",
+        "from": "¥3",
+        "to": "¥4.5（空闲） / ¥9（高峰）",
+        "pct": 50,
+        "kind": "up"
+      },
+      {
+        "level": "high",
+        "scope": "DeepSeek V4 Pro",
+        "title": "DeepSeek V4 Pro 官方输出价变动",
+        "from": "¥6",
+        "to": "¥13.5（空闲） / ¥27（高峰）",
+        "pct": 125,
+        "kind": "up"
+      },
+      {
+        "level": "high",
+        "scope": "DeepSeek V4 Pro",
+        "title": "DeepSeek V4 Pro 官方综合单价变动",
+        "from": "¥4/百万",
+        "to": "¥7.5/百万（空闲） / ¥15/百万（高峰）",
+        "pct": 87.5,
+        "kind": "up"
+      },
+      {
+        "level": "high",
+        "scope": "DeepSeek V4.1 Flash",
+        "title": "DeepSeek V4.1 Flash 官方输出价变动",
+        "from": "¥2",
+        "to": "¥4（空闲） / ¥8（高峰）",
+        "pct": 100,
+        "kind": "up"
+      },
+      {
+        "level": "high",
+        "scope": "DeepSeek V4.1 Flash",
+        "title": "DeepSeek V4.1 Flash 官方综合单价变动",
+        "from": "¥1.33/百万",
+        "to": "¥2/百万（空闲） / ¥4/百万（高峰）",
+        "pct": 50.4,
+        "kind": "up"
+      },
+      {
+        "level": "med",
+        "scope": "阿里百炼 · Token Plan 个人版",
+        "title": "阿里百炼 · Token Plan 个人版 页面价格内容出现变化",
+        "from": "上次快照",
+        "to": "新增 2 处价格表述",
+        "pct": null,
+        "kind": "watch",
+        "samples": [
+          "e 套餐 Essential 套餐 Standard 套餐 Pro 套餐 定价 39 元/月 新用户限时价 19.5 元/月 79 元/月 新用户限时价",
+          "39.5 元/月 139 元/月 499 元/月 每月限额 11,500 C"
+        ]
+      }
+    ]
   }
 ]
