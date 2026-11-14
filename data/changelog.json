@@ -271,5 +271,613 @@
         ]
       }
     ]
+  },
+  {
+    "stamp": "2026-11-06 19:49",
+    "asOfDate": "2026-11-06",
+    "count": 6,
+    "diffs": [
+      {
+        "level": "high",
+        "scope": "DeepSeek V4 Pro",
+        "title": "DeepSeek V4 Pro 官方输入价（缓存未命中）变动",
+        "from": "¥3",
+        "to": "¥4.5（空闲） / ¥9（高峰）",
+        "pct": 50,
+        "kind": "up"
+      },
+      {
+        "level": "high",
+        "scope": "DeepSeek V4 Pro",
+        "title": "DeepSeek V4 Pro 官方输出价变动",
+        "from": "¥6",
+        "to": "¥13.5（空闲） / ¥27（高峰）",
+        "pct": 125,
+        "kind": "up"
+      },
+      {
+        "level": "high",
+        "scope": "DeepSeek V4 Pro",
+        "title": "DeepSeek V4 Pro 官方综合单价变动",
+        "from": "¥4/百万",
+        "to": "¥7.5/百万（空闲） / ¥15/百万（高峰）",
+        "pct": 87.5,
+        "kind": "up"
+      },
+      {
+        "level": "high",
+        "scope": "DeepSeek V4.1 Flash",
+        "title": "DeepSeek V4.1 Flash 官方输出价变动",
+        "from": "¥2",
+        "to": "¥4（空闲） / ¥8（高峰）",
+        "pct": 100,
+        "kind": "up"
+      },
+      {
+        "level": "high",
+        "scope": "DeepSeek V4.1 Flash",
+        "title": "DeepSeek V4.1 Flash 官方综合单价变动",
+        "from": "¥1.33/百万",
+        "to": "¥2/百万（空闲） / ¥4/百万（高峰）",
+        "pct": 50.4,
+        "kind": "up"
+      },
+      {
+        "level": "med",
+        "scope": "天翼云 · 星辰 TokenHub",
+        "title": "天翼云 · 星辰 TokenHub 页面价格内容出现变化",
+        "from": "上次快照",
+        "to": "新增 1 处价格表述",
+        "pct": null,
+        "kind": "watch",
+        "samples": [
+          "星辰TokenHub运营服务平台-天翼云 AI 创作平台会员 32.67 元 / 年起！ 查看详情 活动 天翼云最新优惠活动，涵盖免费试用"
+        ]
+      }
+    ]
+  },
+  {
+    "stamp": "2026-11-07 15:31",
+    "asOfDate": "2026-11-07",
+    "count": 5,
+    "diffs": [
+      {
+        "level": "high",
+        "scope": "DeepSeek V4 Pro",
+        "title": "DeepSeek V4 Pro 官方输入价（缓存未命中）变动",
+        "from": "¥3",
+        "to": "¥4.5（空闲） / ¥9（高峰）",
+        "pct": 50,
+        "kind": "up"
+      },
+      {
+        "level": "high",
+        "scope": "DeepSeek V4 Pro",
+        "title": "DeepSeek V4 Pro 官方输出价变动",
+        "from": "¥6",
+        "to": "¥13.5（空闲） / ¥27（高峰）",
+        "pct": 125,
+        "kind": "up"
+      },
+      {
+        "level": "high",
+        "scope": "DeepSeek V4 Pro",
+        "title": "DeepSeek V4 Pro 官方综合单价变动",
+        "from": "¥4/百万",
+        "to": "¥7.5/百万（空闲） / ¥15/百万（高峰）",
+        "pct": 87.5,
+        "kind": "up"
+      },
+      {
+        "level": "high",
+        "scope": "DeepSeek V4.1 Flash",
+        "title": "DeepSeek V4.1 Flash 官方输出价变动",
+        "from": "¥2",
+        "to": "¥4（空闲） / ¥8（高峰）",
+        "pct": 100,
+        "kind": "up"
+      },
+      {
+        "level": "high",
+        "scope": "DeepSeek V4.1 Flash",
+        "title": "DeepSeek V4.1 Flash 官方综合单价变动",
+        "from": "¥1.33/百万",
+        "to": "¥2/百万（空闲） / ¥4/百万（高峰）",
+        "pct": 50.4,
+        "kind": "up"
+      }
+    ]
+  },
+  {
+    "stamp": "2026-11-08 23:33",
+    "asOfDate": "2026-11-08",
+    "count": 6,
+    "diffs": [
+      {
+        "level": "high",
+        "scope": "DeepSeek V4 Pro",
+        "title": "DeepSeek V4 Pro 官方输入价（缓存未命中）变动",
+        "from": "¥3",
+        "to": "¥4.5（空闲） / ¥9（高峰）",
+        "pct": 50,
+        "kind": "up"
+      },
+      {
+        "level": "high",
+        "scope": "DeepSeek V4 Pro",
+        "title": "DeepSeek V4 Pro 官方输出价变动",
+        "from": "¥6",
+        "to": "¥13.5（空闲） / ¥27（高峰）",
+        "pct": 125,
+        "kind": "up"
+      },
+      {
+        "level": "high",
+        "scope": "DeepSeek V4 Pro",
+        "title": "DeepSeek V4 Pro 官方综合单价变动",
+        "from": "¥4/百万",
+        "to": "¥7.5/百万（空闲） / ¥15/百万（高峰）",
+        "pct": 87.5,
+        "kind": "up"
+      },
+      {
+        "level": "high",
+        "scope": "DeepSeek V4.1 Flash",
+        "title": "DeepSeek V4.1 Flash 官方输出价变动",
+        "from": "¥2",
+        "to": "¥4（空闲） / ¥8（高峰）",
+        "pct": 100,
+        "kind": "up"
+      },
+      {
+        "level": "high",
+        "scope": "DeepSeek V4.1 Flash",
+        "title": "DeepSeek V4.1 Flash 官方综合单价变动",
+        "from": "¥1.33/百万",
+        "to": "¥2/百万（空闲） / ¥4/百万（高峰）",
+        "pct": 50.4,
+        "kind": "up"
+      },
+      {
+        "level": "med",
+        "scope": "火山方舟 · 模型价格与抵扣系数",
+        "title": "火山方舟 · 模型价格与抵扣系数 页面价格内容出现变化",
+        "from": "上次快照",
+        "to": "新增 3 处价格表述",
+        "pct": null,
+        "kind": "watch",
+        "samples": [
+          "足 输入长度 (128, 256] 条件，模型输入输出 token 按照：输入 2.4 元/百万 token，输出 24 元/百万 token 单价计费",
+          "足 输入长度 (128, 256] 条件，模型产生的所有 token 按照：输入4.8 元/百万 token，输出 24.0 元/百万 token 单价计费",
+          "材质的 3D 模型文件 ​ 2.40 ​ 3.00 万 token / 次 * 0.80 元/万 token ​ Hyper3d-Gen2 ​ 白模 ​ 带"
+        ]
+      }
+    ]
+  },
+  {
+    "stamp": "2026-11-09 20:14",
+    "asOfDate": "2026-11-09",
+    "count": 6,
+    "diffs": [
+      {
+        "level": "high",
+        "scope": "DeepSeek V4 Pro",
+        "title": "DeepSeek V4 Pro 官方输入价（缓存未命中）变动",
+        "from": "¥3",
+        "to": "¥4.5（空闲） / ¥9（高峰）",
+        "pct": 50,
+        "kind": "up"
+      },
+      {
+        "level": "high",
+        "scope": "DeepSeek V4 Pro",
+        "title": "DeepSeek V4 Pro 官方输出价变动",
+        "from": "¥6",
+        "to": "¥13.5（空闲） / ¥27（高峰）",
+        "pct": 125,
+        "kind": "up"
+      },
+      {
+        "level": "high",
+        "scope": "DeepSeek V4 Pro",
+        "title": "DeepSeek V4 Pro 官方综合单价变动",
+        "from": "¥4/百万",
+        "to": "¥7.5/百万（空闲） / ¥15/百万（高峰）",
+        "pct": 87.5,
+        "kind": "up"
+      },
+      {
+        "level": "high",
+        "scope": "DeepSeek V4.1 Flash",
+        "title": "DeepSeek V4.1 Flash 官方输出价变动",
+        "from": "¥2",
+        "to": "¥4（空闲） / ¥8（高峰）",
+        "pct": 100,
+        "kind": "up"
+      },
+      {
+        "level": "high",
+        "scope": "DeepSeek V4.1 Flash",
+        "title": "DeepSeek V4.1 Flash 官方综合单价变动",
+        "from": "¥1.33/百万",
+        "to": "¥2/百万（空闲） / ¥4/百万（高峰）",
+        "pct": 50.4,
+        "kind": "up"
+      },
+      {
+        "level": "med",
+        "scope": "火山引擎 · Coding Plan 活动页",
+        "title": "火山引擎 · Coding Plan 活动页 页面价格内容出现变化",
+        "from": "上次快照",
+        "to": "新增 1 处价格表述",
+        "pct": null,
+        "kind": "watch",
+        "samples": [
+          "差价按标准价格计算 旗舰模型 ，赋能业务高效落地 精选豆包旗舰模型，新客限时优惠16.8元起！ 活动规则&gt"
+        ]
+      }
+    ]
+  },
+  {
+    "stamp": "2026-11-10 21:25",
+    "asOfDate": "2026-11-10",
+    "count": 6,
+    "diffs": [
+      {
+        "level": "high",
+        "scope": "DeepSeek V4 Pro",
+        "title": "DeepSeek V4 Pro 官方输入价（缓存未命中）变动",
+        "from": "¥3",
+        "to": "¥4.5（空闲） / ¥9（高峰）",
+        "pct": 50,
+        "kind": "up"
+      },
+      {
+        "level": "high",
+        "scope": "DeepSeek V4 Pro",
+        "title": "DeepSeek V4 Pro 官方输出价变动",
+        "from": "¥6",
+        "to": "¥13.5（空闲） / ¥27（高峰）",
+        "pct": 125,
+        "kind": "up"
+      },
+      {
+        "level": "high",
+        "scope": "DeepSeek V4 Pro",
+        "title": "DeepSeek V4 Pro 官方综合单价变动",
+        "from": "¥4/百万",
+        "to": "¥7.5/百万（空闲） / ¥15/百万（高峰）",
+        "pct": 87.5,
+        "kind": "up"
+      },
+      {
+        "level": "high",
+        "scope": "DeepSeek V4.1 Flash",
+        "title": "DeepSeek V4.1 Flash 官方输出价变动",
+        "from": "¥2",
+        "to": "¥4（空闲） / ¥8（高峰）",
+        "pct": 100,
+        "kind": "up"
+      },
+      {
+        "level": "high",
+        "scope": "DeepSeek V4.1 Flash",
+        "title": "DeepSeek V4.1 Flash 官方综合单价变动",
+        "from": "¥1.33/百万",
+        "to": "¥2/百万（空闲） / ¥4/百万（高峰）",
+        "pct": 50.4,
+        "kind": "up"
+      },
+      {
+        "level": "med",
+        "scope": "阿里百炼 · Token Plan 个人版",
+        "title": "阿里百炼 · Token Plan 个人版 页面价格内容出现变化",
+        "from": "上次快照",
+        "to": "新增 1 处价格表述",
+        "pct": null,
+        "kind": "watch",
+        "samples": [
+          "39.5 元/月 139 元/月 312 元/月 每月限额 20,000 C"
+        ]
+      }
+    ]
+  },
+  {
+    "stamp": "2026-11-11 19:40",
+    "asOfDate": "2026-11-11",
+    "count": 6,
+    "diffs": [
+      {
+        "level": "high",
+        "scope": "DeepSeek V4 Pro",
+        "title": "DeepSeek V4 Pro 官方输入价（缓存未命中）变动",
+        "from": "¥3",
+        "to": "¥4.5（空闲） / ¥9（高峰）",
+        "pct": 50,
+        "kind": "up"
+      },
+      {
+        "level": "high",
+        "scope": "DeepSeek V4 Pro",
+        "title": "DeepSeek V4 Pro 官方输出价变动",
+        "from": "¥6",
+        "to": "¥13.5（空闲） / ¥27（高峰）",
+        "pct": 125,
+        "kind": "up"
+      },
+      {
+        "level": "high",
+        "scope": "DeepSeek V4 Pro",
+        "title": "DeepSeek V4 Pro 官方综合单价变动",
+        "from": "¥4/百万",
+        "to": "¥7.5/百万（空闲） / ¥15/百万（高峰）",
+        "pct": 87.5,
+        "kind": "up"
+      },
+      {
+        "level": "high",
+        "scope": "DeepSeek V4.1 Flash",
+        "title": "DeepSeek V4.1 Flash 官方输出价变动",
+        "from": "¥2",
+        "to": "¥4（空闲） / ¥8（高峰）",
+        "pct": 100,
+        "kind": "up"
+      },
+      {
+        "level": "high",
+        "scope": "DeepSeek V4.1 Flash",
+        "title": "DeepSeek V4.1 Flash 官方综合单价变动",
+        "from": "¥1.33/百万",
+        "to": "¥2/百万（空闲） / ¥4/百万（高峰）",
+        "pct": 50.4,
+        "kind": "up"
+      },
+      {
+        "level": "med",
+        "scope": "火山方舟 · 模型价格与抵扣系数",
+        "title": "火山方舟 · 模型价格与抵扣系数 页面价格内容出现变化",
+        "from": "上次快照",
+        "to": "新增 3 处价格表述",
+        "pct": null,
+        "kind": "watch",
+        "samples": [
+          "足 输入长度 (128, 256] 条件，模型输入输出 token 按照：输入 2.4 元/M token，输出 24 元/M token 单价计费",
+          "足 输入长度 (128, 256] 条件，模型产生的所有 token 按照：输入4.8 元/M token，输出 24.0 元/M token 单价计",
+          "BR 材质的 3D 模型文件 ​ 2.40 ​ 30K token / 次 * 80 元/M token ​ Hyper3d-Gen2 ​ 白模 ​"
+        ]
+      }
+    ]
+  },
+  {
+    "stamp": "2026-11-12 23:14",
+    "asOfDate": "2026-11-12",
+    "count": 5,
+    "diffs": [
+      {
+        "level": "high",
+        "scope": "DeepSeek V4 Pro",
+        "title": "DeepSeek V4 Pro 官方输入价（缓存未命中）变动",
+        "from": "¥3",
+        "to": "¥4.5（空闲） / ¥9（高峰）",
+        "pct": 50,
+        "kind": "up"
+      },
+      {
+        "level": "high",
+        "scope": "DeepSeek V4 Pro",
+        "title": "DeepSeek V4 Pro 官方输出价变动",
+        "from": "¥6",
+        "to": "¥13.5（空闲） / ¥27（高峰）",
+        "pct": 125,
+        "kind": "up"
+      },
+      {
+        "level": "high",
+        "scope": "DeepSeek V4 Pro",
+        "title": "DeepSeek V4 Pro 官方综合单价变动",
+        "from": "¥4/百万",
+        "to": "¥7.5/百万（空闲） / ¥15/百万（高峰）",
+        "pct": 87.5,
+        "kind": "up"
+      },
+      {
+        "level": "high",
+        "scope": "DeepSeek V4.1 Flash",
+        "title": "DeepSeek V4.1 Flash 官方输出价变动",
+        "from": "¥2",
+        "to": "¥4（空闲） / ¥8（高峰）",
+        "pct": 100,
+        "kind": "up"
+      },
+      {
+        "level": "high",
+        "scope": "DeepSeek V4.1 Flash",
+        "title": "DeepSeek V4.1 Flash 官方综合单价变动",
+        "from": "¥1.33/百万",
+        "to": "¥2/百万（空闲） / ¥4/百万（高峰）",
+        "pct": 50.4,
+        "kind": "up"
+      }
+    ]
+  },
+  {
+    "stamp": "2026-11-13 20:13",
+    "asOfDate": "2026-11-13",
+    "count": 7,
+    "diffs": [
+      {
+        "level": "high",
+        "scope": "DeepSeek V4 Pro",
+        "title": "DeepSeek V4 Pro 官方输入价（缓存未命中）变动",
+        "from": "¥3",
+        "to": "¥4.5（空闲） / ¥9（高峰）",
+        "pct": 50,
+        "kind": "up"
+      },
+      {
+        "level": "high",
+        "scope": "DeepSeek V4 Pro",
+        "title": "DeepSeek V4 Pro 官方输出价变动",
+        "from": "¥6",
+        "to": "¥13.5（空闲） / ¥27（高峰）",
+        "pct": 125,
+        "kind": "up"
+      },
+      {
+        "level": "high",
+        "scope": "DeepSeek V4 Pro",
+        "title": "DeepSeek V4 Pro 官方综合单价变动",
+        "from": "¥4/百万",
+        "to": "¥7.5/百万（空闲） / ¥15/百万（高峰）",
+        "pct": 87.5,
+        "kind": "up"
+      },
+      {
+        "level": "high",
+        "scope": "DeepSeek V4.1 Flash",
+        "title": "DeepSeek V4.1 Flash 官方输出价变动",
+        "from": "¥2",
+        "to": "¥4（空闲） / ¥8（高峰）",
+        "pct": 100,
+        "kind": "up"
+      },
+      {
+        "level": "high",
+        "scope": "DeepSeek V4.1 Flash",
+        "title": "DeepSeek V4.1 Flash 官方综合单价变动",
+        "from": "¥1.33/百万",
+        "to": "¥2/百万（空闲） / ¥4/百万（高峰）",
+        "pct": 50.4,
+        "kind": "up"
+      },
+      {
+        "level": "med",
+        "scope": "火山引擎 · Coding Plan 活动页",
+        "title": "火山引擎 · Coding Plan 活动页 页面价格内容出现变化",
+        "from": "上次快照",
+        "to": "新增 1 处价格表述",
+        "pct": null,
+        "kind": "watch",
+        "samples": [
+          "视频生成 立即购买 旗舰模型 ，赋能业务高效落地 精选豆包旗舰模型，新客限时优惠16.8元起！ 活动规则&gt"
+        ]
+      },
+      {
+        "level": "med",
+        "scope": "天翼云 · 星辰 TokenHub",
+        "title": "天翼云 · 星辰 TokenHub 页面价格内容出现变化",
+        "from": "上次快照",
+        "to": "新增 1 处价格表述",
+        "pct": null,
+        "kind": "watch",
+        "samples": [
+          "，产品折扣等，助您降本增效！ 热门活动 天翼云11·11国云智算 云服务器53.3元/年起，AI上云一步到位！ 安全隔离版OpenClaw NE"
+        ]
+      }
+    ]
+  },
+  {
+    "stamp": "2026-11-14 10:39",
+    "asOfDate": "2026-11-14",
+    "count": 5,
+    "diffs": [
+      {
+        "level": "high",
+        "scope": "DeepSeek V4 Pro",
+        "title": "DeepSeek V4 Pro 官方输入价（缓存未命中）变动",
+        "from": "¥3",
+        "to": "¥4.5（空闲） / ¥9（高峰）",
+        "pct": 50,
+        "kind": "up"
+      },
+      {
+        "level": "high",
+        "scope": "DeepSeek V4 Pro",
+        "title": "DeepSeek V4 Pro 官方输出价变动",
+        "from": "¥6",
+        "to": "¥13.5（空闲） / ¥27（高峰）",
+        "pct": 125,
+        "kind": "up"
+      },
+      {
+        "level": "high",
+        "scope": "DeepSeek V4 Pro",
+        "title": "DeepSeek V4 Pro 官方综合单价变动",
+        "from": "¥4/百万",
+        "to": "¥7.5/百万（空闲） / ¥15/百万（高峰）",
+        "pct": 87.5,
+        "kind": "up"
+      },
+      {
+        "level": "high",
+        "scope": "DeepSeek V4.1 Flash",
+        "title": "DeepSeek V4.1 Flash 官方输出价变动",
+        "from": "¥2",
+        "to": "¥4（空闲） / ¥8（高峰）",
+        "pct": 100,
+        "kind": "up"
+      },
+      {
+        "level": "high",
+        "scope": "DeepSeek V4.1 Flash",
+        "title": "DeepSeek V4.1 Flash 官方综合单价变动",
+        "from": "¥1.33/百万",
+        "to": "¥2/百万（空闲） / ¥4/百万（高峰）",
+        "pct": 50.4,
+        "kind": "up"
+      }
+    ]
+  },
+  {
+    "stamp": "2026-11-14 21:47",
+    "asOfDate": "2026-11-14",
+    "count": 5,
+    "diffs": [
+      {
+        "level": "high",
+        "scope": "DeepSeek V4 Pro",
+        "title": "DeepSeek V4 Pro 官方输入价（缓存未命中）变动",
+        "from": "¥3",
+        "to": "¥4.5（空闲） / ¥9（高峰）",
+        "pct": 50,
+        "kind": "up"
+      },
+      {
+        "level": "high",
+        "scope": "DeepSeek V4 Pro",
+        "title": "DeepSeek V4 Pro 官方输出价变动",
+        "from": "¥6",
+        "to": "¥13.5（空闲） / ¥27（高峰）",
+        "pct": 125,
+        "kind": "up"
+      },
+      {
+        "level": "high",
+        "scope": "DeepSeek V4 Pro",
+        "title": "DeepSeek V4 Pro 官方综合单价变动",
+        "from": "¥4/百万",
+        "to": "¥7.5/百万（空闲） / ¥15/百万（高峰）",
+        "pct": 87.5,
+        "kind": "up"
+      },
+      {
+        "level": "high",
+        "scope": "DeepSeek V4.1 Flash",
+        "title": "DeepSeek V4.1 Flash 官方输出价变动",
+        "from": "¥2",
+        "to": "¥4（空闲） / ¥8（高峰）",
+        "pct": 100,
+        "kind": "up"
+      },
+      {
+        "level": "high",
+        "scope": "DeepSeek V4.1 Flash",
+        "title": "DeepSeek V4.1 Flash 官方综合单价变动",
+        "from": "¥1.33/百万",
+        "to": "¥2/百万（空闲） / ¥4/百万（高峰）",
+        "pct": 50.4,
+        "kind": "up"
+      }
+    ]
   }
 ]

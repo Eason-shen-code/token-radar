@@ -1,7 +1,7 @@
 {
-  "generatedAt": "2026-11-05T14:31:01.256Z",
-  "stamp": "2026-11-05 22:31",
-  "asOfDate": "2026-11-05",
+  "generatedAt": "2026-11-14T13:47:16.652Z",
+  "stamp": "2026-11-14 21:47",
+  "asOfDate": "2026-11-14",
   "baselineVersion": "2026-10-15",
   "baselineOrigin": "Token采购比价报告_2026-10-15.html",
   "fx": {
@@ -14,7 +14,7 @@
     "aFail": 0,
     "bOk": 10,
     "bFail": 0,
-    "bChanged": 1
+    "bChanged": 0
   },
   "liveQuotes": [
     {
@@ -745,6 +745,64 @@
       ]
     }
   ],
+  "compare": {
+    "available": true,
+    "lastDate": "2026-11-13",
+    "lastLabel": "上一次抓取 2026-11-13",
+    "changes": [],
+    "streaks": [
+      {
+        "key": "zhipu:GLM-5.3",
+        "label": "GLM-5.3 · 智谱官方 API",
+        "days": 12,
+        "since": "2026-11-03",
+        "blended": 14.67
+      },
+      {
+        "key": "zhipu:GLM-5.3-Flash",
+        "label": "GLM-5.3-Flash · 智谱官方 API",
+        "days": 12,
+        "since": "2026-11-03",
+        "blended": 1.47
+      },
+      {
+        "key": "zhipu:GLM-5.3-FlashX",
+        "label": "GLM-5.3-FlashX · 智谱官方 API",
+        "days": 12,
+        "since": "2026-11-03",
+        "blended": 3.67
+      },
+      {
+        "key": "deepseek:deepseek-v41-flash:off",
+        "label": "DeepSeek V4.1 Flash · 官方 API（空闲时段）",
+        "days": 12,
+        "since": "2026-11-03",
+        "blended": 2
+      },
+      {
+        "key": "deepseek:deepseek-v41-flash:peak",
+        "label": "DeepSeek V4.1 Flash · 官方 API（高峰时段）",
+        "days": 12,
+        "since": "2026-11-03",
+        "blended": 4
+      },
+      {
+        "key": "deepseek:deepseek-v4-pro:off",
+        "label": "DeepSeek V4 Pro · 官方 API（空闲时段）",
+        "days": 12,
+        "since": "2026-11-03",
+        "blended": 7.5
+      },
+      {
+        "key": "deepseek:deepseek-v4-pro:peak",
+        "label": "DeepSeek V4 Pro · 官方 API（高峰时段）",
+        "days": 12,
+        "since": "2026-11-03",
+        "blended": 15
+      }
+    ],
+    "note": null
+  },
   "diffs": [
     {
       "level": "high",
@@ -790,39 +848,11 @@
       "to": "¥2/百万（空闲） / ¥4/百万（高峰）",
       "pct": 50.4,
       "kind": "up"
-    },
-    {
-      "level": "med",
-      "scope": "阿里百炼 · Token Plan 个人版",
-      "title": "阿里百炼 · Token Plan 个人版 页面价格内容出现变化",
-      "from": "上次快照",
-      "to": "新增 2 处价格表述",
-      "pct": null,
-      "kind": "watch",
-      "samples": [
-        "e 套餐 Essential 套餐 Standard 套餐 Pro 套餐 定价 39 元/月 新用户限时价 19.5 元/月 79 元/月 新用户限时价",
-        "39.5 元/月 139 元/月 499 元/月 每月限额 11,500 C"
-      ]
     }
   ],
+  "diffsBaselineDate": "2026-10-15",
+  "watchChanges": [],
   "watch": [
-    {
-      "id": "aliyun-tokenplan",
-      "name": "阿里百炼 · Token Plan 个人版",
-      "url": "https://help.aliyun.com/zh/model-studio/token-plan-personal-overview",
-      "tier": "B",
-      "status": "ok",
-      "hint": "Credits 档位与限时价",
-      "changed": true,
-      "samples": [
-        "e 套餐 Essential 套餐 Standard 套餐 Pro 套餐 定价 39 元/月 新用户限时价 19.5 元/月 79 元/月 新用户限时价",
-        "39.5 元/月 139 元/月 499 元/月 每月限额 11,500 C"
-      ],
-      "ms": 572,
-      "signals": 6,
-      "fingerprint": "5068c33f",
-      "checkedAt": "2026-11-05 22:31"
-    },
     {
       "id": "aliyun-models",
       "name": "阿里百炼 · 模型价格",
@@ -833,10 +863,24 @@
       "changed": false,
       "samples": [],
       "note": "页面正文由前端渲染，抓不到价格文本，仅能监控 HTTP 可达性",
-      "ms": 524,
+      "ms": 667,
       "signals": 0,
       "fingerprint": "1505",
-      "checkedAt": "2026-11-05 22:31"
+      "checkedAt": "2026-11-14 21:47"
+    },
+    {
+      "id": "aliyun-tokenplan",
+      "name": "阿里百炼 · Token Plan 个人版",
+      "url": "https://help.aliyun.com/zh/model-studio/token-plan-personal-overview",
+      "tier": "B",
+      "status": "ok",
+      "hint": "Credits 档位与限时价",
+      "changed": false,
+      "samples": [],
+      "ms": 608,
+      "signals": 3,
+      "fingerprint": "16e6d9a0",
+      "checkedAt": "2026-11-14 21:47"
     },
     {
       "id": "qianfan-codingplan",
@@ -848,10 +892,10 @@
       "changed": false,
       "samples": [],
       "note": "页面正文由前端渲染，抓不到价格文本，仅能监控 HTTP 可达性",
-      "ms": 265,
+      "ms": 292,
       "signals": 2,
       "fingerprint": "66407d59",
-      "checkedAt": "2026-11-05 22:31"
+      "checkedAt": "2026-11-14 21:47"
     },
     {
       "id": "huawei-maas",
@@ -863,10 +907,10 @@
       "changed": false,
       "samples": [],
       "note": "页面正文由前端渲染，抓不到价格文本，仅能监控 HTTP 可达性",
-      "ms": 228,
+      "ms": 252,
       "signals": 0,
       "fingerprint": "1505",
-      "checkedAt": "2026-11-05 22:31"
+      "checkedAt": "2026-11-14 21:47"
     },
     {
       "id": "volcengine-price",
@@ -877,10 +921,10 @@
       "hint": "抵扣系数调整会改变套餐等效单价",
       "changed": false,
       "samples": [],
-      "ms": 1223,
-      "signals": 26,
-      "fingerprint": "ce3912f1",
-      "checkedAt": "2026-11-05 22:31"
+      "ms": 1186,
+      "signals": 25,
+      "fingerprint": "4c1a3fed",
+      "checkedAt": "2026-11-14 21:47"
     },
     {
       "id": "volcengine-codingplan",
@@ -891,10 +935,10 @@
       "hint": "促销折扣与套餐价",
       "changed": false,
       "samples": [],
-      "ms": 1011,
+      "ms": 484,
       "signals": 5,
       "fingerprint": "d253312",
-      "checkedAt": "2026-11-05 22:31"
+      "checkedAt": "2026-11-14 21:47"
     },
     {
       "id": "unicom-tokenplan",
@@ -906,10 +950,10 @@
       "changed": false,
       "samples": [],
       "note": "页面正文由前端渲染，抓不到价格文本，仅能监控 HTTP 可达性",
-      "ms": 258,
+      "ms": 450,
       "signals": 0,
       "fingerprint": "1505",
-      "checkedAt": "2026-11-05 22:31"
+      "checkedAt": "2026-11-14 21:47"
     },
     {
       "id": "tencent-tokenhub",
@@ -920,10 +964,10 @@
       "hint": "积分兑换系数",
       "changed": false,
       "samples": [],
-      "ms": 466,
+      "ms": 392,
       "signals": 8,
       "fingerprint": "6c0e255c",
-      "checkedAt": "2026-11-05 22:31"
+      "checkedAt": "2026-11-14 21:47"
     },
     {
       "id": "ctyun-tokenhub",
@@ -934,10 +978,10 @@
       "hint": "积分制档位",
       "changed": false,
       "samples": [],
-      "ms": 1640,
-      "signals": 4,
-      "fingerprint": "e67ddc8",
-      "checkedAt": "2026-11-05 22:31"
+      "ms": 874,
+      "signals": 6,
+      "fingerprint": "8e3865f7",
+      "checkedAt": "2026-11-14 21:47"
     },
     {
       "id": "kimi-pricing",
@@ -949,10 +993,10 @@
       "changed": false,
       "samples": [],
       "note": "页面正文由前端渲染，抓不到价格文本，仅能监控 HTTP 可达性",
-      "ms": 917,
+      "ms": 700,
       "signals": 0,
       "fingerprint": "1505",
-      "checkedAt": "2026-11-05 22:31"
+      "checkedAt": "2026-11-14 21:47"
     }
   ],
   "sources": [
@@ -962,7 +1006,7 @@
       "url": "https://api-docs.deepseek.com/zh-cn/quick_start/pricing",
       "tier": "A",
       "status": "ok",
-      "ms": 371,
+      "ms": 528,
       "parsed": true,
       "items": 2,
       "columns": [
@@ -976,9 +1020,9 @@
       "url": "https://openrouter.ai/api/v1/models",
       "tier": "A",
       "status": "ok",
-      "ms": 1075,
+      "ms": 3902,
       "parsed": true,
-      "items": 98
+      "items": 100
     },
     {
       "id": "zhipu-api",
@@ -986,7 +1030,7 @@
       "url": "https://docs.bigmodel.cn/cn/guide/start/pricing.md",
       "tier": "A",
       "status": "ok",
-      "ms": 176,
+      "ms": 307,
       "parsed": true,
       "items": 27
     },
@@ -996,12 +1040,20 @@
       "url": "https://docs.bigmodel.cn/cn/coding-plan/overview.md",
       "tier": "A",
       "status": "ok",
-      "ms": 150,
+      "ms": 246,
       "parsed": true,
       "items": 3
     }
   ],
   "openrouterRef": [
+    {
+      "id": "z-ai/glm-5.3-flash",
+      "name": "Z.ai: GLM 5.3 Flash",
+      "context": 1048576,
+      "inputCny": 0.283,
+      "outputCny": 0.557,
+      "blendedCny": 0.374
+    },
     {
       "id": "qwen/qwen3.7-flash",
       "name": "Qwen: Qwen3.7 Flash",
@@ -1011,12 +1063,20 @@
       "blendedCny": 0.45
     },
     {
+      "id": "deepseek/deepseek-v4.1-flash",
+      "name": "DeepSeek: DeepSeek V4.1 Flash",
+      "context": 1048576,
+      "inputCny": 0.36,
+      "outputCny": 1.44,
+      "blendedCny": 0.72
+    },
+    {
       "id": "deepseek/deepseek-v4-flash",
       "name": "DeepSeek: DeepSeek V4 Flash 0423",
       "context": 1048576,
-      "inputCny": 0.646,
-      "outputCny": 1.292,
-      "blendedCny": 0.861
+      "inputCny": 0.639,
+      "outputCny": 1.278,
+      "blendedCny": 0.852
     },
     {
       "id": "qwen/qwen3.5-flash-02-23",
@@ -1025,14 +1085,6 @@
       "inputCny": 0.461,
       "outputCny": 1.846,
       "blendedCny": 0.923
-    },
-    {
-      "id": "qwen/qwen-2.5-7b-instruct",
-      "name": "Qwen: Qwen2.5 7B Instruct",
-      "context": 32768,
-      "inputCny": 0.71,
-      "outputCny": 1.42,
-      "blendedCny": 0.947
     },
     {
       "id": "qwen/qwen3-32b",
@@ -1067,20 +1119,12 @@
       "blendedCny": 1.233
     },
     {
-      "id": "deepseek/deepseek-v4.1-flash",
-      "name": "DeepSeek: DeepSeek V4.1 Flash",
-      "context": 1048576,
-      "inputCny": 0.319,
-      "outputCny": 3.55,
-      "blendedCny": 1.396
-    },
-    {
       "id": "qwen/qwen3.5-9b",
       "name": "Qwen: Qwen3.5-9B",
       "context": 262144,
-      "inputCny": 1.207,
-      "outputCny": 1.775,
-      "blendedCny": 1.396
+      "inputCny": 1.2,
+      "outputCny": 1.761,
+      "blendedCny": 1.387
     },
     {
       "id": "qwen/qwen3-30b-a3b",
@@ -1107,12 +1151,12 @@
       "blendedCny": 1.822
     },
     {
-      "id": "z-ai/glm-5.3-flash",
-      "name": "Z.ai: GLM 5.3 Flash",
-      "context": 1048576,
-      "inputCny": 1.065,
-      "outputCny": 3.55,
-      "blendedCny": 1.893
+      "id": "deepseek/deepseek-v3.2",
+      "name": "DeepSeek: DeepSeek V3.2",
+      "context": 163840,
+      "inputCny": 1.846,
+      "outputCny": 2.698,
+      "blendedCny": 2.13
     }
   ],
   "method": {

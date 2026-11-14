@@ -22,7 +22,8 @@ const stamp = `${asOfDate} ${new Intl.DateTimeFormat('zh-CN', { timeZone: 'Asia/
 
 const health = { aOk: 0, aFail: 0, bOk: 0, bFail: 0, bChanged: 0 };
 const sources = [];
-const diffs = [];
+const diffs = [];          // 相对报告基线的累计差异（不是「本期」变动）
+const watchChanges = [];   // B 级源页面内容变化
 
 /* ---------- A 级：确定性抓取 ---------- */
 const autoById = Object.fromEntries(cfg.autoSources.map(s => [s.id, s]));
@@ -223,7 +224,7 @@ await Promise.all(cfg.watchSources.map(async (src) => {
     item.changed = true;
     item.samples = fresh;
     health.bChanged++;
-    diffs.push({
+    watchChanges.push({
       level: 'med',
       scope: src.name,
       title: `${src.name} 页面价格内容出现变化`,
@@ -251,6 +252,91 @@ if (autoResults.openrouter && autoResults.openrouter.ok) {
   orRef = [...fam.values()].sort((a, b) => a.blendedCny - b.blendedCny).slice(0, 14);
 }
 
+/* ---------- 与上一次抓取对比：真正的「本期变动」 ---------- */
+const CLOUD = {
+  endpoint: process.env.CLOUD_ENDPOINT || 'https://ai-token-price-radar.app.workbuddy.host',
+  key: process.env.CLOUD_ACCESS_KEY || 'wbpk_WrIQWYOUJjbr1mwyDHziWZ_hFp2n35XQIMB21DcqEcxNfy1Aatjgmeo'
+};
+const num = v => (v == null || v === '' || Number.isNaN(Number(v))) ? null : Number(v);
+const EPS = 0.0001;
+
+const compare = { available: false, lastDate: null, lastLabel: null, changes: [], streaks: [], note: null };
+
+async function buildCompare(todayQuotes, todayDate) {
+  try {
+    const url = `${CLOUD.endpoint}/.cloud/database/rest/price_quotes`
+      + '?select=as_of_date,quote_key,label,input_price,cache_hit_price,output_price,blended'
+      + `&as_of_date=lt.${todayDate}&order=as_of_date.desc&limit=800`;
+    const res = await fetch(url, { headers: { 'x-wb-webapp-access-key': CLOUD.key, Origin: CLOUD.endpoint } });
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    const rows = await res.json();
+    if (!Array.isArray(rows) || !rows.length) {
+      compare.note = '云端还没有历史报价，本期变动无法计算';
+      return;
+    }
+
+    const byKey = new Map();
+    for (const r of rows) {
+      const k = r.quote_key;
+      if (!byKey.has(k)) byKey.set(k, []);
+      byKey.get(k).push({
+        date: String(r.as_of_date).slice(0, 10),
+        input: num(r.input_price), cacheHit: num(r.cache_hit_price),
+        output: num(r.output_price), blended: num(r.blended)
+      });
+    }
+
+    const dates = [...new Set(rows.map(r => String(r.as_of_date).slice(0, 10)))].sort().reverse();
+    const lastDate = dates[0];
+    const prevByKey = new Map();
+    for (const [k, arr] of byKey) {
+      const hit = arr.find(x => x.date === lastDate);
+      if (hit) prevByKey.set(k, hit);
+    }
+
+    const pctOf = (a, b) => (a ? Math.round((b - a) / a * 1000) / 10 : null);
+
+    for (const q of todayQuotes) {
+      const prev = prevByKey.get(q.key);
+      if (!prev) continue;
+      const fields = [
+        ['官方综合单价', q.blended, prev.blended],
+        ['输入价', q.input, prev.input],
+        ['输出价', q.output, prev.output],
+        ['缓存命中价', q.inputCacheHit, prev.cacheHit]
+      ];
+      for (const [name, cur, old] of fields) {
+        if (cur == null || old == null) continue;
+        if (Math.abs(cur - old) <= EPS) continue;
+        compare.changes.push({
+          key: q.key, label: q.label, field: name,
+          from: old, to: cur, pct: pctOf(old, cur), kind: cur > old ? 'up' : 'down'
+        });
+      }
+    }
+
+    for (const q of todayQuotes) {
+      const hist = byKey.get(q.key);
+      if (!hist || q.blended == null) continue;
+      let days = 1, since = todayDate;
+      for (const h of hist) {
+        if (h.blended != null && Math.abs(h.blended - q.blended) <= EPS) { days++; since = h.date; }
+        else break;
+      }
+      if (days >= 2) compare.streaks.push({ key: q.key, label: q.label, days, since, blended: q.blended });
+    }
+    compare.streaks.sort((a, b) => b.days - a.days);
+
+    compare.available = true;
+    compare.lastDate = lastDate;
+    compare.lastLabel = `上一次抓取 ${lastDate}`;
+  } catch (e) {
+    compare.note = `云端历史读取失败（${e.message || e}），本期变动无法计算`;
+  }
+}
+
+await buildCompare(liveQuotes, asOfDate);
+
 /* ---------- 汇总 ---------- */
 const orderedSources = [...sources].sort((a, b) => a.id.localeCompare(b.id));
 const latest = {
@@ -263,7 +349,10 @@ const latest = {
   health,
   liveQuotes: liveQuotes.sort((a, b) => (a.blended ?? 999) - (b.blended ?? 999)),
   models: baseline.models,
+  compare,
   diffs,
+  diffsBaselineDate: baseline.version,
+  watchChanges,
   watch: watch.sort((a, b) => (b.changed - a.changed) || a.name.localeCompare(b.name)),
   sources: orderedSources,
   openrouterRef: orRef,
@@ -289,6 +378,16 @@ if (diffs.length) {
 // 控制台摘要
 const line = (s) => process.stdout.write(s + '\n');
 line(`[${stamp}] 抓取完成  A级 ${health.aOk}成功/${health.aFail}失败  B级 ${health.bOk}成功/${health.bFail}失败，变更 ${health.bChanged}`);
-line(`实时官方报价 ${liveQuotes.length} 条 | 变动事件 ${diffs.length} 条 | OpenRouter 参考 ${orRef.length} 条`);
-for (const d of diffs.filter(x => x.pct != null)) line(`  · ${d.title}: ${d.from} → ${d.to} (${d.pct > 0 ? '+' : ''}${d.pct}%)`);
+line(`实时官方报价 ${liveQuotes.length} 条 | OpenRouter 参考 ${orRef.length} 条`);
+if (compare.available) {
+  line(`本期变动（对比 ${compare.lastDate}）：${compare.changes.length} 条`);
+  for (const c of compare.changes) line(`  · ${c.label} ${c.field}: ¥${c.from} → ¥${c.to} (${c.pct > 0 ? '+' : ''}${c.pct}%)`);
+  if (compare.streaks.length) {
+    const t = compare.streaks[0];
+    line(`  · 最久未变：${t.label} ¥${t.blended}，已连续 ${t.days} 天（自 ${t.since}）`);
+  }
+} else {
+  line(`本期变动：无法计算（${compare.note}）`);
+}
+line(`相对 ${baseline.version} 报告基线的累计差异：${diffs.length} 条（历史值，非本期变动）`);
 for (const w of watch.filter(x => x.changed)) line(`  · 变更监控: ${w.name} 新增价格表述 ${w.samples.length} 处`);

@@ -169,7 +169,7 @@ details[open] summary::after{content:'－'}
   <div class="sub">
     <span>数据时间 <b id="stamp">—</b></span>
     <span>基线 <b id="bv">—</b></span>
-    <span>下次抓取 <b>每日 08:30</b></span>
+    <span>下次抓取 <b>每日 05:30</b></span>
   </div>
 </div>
 
@@ -220,6 +220,53 @@ details[open] summary::after{content:'－'}
   ];
   let trendSel = 'v4pro';
 
+  // 从云端历史行现算：与上一次抓取的差异 + 各口径连续未变天数
+  function computeCompare(histRows, todayQuotes, todayDate){
+    const EPS = 0.0001;
+    if(!histRows || !histRows.length) return null;
+    const dates = [...new Set(histRows.map(x => x.date))].sort().reverse();
+    const prevDate = dates.find(d => d < todayDate);
+    if(!prevDate) return null;
+
+    const byKey = new Map();
+    histRows.forEach(r => {
+      if(!byKey.has(r.key)) byKey.set(r.key, []);
+      byKey.get(r.key).push(r);
+    });
+    byKey.forEach(arr => arr.sort((a, b) => b.date.localeCompare(a.date)));
+
+    const prevOf = k => (byKey.get(k) || []).find(x => x.date === prevDate);
+    const pctOf = (a, b) => (a ? Math.round((b - a) / a * 1000) / 10 : null);
+
+    const changes = [];
+    todayQuotes.forEach(q => {
+      const p = prevOf(q.key);
+      if(!p) return;
+      [['官方综合单价', q.blended, p.blended],
+       ['输入价', q.input, p.input],
+       ['输出价', q.output, p.output],
+       ['缓存命中价', q.inputCacheHit, p.cacheHit]].forEach(([name, cur, old]) => {
+        if(cur == null || old == null || Math.abs(cur - old) <= EPS) return;
+        changes.push({ key:q.key, label:q.label, field:name, from:old, to:cur, pct:pctOf(old, cur), kind: cur > old ? 'up' : 'down' });
+      });
+    });
+
+    const streaks = [];
+    todayQuotes.forEach(q => {
+      const arr = byKey.get(q.key) || [];
+      if(q.blended == null) return;
+      let days = 1, since = todayDate;
+      for(const h of arr){
+        if(h.blended != null && Math.abs(h.blended - q.blended) <= EPS){ days++; since = h.date; }
+        else break;
+      }
+      if(days >= 2) streaks.push({ key:q.key, label:q.label, days, since, blended:q.blended });
+    });
+    streaks.sort((a, b) => b.days - a.days || a.blended - b.blended);
+
+    return { available:true, lastDate:prevDate, lastLabel:'上一次抓取 ' + prevDate, changes, streaks, note:null };
+  }
+
   async function loadCloud(){
     if(!window.WorkBuddyCloud || !CFG.endpoint || !CFG.publishableKey){
       CLOUD.status = 'fail';
@@ -254,7 +301,7 @@ details[open] summary::after{content:'－'}
       const [rq, rd, rt] = await Promise.all([
         db.from('price_quotes').select('*').eq('as_of_date', latest).order('blended', { ascending: true }),
         db.from('price_diffs').select('*').eq('as_of_date', latest).order('pct', { ascending: false }),
-        db.from('price_quotes').select('as_of_date,quote_key,blended').order('as_of_date', { ascending: true }).limit(2000)
+        db.from('price_quotes').select('as_of_date,quote_key,label,input_price,cache_hit_price,output_price,blended').order('as_of_date', { ascending: true }).limit(800)
       ]);
       if(rq.error) throw rq.error;
       if(rd.error) throw rd.error;
@@ -277,9 +324,16 @@ details[open] summary::after{content:'－'}
       };
 
       CLOUD.snaps = snaps;
-      CLOUD.trend = (rt.data || []).map(r => ({
-        date: String(r.as_of_date).slice(0, 10), key: r.quote_key, v: num(r.blended)
-      })).filter(x => x.v != null);
+      const histRows = (rt.data || []).map(r => ({
+        date: String(r.as_of_date).slice(0, 10), key: r.quote_key, label: r.label,
+        input: num(r.input_price), cacheHit: num(r.cache_hit_price),
+        output: num(r.output_price), blended: num(r.blended)
+      }));
+      CLOUD.trend = histRows.filter(x => x.blended != null).map(x => ({ date: x.date, key: x.key, v: x.blended }));
+
+      // 本期变动由云端历史现算，不依赖页面构建时间
+      const cmp = computeCompare(histRows, quotes, latest);
+      if(cmp) D.compare = cmp;
       CLOUD.status = 'ok';
       CLOUD.note = '';
 
@@ -312,7 +366,8 @@ details[open] summary::after{content:'－'}
 
   function head(){
     const h = D.health;
-    const hi = D.diffs.filter(d=>d.level!=='low').length;
+    const C = D.compare;
+    const hi = C && C.available ? C.changes.length : D.diffs.filter(d=>d.level!=='low').length;
     return `<div class="card">
       <div class="stats">
         <div class="stat"><div class="n">${h.aOk+h.bOk}</div><div class="l">数据源正常</div></div>
@@ -324,23 +379,54 @@ details[open] summary::after{content:'－'}
   }
 
   function diffCard(){
-    if(!D.diffs.length) return `<div class="card"><div class="ch"><span class="idx">!</span><h2>本期无变动</h2></div>
-      <div class="cb"><div class="hint">本次抓取与基线及上次快照一致，无价格变化。</div></div></div>`;
-    const rows = D.diffs.slice(0,8).map(d=>{
-      const kind = d.kind==='watch' ? 'watch' : d.kind;
-      const ic = d.kind==='up' ? '↑' : d.kind==='down' ? '↓' : '!';
+    const C = D.compare || { available:false, changes:[], streaks:[], note:'本期变动数据不可用' };
+    const base = D.diffsBaselineDate || D.baselineVersion || '报告基线';
+
+    let body = '';
+    if(!C.available){
+      body = `<div class="hint" style="padding-top:10px">${esc(C.note || '本期变动数据不可用')}</div>`;
+    } else if(!C.changes.length){
+      const streaks = (C.streaks||[]).map(x=>
+        `<div class="wt"><i class="st ok"></i><span class="nm">${esc(x.label)}</span>
+          <span class="rs">¥${u2(x.blended)} · 已 ${x.days} 天未变</span></div>`).join('');
+      body = `<div style="padding:14px 0 4px">
+          <div style="font-size:15px;font-weight:700;color:var(--down)">价格无变化</div>
+          <div class="hint" style="padding:4px 0 0">与${esc(C.lastLabel||'上一次抓取')}相比，全部 ${D.liveQuotes.length} 个报价口径完全一致。${streaks?'下方为各口径的连续未变天数。':''}</div>
+        </div>${streaks}`;
+    } else {
+      body = C.changes.map(x=>{
+        const ic = x.kind==='up' ? '↑' : '↓';
+        const pc = x.pct==null ? '' : `<div class="p ${x.kind}">${x.pct>0?'+':''}${x.pct}%</div>`;
+        return `<div class="diff">
+          <div class="ic ${x.kind}">${ic}</div>
+          <div class="m"><div class="t">${esc(x.label)} · ${esc(x.field)}</div>
+          <div class="v"><em>${esc(C.lastLabel||'上次')}</em> ¥${u2(x.from)} → <b>¥${u2(x.to)}</b></div></div>
+          ${pc}
+        </div>`;
+      }).join('');
+    }
+
+    const baseRows = (D.diffs||[]).map(d=>{
+      const ic = d.kind==='up' ? '↑' : '↓';
       const pc = d.pct==null ? '' : `<div class="p ${d.kind}">${d.pct>0?'+':''}${d.pct}%</div>`;
-      const extra = (d.samples&&d.samples.length) ? `<div class="v" style="color:var(--tx3);font-size:11px">${d.samples.map(esc).join('；')}</div>` : '';
       return `<div class="diff">
-        <div class="ic ${kind}">${ic}</div>
-        <div class="m"><div class="t">${esc(d.title)}</div>
-        <div class="v"><em>原</em> ${esc(d.from)} → <b>${esc(d.to)}</b></div>${extra}</div>
+        <div class="ic ${d.kind}">${ic}</div>
+        <div class="m"><div class="t" style="font-weight:500">${esc(d.title)}</div>
+        <div class="v"><em>${esc(base)} 报告值</em> ${esc(d.from)} → <b>${esc(d.to)}</b></div></div>
         ${pc}
       </div>`;
     }).join('');
+
+    const baseBlock = (D.diffs && D.diffs.length) ? `<details>
+        <summary>相对 ${esc(base)} 报告基线的累计变化（${D.diffs.length} 条）</summary>
+        <div class="hint" style="padding:0 0 6px">历史累计，不是本期变动。原值为 ${esc(base)} 版比价报告记录的数字。</div>
+        ${baseRows}
+      </details>` : '';
+
+    const tag = !C.available ? '不可用' : (C.changes.length ? C.changes.length + ' 条' : '无变化');
     return `<div class="card">
-      <div class="ch"><span class="idx">1</span><h2>本期价格变动</h2><span class="more">${D.diffs.length} 条</span></div>
-      <div class="cb">${rows}</div>
+      <div class="ch"><span class="idx">1</span><h2>本期变动</h2><span class="more">${tag}</span></div>
+      <div class="cb">${body}${baseBlock}</div>
     </div>`;
   }
 
