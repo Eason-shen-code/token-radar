@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-11-14T13:47:16.652Z",
-  "stamp": "2026-11-14 21:47",
+  "generatedAt": "2026-11-14T14:20:23.558Z",
+  "stamp": "2026-11-14 22:20",
   "asOfDate": "2026-11-14",
   "baselineVersion": "2026-10-15",
   "baselineOrigin": "Token采购比价报告_2026-10-15.html",
@@ -121,7 +121,10 @@
           "verify": "measured",
           "tier": "B",
           "note": "月额度2.5亿Token为实测用量；抵扣系数4.5",
-          "sourceUrl": "https://www.volcengine.com/activity/ai618"
+          "sourceUrl": "https://www.volcengine.com/activity/ai618",
+          "vendor": "智谱",
+          "model": "glm-5.3",
+          "modelLabel": "GLM-5.3"
         },
         {
           "platform": "百度千帆",
@@ -136,7 +139,10 @@
           "verify": "measured",
           "tier": "B",
           "note": "实测13亿为GLM-5.2口径（消耗梯度折扣期）；GLM-5.3额度未实测",
-          "sourceUrl": "https://cloud.baidu.com/product/codingplan.html"
+          "sourceUrl": "https://cloud.baidu.com/product/codingplan.html",
+          "vendor": "智谱",
+          "model": "glm-5.3",
+          "modelLabel": "GLM-5.3"
         },
         {
           "platform": "智谱官方",
@@ -151,7 +157,10 @@
           "verify": "measured",
           "tier": "A",
           "note": "140,000积分/周≈15亿Token/月；套餐限单人使用",
-          "sourceUrl": "https://docs.bigmodel.cn/cn/coding-plan/overview.md"
+          "sourceUrl": "https://docs.bigmodel.cn/cn/coding-plan/overview.md",
+          "vendor": "智谱",
+          "model": "glm-5.3",
+          "modelLabel": "GLM-5.3"
         },
         {
           "platform": "移动云",
@@ -166,7 +175,10 @@
           "verify": "nominal",
           "tier": "C",
           "note": "政企报价 5,000元 = 55亿Token，实测未观测到缓存命中，有效单价高于标称",
-          "sourceUrl": "manual://移动云政企报价文件"
+          "sourceUrl": "manual://移动云政企报价文件",
+          "vendor": "智谱",
+          "model": "glm-5.2",
+          "modelLabel": "GLM-5.2"
         },
         {
           "platform": "华为云",
@@ -181,7 +193,10 @@
           "verify": "unverified",
           "tier": "B",
           "note": "Token制直接折算，未实测",
-          "sourceUrl": "https://support.huaweicloud.com/Token-plan-maas/"
+          "sourceUrl": "https://support.huaweicloud.com/Token-plan-maas/",
+          "vendor": "智谱",
+          "model": "glm-5.3",
+          "modelLabel": "GLM-5.3"
         },
         {
           "platform": "阿里百炼",
@@ -196,7 +211,10 @@
           "verify": "measured",
           "tier": "B",
           "note": "250,000 Credits 实测=12亿Token；缓存命中未专门验证",
-          "sourceUrl": "https://help.aliyun.com/zh/model-studio/token-plan-personal-overview"
+          "sourceUrl": "https://help.aliyun.com/zh/model-studio/token-plan-personal-overview",
+          "vendor": "智谱",
+          "model": "glm-5.3",
+          "modelLabel": "GLM-5.3"
         },
         {
           "platform": "天翼云",
@@ -211,7 +229,10 @@
           "verify": "pending",
           "tier": "B",
           "note": "25,000积分；无官方兑换系数，待实测",
-          "sourceUrl": "https://www.ctyun.cn/products/31761580"
+          "sourceUrl": "https://www.ctyun.cn/products/31761580",
+          "vendor": "智谱",
+          "model": "glm-5.2",
+          "modelLabel": "GLM-5.2"
         },
         {
           "platform": "腾讯云",
@@ -226,7 +247,10 @@
           "verify": "pending",
           "tier": "B",
           "note": "11,980积分；暂无官方兑换系数",
-          "sourceUrl": "https://cloud.tencent.com/document/product/1823/130060"
+          "sourceUrl": "https://cloud.tencent.com/document/product/1823/130060",
+          "vendor": "智谱",
+          "model": "glm-5.3",
+          "modelLabel": "GLM-5.3"
         },
         {
           "platform": "联通云",
@@ -241,7 +265,10 @@
           "verify": "unsupported",
           "tier": "B",
           "note": "仅支持 DeepSeek V4-Flash、MiniMax",
-          "sourceUrl": "https://www.cucloud.cn/product/tokenplan.html"
+          "sourceUrl": "https://www.cucloud.cn/product/tokenplan.html",
+          "vendor": "智谱",
+          "model": "glm-5.3",
+          "modelLabel": "GLM-5.3"
         }
       ]
     },
@@ -263,7 +290,10 @@
           "verify": "unverified",
           "tier": "B",
           "note": "按抵扣系数5.5折算，套餐总额度约112,500 AFP/月",
-          "sourceUrl": "https://docs.volcengine.com/docs/82379/1544106"
+          "sourceUrl": "https://docs.volcengine.com/docs/82379/1544106",
+          "vendor": "DeepSeek",
+          "model": "deepseek-v4-pro",
+          "modelLabel": "V4 Pro"
         },
         {
           "platform": "DeepSeek 官方",
@@ -280,6 +310,9 @@
           "tier": "A",
           "note": "4.00为官方综合（输入:输出=2:1）；实测约3.50，低约12%",
           "sourceUrl": "https://api-docs.deepseek.com/zh-cn/quick_start/pricing",
+          "vendor": "DeepSeek",
+          "model": "deepseek-v4-pro",
+          "modelLabel": "V4 Pro",
           "live": {
             "mode": "peak-valley",
             "input": 4.5,
@@ -305,7 +338,10 @@
           "verify": "unsupported",
           "tier": "B",
           "note": "官方支持列表未含 V4 Pro",
-          "sourceUrl": "https://support.huaweicloud.com/Token-plan-maas/"
+          "sourceUrl": "https://support.huaweicloud.com/Token-plan-maas/",
+          "vendor": "DeepSeek",
+          "model": "deepseek-v4-pro",
+          "modelLabel": "V4 Pro"
         },
         {
           "platform": "移动云",
@@ -319,7 +355,10 @@
           "verify": "pending",
           "tier": "C",
           "note": "V4 Pro 支持情况待核实",
-          "sourceUrl": "manual://移动云政企报价文件"
+          "sourceUrl": "manual://移动云政企报价文件",
+          "vendor": "DeepSeek",
+          "model": "deepseek-v4-pro",
+          "modelLabel": "V4 Pro"
         },
         {
           "platform": "百度千帆",
@@ -333,7 +372,10 @@
           "verify": "pending",
           "tier": "B",
           "note": "Token制与积分制口径并存，可用量待实测",
-          "sourceUrl": "https://cloud.baidu.com/product/codingplan.html"
+          "sourceUrl": "https://cloud.baidu.com/product/codingplan.html",
+          "vendor": "DeepSeek",
+          "model": "deepseek-v4-pro",
+          "modelLabel": "V4 Pro"
         },
         {
           "platform": "天翼云",
@@ -347,7 +389,10 @@
           "verify": "pending",
           "tier": "B",
           "note": "25,000积分，无兑换系数",
-          "sourceUrl": "https://www.ctyun.cn/products/31761580"
+          "sourceUrl": "https://www.ctyun.cn/products/31761580",
+          "vendor": "DeepSeek",
+          "model": "deepseek-v4-pro",
+          "modelLabel": "V4 Pro"
         },
         {
           "platform": "腾讯云",
@@ -361,7 +406,10 @@
           "verify": "pending",
           "tier": "B",
           "note": "11,980积分，无兑换系数",
-          "sourceUrl": "https://cloud.tencent.com/document/product/1823/130060"
+          "sourceUrl": "https://cloud.tencent.com/document/product/1823/130060",
+          "vendor": "DeepSeek",
+          "model": "deepseek-v4-pro",
+          "modelLabel": "V4 Pro"
         }
       ]
     },
@@ -383,7 +431,10 @@
           "verify": "unverified",
           "tier": "B",
           "note": "限时折扣期折算0.06（常态0.22）；可用量约4.5亿，折扣期约9亿",
-          "sourceUrl": "https://docs.volcengine.com/docs/82379/1544106"
+          "sourceUrl": "https://docs.volcengine.com/docs/82379/1544106",
+          "vendor": "DeepSeek",
+          "model": "deepseek-v41-flash",
+          "modelLabel": "V4.1 Flash"
         },
         {
           "platform": "DeepSeek 官方",
@@ -400,6 +451,9 @@
           "tier": "A",
           "note": "实测约0.70，较官方综合低约47%",
           "sourceUrl": "https://api-docs.deepseek.com/zh-cn/quick_start/pricing",
+          "vendor": "DeepSeek",
+          "model": "deepseek-v41-flash",
+          "modelLabel": "V4.1 Flash",
           "live": {
             "mode": "peak-valley",
             "input": 1,
@@ -426,7 +480,10 @@
           "verify": "unverified",
           "tier": "B",
           "note": "个人版15/30/45元三档，单价恒定2.50；团队版1,398元含25万Credits≈20亿Token，约0.70",
-          "sourceUrl": "https://www.cucloud.cn/product/tokenplan.html"
+          "sourceUrl": "https://www.cucloud.cn/product/tokenplan.html",
+          "vendor": "DeepSeek",
+          "model": "deepseek-v41-flash",
+          "modelLabel": "V4.1 Flash"
         },
         {
           "platform": "华为云",
@@ -441,7 +498,10 @@
           "verify": "unverified",
           "tier": "B",
           "note": "Token制直接折算",
-          "sourceUrl": "https://support.huaweicloud.com/Token-plan-maas/"
+          "sourceUrl": "https://support.huaweicloud.com/Token-plan-maas/",
+          "vendor": "DeepSeek",
+          "model": "deepseek-v41-flash",
+          "modelLabel": "V4.1 Flash"
         },
         {
           "platform": "移动云",
@@ -455,7 +515,10 @@
           "verify": "pending",
           "tier": "C",
           "note": "支持情况待核实",
-          "sourceUrl": "manual://移动云政企报价文件"
+          "sourceUrl": "manual://移动云政企报价文件",
+          "vendor": "DeepSeek",
+          "model": "deepseek-v41-flash",
+          "modelLabel": "V4.1 Flash"
         },
         {
           "platform": "百度千帆",
@@ -469,7 +532,10 @@
           "verify": "pending",
           "tier": "B",
           "note": "可用量与折算单价待实测",
-          "sourceUrl": "https://cloud.baidu.com/product/codingplan.html"
+          "sourceUrl": "https://cloud.baidu.com/product/codingplan.html",
+          "vendor": "DeepSeek",
+          "model": "deepseek-v41-flash",
+          "modelLabel": "V4.1 Flash"
         },
         {
           "platform": "天翼云",
@@ -483,7 +549,10 @@
           "verify": "pending",
           "tier": "B",
           "note": "25,000积分，无兑换系数",
-          "sourceUrl": "https://www.ctyun.cn/products/31761580"
+          "sourceUrl": "https://www.ctyun.cn/products/31761580",
+          "vendor": "DeepSeek",
+          "model": "deepseek-v41-flash",
+          "modelLabel": "V4.1 Flash"
         },
         {
           "platform": "腾讯云",
@@ -497,7 +566,10 @@
           "verify": "pending",
           "tier": "B",
           "note": "11,980积分，无兑换系数",
-          "sourceUrl": "https://cloud.tencent.com/document/product/1823/130060"
+          "sourceUrl": "https://cloud.tencent.com/document/product/1823/130060",
+          "vendor": "DeepSeek",
+          "model": "deepseek-v41-flash",
+          "modelLabel": "V4.1 Flash"
         }
       ]
     },
@@ -519,7 +591,10 @@
           "verify": "unverified",
           "tier": "B",
           "note": "按GLM-5.3实测锚点×系数比1.8换算",
-          "sourceUrl": "https://docs.volcengine.com/docs/82379/1544106"
+          "sourceUrl": "https://docs.volcengine.com/docs/82379/1544106",
+          "vendor": "字节跳动",
+          "model": "doubao-evolving",
+          "modelLabel": "Seed-Evolving"
         },
         {
           "platform": "火山引擎",
@@ -534,7 +609,10 @@
           "verify": "unverified",
           "tier": "B",
           "note": "同上换算口径",
-          "sourceUrl": "https://docs.volcengine.com/docs/82379/1544106"
+          "sourceUrl": "https://docs.volcengine.com/docs/82379/1544106",
+          "vendor": "字节跳动",
+          "model": "doubao-21-turbo",
+          "modelLabel": "Seed-2.1-Turbo"
         },
         {
           "platform": "火山方舟",
@@ -549,7 +627,10 @@
           "verify": "unverified",
           "tier": "B",
           "note": "Batch 1.50/7.50；Fast档 6.00/30.00",
-          "sourceUrl": "https://docs.volcengine.com/docs/82379/1544106"
+          "sourceUrl": "https://docs.volcengine.com/docs/82379/1544106",
+          "vendor": "字节跳动",
+          "model": "doubao-21-turbo",
+          "modelLabel": "Seed-2.1-Turbo"
         },
         {
           "platform": "火山方舟",
@@ -564,7 +645,10 @@
           "verify": "unverified",
           "tier": "B",
           "note": "1M上下文、最大输出256k",
-          "sourceUrl": "https://docs.volcengine.com/docs/82379/1544106"
+          "sourceUrl": "https://docs.volcengine.com/docs/82379/1544106",
+          "vendor": "字节跳动",
+          "model": "doubao-evolving",
+          "modelLabel": "Seed-Evolving"
         },
         {
           "platform": "火山方舟",
@@ -579,7 +663,10 @@
           "verify": "unverified",
           "tier": "B",
           "note": "与 Seed-Evolving 按量价相同",
-          "sourceUrl": "https://docs.volcengine.com/docs/82379/1544106"
+          "sourceUrl": "https://docs.volcengine.com/docs/82379/1544106",
+          "vendor": "字节跳动",
+          "model": "doubao-21-pro",
+          "modelLabel": "Seed-2.1-Pro"
         }
       ]
     },
@@ -600,7 +687,10 @@
           "verify": "unverified",
           "tier": "B",
           "note": "三档计价，1M档输入1.20/输出4.80；Batch 约5折",
-          "sourceUrl": "https://help.aliyun.com/zh/model-studio/models"
+          "sourceUrl": "https://help.aliyun.com/zh/model-studio/models",
+          "vendor": "阿里",
+          "model": "qwen37-flash",
+          "modelLabel": "Qwen3.7-Flash"
         },
         {
           "platform": "移动云",
@@ -615,7 +705,10 @@
           "verify": "nominal",
           "tier": "C",
           "note": "套餐内为 2026-01 快照版 Qwen3-max",
-          "sourceUrl": "manual://移动云政企报价文件"
+          "sourceUrl": "manual://移动云政企报价文件",
+          "vendor": "阿里",
+          "model": "qwen3-max",
+          "modelLabel": "Qwen3-max"
         },
         {
           "platform": "阿里百炼",
@@ -630,7 +723,10 @@
           "verify": "unverified",
           "tier": "B",
           "note": "夜间22:00-次日8:00 限时4折≈8.00",
-          "sourceUrl": "https://help.aliyun.com/zh/model-studio/models"
+          "sourceUrl": "https://help.aliyun.com/zh/model-studio/models",
+          "vendor": "阿里",
+          "model": "qwen38-max",
+          "modelLabel": "Qwen3.8-Max"
         },
         {
           "platform": "阿里百炼",
@@ -644,7 +740,10 @@
           "verify": "pending",
           "tier": "B",
           "note": "四档 39/79/139/499（原价60/120/180/600），Credits 11,500/25,500/45,000/180,000",
-          "sourceUrl": "https://help.aliyun.com/zh/model-studio/token-plan-personal-overview"
+          "sourceUrl": "https://help.aliyun.com/zh/model-studio/token-plan-personal-overview",
+          "vendor": "阿里",
+          "model": "qwen38-max",
+          "modelLabel": "Qwen3.8-Max"
         },
         {
           "platform": "阿里百炼",
@@ -658,7 +757,10 @@
           "verify": "pending",
           "tier": "B",
           "note": "250,000 Credits；千问折算系数待核实",
-          "sourceUrl": "https://help.aliyun.com/zh/model-studio/token-plan-personal-overview"
+          "sourceUrl": "https://help.aliyun.com/zh/model-studio/token-plan-personal-overview",
+          "vendor": "阿里",
+          "model": "qwen38-max",
+          "modelLabel": "Qwen3.8-Max"
         }
       ]
     },
@@ -680,7 +782,10 @@
           "verify": "unverified",
           "tier": "B",
           "note": "与同套餐GLM-5.3实测2.5亿Token互为印证",
-          "sourceUrl": "https://docs.volcengine.com/docs/82379/1544106"
+          "sourceUrl": "https://docs.volcengine.com/docs/82379/1544106",
+          "vendor": "月之暗面",
+          "model": "kimi-k27-code",
+          "modelLabel": "K2.7-Code"
         },
         {
           "platform": "火山引擎",
@@ -695,7 +800,10 @@
           "verify": "unverified",
           "tier": "B",
           "note": "全系最高抵扣系数，可用量约1.125亿Token/月",
-          "sourceUrl": "https://docs.volcengine.com/docs/82379/1544106"
+          "sourceUrl": "https://docs.volcengine.com/docs/82379/1544106",
+          "vendor": "月之暗面",
+          "model": "kimi-k3",
+          "modelLabel": "K3"
         },
         {
           "platform": "华为云",
@@ -710,7 +818,10 @@
           "verify": "unverified",
           "tier": "B",
           "note": "Token制直接折算",
-          "sourceUrl": "https://support.huaweicloud.com/Token-plan-maas/"
+          "sourceUrl": "https://support.huaweicloud.com/Token-plan-maas/",
+          "vendor": "月之暗面",
+          "model": "kimi-k26",
+          "modelLabel": "K2.6"
         },
         {
           "platform": "Kimi 官方",
@@ -725,7 +836,10 @@
           "verify": "unverified",
           "tier": "B",
           "note": "Batch API 为标准价6折",
-          "sourceUrl": "https://platform.kimi.com/docs/pricing/chat"
+          "sourceUrl": "https://platform.kimi.com/docs/pricing/chat",
+          "vendor": "月之暗面",
+          "model": "kimi-k27-code",
+          "modelLabel": "K2.7-Code"
         },
         {
           "platform": "Kimi 官方",
@@ -740,7 +854,10 @@
           "verify": "unverified",
           "tier": "B",
           "note": "缓存写入20元（5分钟）/40元（1小时）；1M上下文",
-          "sourceUrl": "https://platform.kimi.com/docs/pricing/chat"
+          "sourceUrl": "https://platform.kimi.com/docs/pricing/chat",
+          "vendor": "月之暗面",
+          "model": "kimi-k3",
+          "modelLabel": "K3"
         }
       ]
     }
@@ -863,10 +980,10 @@
       "changed": false,
       "samples": [],
       "note": "页面正文由前端渲染，抓不到价格文本，仅能监控 HTTP 可达性",
-      "ms": 667,
+      "ms": 582,
       "signals": 0,
       "fingerprint": "1505",
-      "checkedAt": "2026-11-14 21:47"
+      "checkedAt": "2026-11-14 22:20"
     },
     {
       "id": "aliyun-tokenplan",
@@ -877,10 +994,10 @@
       "hint": "Credits 档位与限时价",
       "changed": false,
       "samples": [],
-      "ms": 608,
+      "ms": 533,
       "signals": 3,
       "fingerprint": "16e6d9a0",
-      "checkedAt": "2026-11-14 21:47"
+      "checkedAt": "2026-11-14 22:20"
     },
     {
       "id": "qianfan-codingplan",
@@ -892,10 +1009,10 @@
       "changed": false,
       "samples": [],
       "note": "页面正文由前端渲染，抓不到价格文本，仅能监控 HTTP 可达性",
-      "ms": 292,
+      "ms": 301,
       "signals": 2,
       "fingerprint": "66407d59",
-      "checkedAt": "2026-11-14 21:47"
+      "checkedAt": "2026-11-14 22:20"
     },
     {
       "id": "huawei-maas",
@@ -907,10 +1024,10 @@
       "changed": false,
       "samples": [],
       "note": "页面正文由前端渲染，抓不到价格文本，仅能监控 HTTP 可达性",
-      "ms": 252,
+      "ms": 217,
       "signals": 0,
       "fingerprint": "1505",
-      "checkedAt": "2026-11-14 21:47"
+      "checkedAt": "2026-11-14 22:20"
     },
     {
       "id": "volcengine-price",
@@ -921,10 +1038,10 @@
       "hint": "抵扣系数调整会改变套餐等效单价",
       "changed": false,
       "samples": [],
-      "ms": 1186,
+      "ms": 1801,
       "signals": 25,
       "fingerprint": "4c1a3fed",
-      "checkedAt": "2026-11-14 21:47"
+      "checkedAt": "2026-11-14 22:20"
     },
     {
       "id": "volcengine-codingplan",
@@ -935,10 +1052,10 @@
       "hint": "促销折扣与套餐价",
       "changed": false,
       "samples": [],
-      "ms": 484,
+      "ms": 469,
       "signals": 5,
       "fingerprint": "d253312",
-      "checkedAt": "2026-11-14 21:47"
+      "checkedAt": "2026-11-14 22:20"
     },
     {
       "id": "unicom-tokenplan",
@@ -950,10 +1067,10 @@
       "changed": false,
       "samples": [],
       "note": "页面正文由前端渲染，抓不到价格文本，仅能监控 HTTP 可达性",
-      "ms": 450,
+      "ms": 316,
       "signals": 0,
       "fingerprint": "1505",
-      "checkedAt": "2026-11-14 21:47"
+      "checkedAt": "2026-11-14 22:20"
     },
     {
       "id": "tencent-tokenhub",
@@ -964,10 +1081,10 @@
       "hint": "积分兑换系数",
       "changed": false,
       "samples": [],
-      "ms": 392,
+      "ms": 422,
       "signals": 8,
       "fingerprint": "6c0e255c",
-      "checkedAt": "2026-11-14 21:47"
+      "checkedAt": "2026-11-14 22:20"
     },
     {
       "id": "ctyun-tokenhub",
@@ -978,10 +1095,10 @@
       "hint": "积分制档位",
       "changed": false,
       "samples": [],
-      "ms": 874,
+      "ms": 1066,
       "signals": 6,
       "fingerprint": "8e3865f7",
-      "checkedAt": "2026-11-14 21:47"
+      "checkedAt": "2026-11-14 22:20"
     },
     {
       "id": "kimi-pricing",
@@ -993,10 +1110,10 @@
       "changed": false,
       "samples": [],
       "note": "页面正文由前端渲染，抓不到价格文本，仅能监控 HTTP 可达性",
-      "ms": 700,
+      "ms": 604,
       "signals": 0,
       "fingerprint": "1505",
-      "checkedAt": "2026-11-14 21:47"
+      "checkedAt": "2026-11-14 22:20"
     }
   ],
   "sources": [
@@ -1006,7 +1123,7 @@
       "url": "https://api-docs.deepseek.com/zh-cn/quick_start/pricing",
       "tier": "A",
       "status": "ok",
-      "ms": 528,
+      "ms": 367,
       "parsed": true,
       "items": 2,
       "columns": [
@@ -1020,7 +1137,7 @@
       "url": "https://openrouter.ai/api/v1/models",
       "tier": "A",
       "status": "ok",
-      "ms": 3902,
+      "ms": 2788,
       "parsed": true,
       "items": 100
     },
@@ -1040,7 +1157,7 @@
       "url": "https://docs.bigmodel.cn/cn/coding-plan/overview.md",
       "tier": "A",
       "status": "ok",
-      "ms": 246,
+      "ms": 310,
       "parsed": true,
       "items": 3
     }
@@ -1087,6 +1204,14 @@
       "blendedCny": 0.923
     },
     {
+      "id": "qwen/qwen3.5-9b",
+      "name": "Qwen: Qwen3.5-9B",
+      "context": 262144,
+      "inputCny": 0.866,
+      "outputCny": 1.278,
+      "blendedCny": 1.003
+    },
+    {
       "id": "qwen/qwen3-32b",
       "name": "Qwen: Qwen3 32B",
       "context": 131072,
@@ -1117,14 +1242,6 @@
       "inputCny": 0.43,
       "outputCny": 2.84,
       "blendedCny": 1.233
-    },
-    {
-      "id": "qwen/qwen3.5-9b",
-      "name": "Qwen: Qwen3.5-9B",
-      "context": 262144,
-      "inputCny": 1.2,
-      "outputCny": 1.761,
-      "blendedCny": 1.387
     },
     {
       "id": "qwen/qwen3-30b-a3b",

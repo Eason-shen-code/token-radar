@@ -135,6 +135,18 @@ Windows 下双击 `更新价格.cmd` 等同执行前两步。
 
 `price_diffs` 表存的仍是「相对基线的累计差异」存档，不是日环比。
 
+## 七之三、型号归位（2026-11-14）
+
+页面改成「厂商 → 型号」两级标签后，`data/baseline.json` 的每行新增两个字段：
+
+- `vendor`：模型归属厂商（智谱 / DeepSeek / 字节跳动 / 阿里 / 月之暗面），不是销售平台
+- `model`：具体型号 id，如 `glm-5.3`、`deepseek-v41-flash`、`kimi-k3`
+- `modelLabel`：展示用短名
+
+为什么必须加：原来的 6 个「模型族」里混着不同型号——`glm-5.3` 族里塞了移动云、天翼云的 **GLM-5.2** 套餐，`doubao` 族里塞了 Evolving / 2.1-Turbo / 2.1-Pro 三个型号。不拆开，任何「同型号比价」都是假的。
+
+**新增套餐行时必须补这三个字段**，否则会落到「其他」厂商下。`vendor` 填的是被调用的模型厂商，不是卖它的云平台（火山卖 GLM-5.3，vendor 仍是智谱）。
+
 ## 八、维护约定
 
 - **要新增源**：在 `config/sources.json` 加一条，写入 `id/name/url/type/tier`；能解析的再加适配器到 `scripts/parse.mjs`

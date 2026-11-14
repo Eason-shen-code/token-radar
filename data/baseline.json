@@ -21,7 +21,10 @@
           "verify": "measured",
           "tier": "B",
           "note": "月额度2.5亿Token为实测用量；抵扣系数4.5",
-          "sourceUrl": "https://www.volcengine.com/activity/ai618"
+          "sourceUrl": "https://www.volcengine.com/activity/ai618",
+          "vendor": "智谱",
+          "model": "glm-5.3",
+          "modelLabel": "GLM-5.3"
         },
         {
           "platform": "百度千帆",
@@ -36,7 +39,10 @@
           "verify": "measured",
           "tier": "B",
           "note": "实测13亿为GLM-5.2口径（消耗梯度折扣期）；GLM-5.3额度未实测",
-          "sourceUrl": "https://cloud.baidu.com/product/codingplan.html"
+          "sourceUrl": "https://cloud.baidu.com/product/codingplan.html",
+          "vendor": "智谱",
+          "model": "glm-5.3",
+          "modelLabel": "GLM-5.3"
         },
         {
           "platform": "智谱官方",
@@ -51,7 +57,10 @@
           "verify": "measured",
           "tier": "A",
           "note": "140,000积分/周≈15亿Token/月；套餐限单人使用",
-          "sourceUrl": "https://docs.bigmodel.cn/cn/coding-plan/overview.md"
+          "sourceUrl": "https://docs.bigmodel.cn/cn/coding-plan/overview.md",
+          "vendor": "智谱",
+          "model": "glm-5.3",
+          "modelLabel": "GLM-5.3"
         },
         {
           "platform": "移动云",
@@ -66,7 +75,10 @@
           "verify": "nominal",
           "tier": "C",
           "note": "政企报价 5,000元 = 55亿Token，实测未观测到缓存命中，有效单价高于标称",
-          "sourceUrl": "manual://移动云政企报价文件"
+          "sourceUrl": "manual://移动云政企报价文件",
+          "vendor": "智谱",
+          "model": "glm-5.2",
+          "modelLabel": "GLM-5.2"
         },
         {
           "platform": "华为云",
@@ -81,7 +93,10 @@
           "verify": "unverified",
           "tier": "B",
           "note": "Token制直接折算，未实测",
-          "sourceUrl": "https://support.huaweicloud.com/Token-plan-maas/"
+          "sourceUrl": "https://support.huaweicloud.com/Token-plan-maas/",
+          "vendor": "智谱",
+          "model": "glm-5.3",
+          "modelLabel": "GLM-5.3"
         },
         {
           "platform": "阿里百炼",
@@ -96,7 +111,10 @@
           "verify": "measured",
           "tier": "B",
           "note": "250,000 Credits 实测=12亿Token；缓存命中未专门验证",
-          "sourceUrl": "https://help.aliyun.com/zh/model-studio/token-plan-personal-overview"
+          "sourceUrl": "https://help.aliyun.com/zh/model-studio/token-plan-personal-overview",
+          "vendor": "智谱",
+          "model": "glm-5.3",
+          "modelLabel": "GLM-5.3"
         },
         {
           "platform": "天翼云",
@@ -111,7 +129,10 @@
           "verify": "pending",
           "tier": "B",
           "note": "25,000积分；无官方兑换系数，待实测",
-          "sourceUrl": "https://www.ctyun.cn/products/31761580"
+          "sourceUrl": "https://www.ctyun.cn/products/31761580",
+          "vendor": "智谱",
+          "model": "glm-5.2",
+          "modelLabel": "GLM-5.2"
         },
         {
           "platform": "腾讯云",
@@ -126,7 +147,10 @@
           "verify": "pending",
           "tier": "B",
           "note": "11,980积分；暂无官方兑换系数",
-          "sourceUrl": "https://cloud.tencent.com/document/product/1823/130060"
+          "sourceUrl": "https://cloud.tencent.com/document/product/1823/130060",
+          "vendor": "智谱",
+          "model": "glm-5.3",
+          "modelLabel": "GLM-5.3"
         },
         {
           "platform": "联通云",
@@ -141,7 +165,10 @@
           "verify": "unsupported",
           "tier": "B",
           "note": "仅支持 DeepSeek V4-Flash、MiniMax",
-          "sourceUrl": "https://www.cucloud.cn/product/tokenplan.html"
+          "sourceUrl": "https://www.cucloud.cn/product/tokenplan.html",
+          "vendor": "智谱",
+          "model": "glm-5.3",
+          "modelLabel": "GLM-5.3"
         }
       ]
     },
@@ -163,23 +190,29 @@
           "verify": "unverified",
           "tier": "B",
           "note": "按抵扣系数5.5折算，套餐总额度约112,500 AFP/月",
-          "sourceUrl": "https://docs.volcengine.com/docs/82379/1544106"
+          "sourceUrl": "https://docs.volcengine.com/docs/82379/1544106",
+          "vendor": "DeepSeek",
+          "model": "deepseek-v4-pro",
+          "modelLabel": "V4 Pro"
         },
         {
           "platform": "DeepSeek 官方",
           "product": "API 按量",
           "billing": "按量计费",
           "modelNote": "DeepSeek V4 Pro",
-          "priceIn": 3.0,
-          "priceOut": 6.0,
+          "priceIn": 3,
+          "priceOut": 6,
           "priceInCache": 0.025,
-          "unitPrice": 4.0,
+          "unitPrice": 4,
           "unitPriceMeasured": 3.5,
-          "unitPriceNormal": 4.0,
+          "unitPriceNormal": 4,
           "verify": "measured",
           "tier": "A",
           "note": "4.00为官方综合（输入:输出=2:1）；实测约3.50，低约12%",
-          "sourceUrl": "https://api-docs.deepseek.com/zh-cn/quick_start/pricing"
+          "sourceUrl": "https://api-docs.deepseek.com/zh-cn/quick_start/pricing",
+          "vendor": "DeepSeek",
+          "model": "deepseek-v4-pro",
+          "modelLabel": "V4 Pro"
         },
         {
           "platform": "华为云",
@@ -193,7 +226,10 @@
           "verify": "unsupported",
           "tier": "B",
           "note": "官方支持列表未含 V4 Pro",
-          "sourceUrl": "https://support.huaweicloud.com/Token-plan-maas/"
+          "sourceUrl": "https://support.huaweicloud.com/Token-plan-maas/",
+          "vendor": "DeepSeek",
+          "model": "deepseek-v4-pro",
+          "modelLabel": "V4 Pro"
         },
         {
           "platform": "移动云",
@@ -207,7 +243,10 @@
           "verify": "pending",
           "tier": "C",
           "note": "V4 Pro 支持情况待核实",
-          "sourceUrl": "manual://移动云政企报价文件"
+          "sourceUrl": "manual://移动云政企报价文件",
+          "vendor": "DeepSeek",
+          "model": "deepseek-v4-pro",
+          "modelLabel": "V4 Pro"
         },
         {
           "platform": "百度千帆",
@@ -221,7 +260,10 @@
           "verify": "pending",
           "tier": "B",
           "note": "Token制与积分制口径并存，可用量待实测",
-          "sourceUrl": "https://cloud.baidu.com/product/codingplan.html"
+          "sourceUrl": "https://cloud.baidu.com/product/codingplan.html",
+          "vendor": "DeepSeek",
+          "model": "deepseek-v4-pro",
+          "modelLabel": "V4 Pro"
         },
         {
           "platform": "天翼云",
@@ -235,7 +277,10 @@
           "verify": "pending",
           "tier": "B",
           "note": "25,000积分，无兑换系数",
-          "sourceUrl": "https://www.ctyun.cn/products/31761580"
+          "sourceUrl": "https://www.ctyun.cn/products/31761580",
+          "vendor": "DeepSeek",
+          "model": "deepseek-v4-pro",
+          "modelLabel": "V4 Pro"
         },
         {
           "platform": "腾讯云",
@@ -249,7 +294,10 @@
           "verify": "pending",
           "tier": "B",
           "note": "11,980积分，无兑换系数",
-          "sourceUrl": "https://cloud.tencent.com/document/product/1823/130060"
+          "sourceUrl": "https://cloud.tencent.com/document/product/1823/130060",
+          "vendor": "DeepSeek",
+          "model": "deepseek-v4-pro",
+          "modelLabel": "V4 Pro"
         }
       ]
     },
@@ -271,15 +319,18 @@
           "verify": "unverified",
           "tier": "B",
           "note": "限时折扣期折算0.06（常态0.22）；可用量约4.5亿，折扣期约9亿",
-          "sourceUrl": "https://docs.volcengine.com/docs/82379/1544106"
+          "sourceUrl": "https://docs.volcengine.com/docs/82379/1544106",
+          "vendor": "DeepSeek",
+          "model": "deepseek-v41-flash",
+          "modelLabel": "V4.1 Flash"
         },
         {
           "platform": "DeepSeek 官方",
           "product": "API 按量",
           "billing": "按量计费",
           "modelNote": "DeepSeek V4.1 Flash",
-          "priceIn": 1.0,
-          "priceOut": 2.0,
+          "priceIn": 1,
+          "priceOut": 2,
           "priceInCache": 0.02,
           "unitPrice": 1.33,
           "unitPriceMeasured": 0.7,
@@ -287,7 +338,10 @@
           "verify": "measured",
           "tier": "A",
           "note": "实测约0.70，较官方综合低约47%",
-          "sourceUrl": "https://api-docs.deepseek.com/zh-cn/quick_start/pricing"
+          "sourceUrl": "https://api-docs.deepseek.com/zh-cn/quick_start/pricing",
+          "vendor": "DeepSeek",
+          "model": "deepseek-v41-flash",
+          "modelLabel": "V4.1 Flash"
         },
         {
           "platform": "联通云",
@@ -302,7 +356,10 @@
           "verify": "unverified",
           "tier": "B",
           "note": "个人版15/30/45元三档，单价恒定2.50；团队版1,398元含25万Credits≈20亿Token，约0.70",
-          "sourceUrl": "https://www.cucloud.cn/product/tokenplan.html"
+          "sourceUrl": "https://www.cucloud.cn/product/tokenplan.html",
+          "vendor": "DeepSeek",
+          "model": "deepseek-v41-flash",
+          "modelLabel": "V4.1 Flash"
         },
         {
           "platform": "华为云",
@@ -317,7 +374,10 @@
           "verify": "unverified",
           "tier": "B",
           "note": "Token制直接折算",
-          "sourceUrl": "https://support.huaweicloud.com/Token-plan-maas/"
+          "sourceUrl": "https://support.huaweicloud.com/Token-plan-maas/",
+          "vendor": "DeepSeek",
+          "model": "deepseek-v41-flash",
+          "modelLabel": "V4.1 Flash"
         },
         {
           "platform": "移动云",
@@ -331,7 +391,10 @@
           "verify": "pending",
           "tier": "C",
           "note": "支持情况待核实",
-          "sourceUrl": "manual://移动云政企报价文件"
+          "sourceUrl": "manual://移动云政企报价文件",
+          "vendor": "DeepSeek",
+          "model": "deepseek-v41-flash",
+          "modelLabel": "V4.1 Flash"
         },
         {
           "platform": "百度千帆",
@@ -345,7 +408,10 @@
           "verify": "pending",
           "tier": "B",
           "note": "可用量与折算单价待实测",
-          "sourceUrl": "https://cloud.baidu.com/product/codingplan.html"
+          "sourceUrl": "https://cloud.baidu.com/product/codingplan.html",
+          "vendor": "DeepSeek",
+          "model": "deepseek-v41-flash",
+          "modelLabel": "V4.1 Flash"
         },
         {
           "platform": "天翼云",
@@ -359,7 +425,10 @@
           "verify": "pending",
           "tier": "B",
           "note": "25,000积分，无兑换系数",
-          "sourceUrl": "https://www.ctyun.cn/products/31761580"
+          "sourceUrl": "https://www.ctyun.cn/products/31761580",
+          "vendor": "DeepSeek",
+          "model": "deepseek-v41-flash",
+          "modelLabel": "V4.1 Flash"
         },
         {
           "platform": "腾讯云",
@@ -373,7 +442,10 @@
           "verify": "pending",
           "tier": "B",
           "note": "11,980积分，无兑换系数",
-          "sourceUrl": "https://cloud.tencent.com/document/product/1823/130060"
+          "sourceUrl": "https://cloud.tencent.com/document/product/1823/130060",
+          "vendor": "DeepSeek",
+          "model": "deepseek-v41-flash",
+          "modelLabel": "V4.1 Flash"
         }
       ]
     },
@@ -395,7 +467,10 @@
           "verify": "unverified",
           "tier": "B",
           "note": "按GLM-5.3实测锚点×系数比1.8换算",
-          "sourceUrl": "https://docs.volcengine.com/docs/82379/1544106"
+          "sourceUrl": "https://docs.volcengine.com/docs/82379/1544106",
+          "vendor": "字节跳动",
+          "model": "doubao-evolving",
+          "modelLabel": "Seed-Evolving"
         },
         {
           "platform": "火山引擎",
@@ -410,52 +485,64 @@
           "verify": "unverified",
           "tier": "B",
           "note": "同上换算口径",
-          "sourceUrl": "https://docs.volcengine.com/docs/82379/1544106"
+          "sourceUrl": "https://docs.volcengine.com/docs/82379/1544106",
+          "vendor": "字节跳动",
+          "model": "doubao-21-turbo",
+          "modelLabel": "Seed-2.1-Turbo"
         },
         {
           "platform": "火山方舟",
           "product": "API 按量",
           "billing": "按量计费",
           "modelNote": "Doubao-Seed-2.1-Turbo",
-          "priceIn": 3.0,
-          "priceOut": 15.0,
+          "priceIn": 3,
+          "priceOut": 15,
           "priceInCache": 0.6,
-          "unitPrice": 7.0,
-          "unitPriceNormal": 7.0,
+          "unitPrice": 7,
+          "unitPriceNormal": 7,
           "verify": "unverified",
           "tier": "B",
           "note": "Batch 1.50/7.50；Fast档 6.00/30.00",
-          "sourceUrl": "https://docs.volcengine.com/docs/82379/1544106"
+          "sourceUrl": "https://docs.volcengine.com/docs/82379/1544106",
+          "vendor": "字节跳动",
+          "model": "doubao-21-turbo",
+          "modelLabel": "Seed-2.1-Turbo"
         },
         {
           "platform": "火山方舟",
           "product": "API 按量",
           "billing": "按量计费",
           "modelNote": "Doubao-Seed-Evolving",
-          "priceIn": 6.0,
-          "priceOut": 30.0,
+          "priceIn": 6,
+          "priceOut": 30,
           "priceInCache": 1.2,
-          "unitPrice": 14.0,
-          "unitPriceNormal": 14.0,
+          "unitPrice": 14,
+          "unitPriceNormal": 14,
           "verify": "unverified",
           "tier": "B",
           "note": "1M上下文、最大输出256k",
-          "sourceUrl": "https://docs.volcengine.com/docs/82379/1544106"
+          "sourceUrl": "https://docs.volcengine.com/docs/82379/1544106",
+          "vendor": "字节跳动",
+          "model": "doubao-evolving",
+          "modelLabel": "Seed-Evolving"
         },
         {
           "platform": "火山方舟",
           "product": "API 按量",
           "billing": "按量计费",
           "modelNote": "Doubao-Seed-2.1-Pro",
-          "priceIn": 6.0,
-          "priceOut": 30.0,
+          "priceIn": 6,
+          "priceOut": 30,
           "priceInCache": 1.2,
-          "unitPrice": 14.0,
-          "unitPriceNormal": 14.0,
+          "unitPrice": 14,
+          "unitPriceNormal": 14,
           "verify": "unverified",
           "tier": "B",
           "note": "与 Seed-Evolving 按量价相同",
-          "sourceUrl": "https://docs.volcengine.com/docs/82379/1544106"
+          "sourceUrl": "https://docs.volcengine.com/docs/82379/1544106",
+          "vendor": "字节跳动",
+          "model": "doubao-21-pro",
+          "modelLabel": "Seed-2.1-Pro"
         }
       ]
     },
@@ -476,7 +563,10 @@
           "verify": "unverified",
           "tier": "B",
           "note": "三档计价，1M档输入1.20/输出4.80；Batch 约5折",
-          "sourceUrl": "https://help.aliyun.com/zh/model-studio/models"
+          "sourceUrl": "https://help.aliyun.com/zh/model-studio/models",
+          "vendor": "阿里",
+          "model": "qwen37-flash",
+          "modelLabel": "Qwen3.7-Flash"
         },
         {
           "platform": "移动云",
@@ -491,22 +581,28 @@
           "verify": "nominal",
           "tier": "C",
           "note": "套餐内为 2026-01 快照版 Qwen3-max",
-          "sourceUrl": "manual://移动云政企报价文件"
+          "sourceUrl": "manual://移动云政企报价文件",
+          "vendor": "阿里",
+          "model": "qwen3-max",
+          "modelLabel": "Qwen3-max"
         },
         {
           "platform": "阿里百炼",
           "product": "API 按量（Qwen3.8-Max）",
           "billing": "按量计费",
           "modelNote": "Qwen3.8-Max",
-          "priceIn": 12.0,
-          "priceOut": 36.0,
+          "priceIn": 12,
+          "priceOut": 36,
           "priceInCache": 1.5,
-          "unitPrice": 20.0,
-          "unitPriceNormal": 20.0,
+          "unitPrice": 20,
+          "unitPriceNormal": 20,
           "verify": "unverified",
           "tier": "B",
           "note": "夜间22:00-次日8:00 限时4折≈8.00",
-          "sourceUrl": "https://help.aliyun.com/zh/model-studio/models"
+          "sourceUrl": "https://help.aliyun.com/zh/model-studio/models",
+          "vendor": "阿里",
+          "model": "qwen38-max",
+          "modelLabel": "Qwen3.8-Max"
         },
         {
           "platform": "阿里百炼",
@@ -520,7 +616,10 @@
           "verify": "pending",
           "tier": "B",
           "note": "四档 39/79/139/499（原价60/120/180/600），Credits 11,500/25,500/45,000/180,000",
-          "sourceUrl": "https://help.aliyun.com/zh/model-studio/token-plan-personal-overview"
+          "sourceUrl": "https://help.aliyun.com/zh/model-studio/token-plan-personal-overview",
+          "vendor": "阿里",
+          "model": "qwen38-max",
+          "modelLabel": "Qwen3.8-Max"
         },
         {
           "platform": "阿里百炼",
@@ -534,7 +633,10 @@
           "verify": "pending",
           "tier": "B",
           "note": "250,000 Credits；千问折算系数待核实",
-          "sourceUrl": "https://help.aliyun.com/zh/model-studio/token-plan-personal-overview"
+          "sourceUrl": "https://help.aliyun.com/zh/model-studio/token-plan-personal-overview",
+          "vendor": "阿里",
+          "model": "qwen38-max",
+          "modelLabel": "Qwen3.8-Max"
         }
       ]
     },
@@ -556,7 +658,10 @@
           "verify": "unverified",
           "tier": "B",
           "note": "与同套餐GLM-5.3实测2.5亿Token互为印证",
-          "sourceUrl": "https://docs.volcengine.com/docs/82379/1544106"
+          "sourceUrl": "https://docs.volcengine.com/docs/82379/1544106",
+          "vendor": "月之暗面",
+          "model": "kimi-k27-code",
+          "modelLabel": "K2.7-Code"
         },
         {
           "platform": "火山引擎",
@@ -571,7 +676,10 @@
           "verify": "unverified",
           "tier": "B",
           "note": "全系最高抵扣系数，可用量约1.125亿Token/月",
-          "sourceUrl": "https://docs.volcengine.com/docs/82379/1544106"
+          "sourceUrl": "https://docs.volcengine.com/docs/82379/1544106",
+          "vendor": "月之暗面",
+          "model": "kimi-k3",
+          "modelLabel": "K3"
         },
         {
           "platform": "华为云",
@@ -586,7 +694,10 @@
           "verify": "unverified",
           "tier": "B",
           "note": "Token制直接折算",
-          "sourceUrl": "https://support.huaweicloud.com/Token-plan-maas/"
+          "sourceUrl": "https://support.huaweicloud.com/Token-plan-maas/",
+          "vendor": "月之暗面",
+          "model": "kimi-k26",
+          "modelLabel": "K2.6"
         },
         {
           "platform": "Kimi 官方",
@@ -594,31 +705,38 @@
           "billing": "按量计费",
           "modelNote": "Kimi K2.7-Code",
           "priceIn": 6.5,
-          "priceOut": 27.0,
+          "priceOut": 27,
           "priceInCache": 1.3,
           "unitPrice": 13.33,
           "unitPriceNormal": 13.33,
           "verify": "unverified",
           "tier": "B",
           "note": "Batch API 为标准价6折",
-          "sourceUrl": "https://platform.kimi.com/docs/pricing/chat"
+          "sourceUrl": "https://platform.kimi.com/docs/pricing/chat",
+          "vendor": "月之暗面",
+          "model": "kimi-k27-code",
+          "modelLabel": "K2.7-Code"
         },
         {
           "platform": "Kimi 官方",
           "product": "API 按量（K3）",
           "billing": "按量计费",
           "modelNote": "Kimi K3",
-          "priceIn": 20.0,
-          "priceOut": 100.0,
-          "priceInCache": 2.0,
+          "priceIn": 20,
+          "priceOut": 100,
+          "priceInCache": 2,
           "unitPrice": 46.67,
           "unitPriceNormal": 46.67,
           "verify": "unverified",
           "tier": "B",
           "note": "缓存写入20元（5分钟）/40元（1小时）；1M上下文",
-          "sourceUrl": "https://platform.kimi.com/docs/pricing/chat"
+          "sourceUrl": "https://platform.kimi.com/docs/pricing/chat",
+          "vendor": "月之暗面",
+          "model": "kimi-k3",
+          "modelLabel": "K3"
         }
       ]
     }
-  ]
+  ],
+  "catalogVersion": "2026-11-14"
 }

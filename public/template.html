@@ -102,6 +102,14 @@ body{
 .quote:last-child{border-bottom:none}
 .qh{display:flex;align-items:baseline;gap:8px}
 .qh .nm{font-size:13px;font-weight:600;flex:1;min-width:0;line-height:1.35;word-break:break-word}
+.chips{display:flex;gap:6px;overflow-x:auto;padding:0 14px 8px;scrollbar-width:none}
+.chips::-webkit-scrollbar{display:none}
+.chip{flex:0 0 auto;font-size:11.5px;padding:4px 11px;border-radius:14px;border:1px solid var(--line);background:transparent;color:var(--tx2);cursor:pointer;white-space:nowrap}
+.chip.on{background:var(--card2);border-color:var(--tx3);color:var(--tx);font-weight:600}
+.chartbox{background:var(--card2);border:1px solid var(--line);border-radius:10px;padding:9px 10px 8px;margin:6px 0}
+.chline{display:flex;justify-content:space-between;font-size:11px;color:var(--tx2);margin-bottom:4px}
+.legend{display:flex;flex-wrap:wrap;gap:10px;font-size:10.5px;color:var(--tx3);margin-top:4px}
+.legend i{display:inline-block;width:9px;height:2px;vertical-align:middle;margin-right:4px;border-radius:1px}
 .src-tag{display:inline-block;font-size:9.5px;padding:0 5px;border-radius:4px;margin-right:6px;vertical-align:1px;letter-spacing:.2px}
 .src-tag.live{background:rgba(55,138,221,.14);color:#3d7fc4;border:1px solid rgba(55,138,221,.3)}
 .src-tag.plan{background:rgba(224,118,28,.14);color:#c96a12;border:1px solid rgba(224,118,28,.3)}
@@ -373,7 +381,6 @@ details[open] summary::after{content:'－'}
     unsupported:['no', '不支持']
   };
 
-  let curModel = D.models[0].id;
   let curOrder = 'promo';
 
   function unitOf(r){ return curOrder==='normal' ? (r.unitPriceNormal ?? r.unitPrice) : (r.unitPrice ?? r.unitPriceNormal); }
@@ -418,21 +425,95 @@ details[open] summary::after{content:'－'}
       <polyline points="${poly}" fill="none" stroke="${color}" stroke-width="1.8" stroke-linejoin="round" stroke-linecap="round"/>${dots}${xl}</svg>`;
   }
 
-  const QUOTE_FAMILY = {
-    'zhipu:GLM-5.3': 'glm-5.3',
-    'zhipu:GLM-5.3-Flash': 'glm-5.3',
-    'zhipu:GLM-5.3-FlashX': 'glm-5.3',
-    'deepseek:deepseek-v4-pro:off': 'deepseek-v4-pro',
-    'deepseek:deepseek-v4-pro:peak': 'deepseek-v4-pro',
-    'deepseek:deepseek-v41-flash:off': 'deepseek-v41-flash',
-    'deepseek:deepseek-v41-flash:peak': 'deepseek-v41-flash'
+  const QUOTE_META = {
+    'zhipu:GLM-5.3':                ['智谱', 'glm-5.3', 'GLM-5.3'],
+    'zhipu:GLM-5.3-Flash':          ['智谱', 'glm-5.3-flash', 'GLM-5.3-Flash'],
+    'zhipu:GLM-5.3-FlashX':         ['智谱', 'glm-5.3-flashx', 'GLM-5.3-FlashX'],
+    'deepseek:deepseek-v4-pro:off':   ['DeepSeek', 'deepseek-v4-pro', 'V4 Pro'],
+    'deepseek:deepseek-v4-pro:peak':  ['DeepSeek', 'deepseek-v4-pro', 'V4 Pro'],
+    'deepseek:deepseek-v41-flash:off':  ['DeepSeek', 'deepseek-v41-flash', 'V4.1 Flash'],
+    'deepseek:deepseek-v41-flash:peak': ['DeepSeek', 'deepseek-v41-flash', 'V4.1 Flash']
   };
+  const VENDOR_ORDER = ['智谱', 'DeepSeek', '字节跳动', '阿里', '月之暗面'];
 
-  const PRIMARY_QUOTE = {
-    'glm-5.3': 'zhipu:GLM-5.3',
-    'deepseek-v4-pro': 'deepseek:deepseek-v4-pro:off',
-    'deepseek-v41-flash': 'deepseek:deepseek-v41-flash:off'
-  };
+  let curVendor = '智谱';
+  let curModelId = 'glm-5.3';
+
+  function buildCatalog(){
+    const vendors = new Map();
+    const touch = (v, mid, label) => {
+      if(!vendors.has(v)) vendors.set(v, new Map());
+      const ms = vendors.get(v);
+      if(!ms.has(mid)) ms.set(mid, { id: mid, label, rows: [], quotes: [] });
+      return ms.get(mid);
+    };
+
+    (D.models || []).forEach(fam => (fam.rows || []).forEach(r => {
+      const v = r.vendor || '其他';
+      const mid = r.model || fam.id;
+      const lab = r.modelLabel || fam.name || mid;
+      touch(v, mid, lab).rows.push(r);
+    }));
+
+    (D.liveQuotes || []).forEach(q => {
+      const meta = QUOTE_META[q.key];
+      if(!meta) return;
+      touch(meta[0], meta[1], meta[2]).quotes.push(q);
+    });
+
+    const list = [...vendors.entries()].map(([name, ms]) => ({
+      name,
+      models: [...ms.values()].sort((a, b) => {
+        const av = [...a.rows.map(unitOf), ...a.quotes.map(q => q.blended)].filter(x => x != null).sort((x, y) => x - y)[0];
+        const bv = [...b.rows.map(unitOf), ...b.quotes.map(q => q.blended)].filter(x => x != null).sort((x, y) => x - y)[0];
+        return (av ?? 1e9) - (bv ?? 1e9);
+      })
+    }));
+    list.sort((a, b) => {
+      const ai = VENDOR_ORDER.indexOf(a.name), bi = VENDOR_ORDER.indexOf(b.name);
+      return (ai < 0 ? 99 : ai) - (bi < 0 ? 99 : bi);
+    });
+    return list;
+  }
+
+  function shortName(q){
+    const m = q.label.match(/（(.+?)时段）/) || q.label.match(/（(.+?)）/);
+    if(m) return m[1].replace('时段', '');
+    if(/FlashX/i.test(q.label)) return 'FlashX';
+    if(/Flash/i.test(q.label)) return 'Flash';
+    return '官方按量';
+  }
+
+  function modelChart(seriesList){
+    const all = seriesList.flatMap(s => s.pts.map(p => p.v));
+    if(all.length < 2) return '';
+    const W = 320, H = 120, PL = 36, PR = 10, PT = 14, PB = 22;
+    let lo = Math.min(...all), hi = Math.max(...all);
+    const span = (hi - lo) || (hi * 0.4) || 1;
+    lo = Math.max(0, lo - span * 0.18); hi = hi + span * 0.18;
+    const dates = [...new Set(seriesList.flatMap(s => s.pts.map(p => p.date)))].sort();
+    const X = d => PL + (dates.length === 1 ? 0.5 : dates.indexOf(d) / (dates.length - 1)) * (W - PL - PR);
+    const Y = v => PT + (1 - (v - lo) / (hi - lo)) * (H - PT - PB);
+
+    const grid = [lo, (lo + hi) / 2, hi].map(v =>
+      `<line x1="${PL}" y1="${Y(v).toFixed(1)}" x2="${W - PR}" y2="${Y(v).toFixed(1)}" stroke="var(--line)" stroke-width="1"/>
+       <text x="${PL - 5}" y="${(Y(v) + 3).toFixed(1)}" text-anchor="end" font-size="8" fill="var(--tx3)">${v.toFixed(2)}</text>`).join('');
+
+    const lines = seriesList.map(s => {
+      if(s.pts.length < 2) return '';
+      const poly = s.pts.map(p => `${X(p.date).toFixed(1)},${Y(p.v).toFixed(1)}`).join(' ');
+      const dots = s.pts.length <= 20 ? s.pts.map(p => `<circle cx="${X(p.date).toFixed(1)}" cy="${Y(p.v).toFixed(1)}" r="1.6" fill="${s.color}"/>`).join('') : '';
+      return `<polyline points="${poly}" fill="none" stroke="${s.color}" stroke-width="1.8" stroke-linejoin="round" stroke-linecap="round"/>${dots}`;
+    }).join('');
+
+    const xl = `<text x="${PL}" y="${H - 6}" font-size="8" fill="var(--tx3)">${dates[0].slice(5)}</text>
+      <text x="${W - PR}" y="${H - 6}" text-anchor="end" font-size="8" fill="var(--tx3)">${dates[dates.length - 1].slice(5)}</text>`;
+
+    const legend = seriesList.length > 1
+      ? `<div class="legend">${seriesList.map(s => `<span><i style="background:${s.color}"></i>${esc(s.name)}</span>`).join('')}</div>` : '';
+
+    return `<svg viewBox="0 0 ${W} ${H}" style="width:100%;height:auto;display:block">${grid}${lines}${xl}</svg>${legend}`;
+  }
 
   function meteredRow(q, C, maxAll){
     const w = Math.max(2, (q.blended / maxAll) * 100);
@@ -441,15 +522,10 @@ details[open] summary::after{content:'－'}
     const todayLabel = D.stamp ? D.stamp.slice(5, 10) : '今日';
     const badge = main ? `<span class="badge ${main.kind}">${todayLabel} ${main.pct > 0 ? '+' : ''}${main.pct}%</span>` : '';
     const streak = (C.streaks || []).find(x => x.key === q.key);
-    const other = mine.filter(c => c !== main).map(c =>
-      `<div class="wt"><i class="st ok"></i><span class="nm">${esc(c.field)}</span>
-        <span class="rs" style="color:${c.kind === 'up' ? 'var(--up)' : 'var(--down)'}">¥${u2(c.from)} → ¥${u2(c.to)} · ${c.pct > 0 ? '+' : ''}${c.pct}%</span></div>`).join('');
-
-    return `<div class="quote" data-k="${esc(q.key)}">
+    return `<div class="quote plain">
       <div class="qh">
         <div class="nm"><span class="src-tag live">按量·实时</span>${esc(q.label)}${badge}</div>
         <div class="pr">¥${u2(q.blended)}<span>/百万</span></div>
-        <span class="caret">▾</span>
       </div>
       <div class="bar"><i class="meter" style="width:${w}%"></i></div>
       <div class="qm">
@@ -457,13 +533,6 @@ details[open] summary::after{content:'－'}
         <span>缓存 <b>¥${u2(q.inputCacheHit)}</b></span>
         <span>输出 <b>¥${u2(q.output)}</b></span>
         ${streak ? `<span style="color:var(--tx3)">连续 ${streak.days} 天未变</span>` : ''}
-      </div>
-      <div class="detail">
-        <div class="hint" style="padding:0 0 6px">官方综合单价走势（云端存档 ${keySeries(q.key).length} 个记录日）</div>
-        ${miniChart(keySeries(q.key), main ? (main.kind === 'up' ? 'var(--up)' : 'var(--down)') : '#e0761c')}
-        ${main ? `<div class="hint" style="padding:8px 0 2px">与${esc(C.lastLabel || '上一次抓取')}相比，本口径共 ${mine.length} 项调整（上方已标注综合单价）：</div>${other}`
-                : `<div class="hint" style="padding:8px 0 2px">与${esc(C.lastLabel || '上一次抓取')}相比，本口径价格无变化。</div>`}
-        <div class="hint" style="padding:6px 0 0">来源：${esc(q.source || '—')}</div>
       </div>
     </div>`;
   }
@@ -495,39 +564,71 @@ details[open] summary::after{content:'－'}
 
   function priceCard(){
     const C = D.compare || { available:false, changes:[], streaks:[], note:'' };
-    const m = D.models.find(x => x.id === curModel);
-    const metereds = D.liveQuotes.filter(q => QUOTE_FAMILY[q.key] === curModel);
-    const plans = m.rows.slice();
+    const catalog = buildCatalog();
+    let vendor = catalog.find(x => x.name === curVendor) || catalog[0];
+    if(!vendor) return '';
+    let model = vendor.models.find(x => x.id === curModelId) || vendor.models[0];
+    if(!model) return '';
+    curVendor = vendor.name; curModelId = model.id;
 
-    const prices = [...metereds.map(q => q.blended), ...plans.map(unitOf)].filter(v => v != null);
-    const maxAll = prices.length ? Math.max(...prices) : 1;
-
-    const items = [
-      ...metereds.map(q => ({ kind: 'metered', v: q.blended, html: () => meteredRow(q, C, maxAll) })),
-      ...plans.map(r => ({ kind: 'plan', v: unitOf(r), html: () => planRow(r, maxAll) }))
+    const ordered = [
+      ...model.quotes.map(q => ({ kind: 'm', v: q.blended, q })),
+      ...model.rows.map(r => ({ kind: 'p', v: unitOf(r), r }))
     ].sort((a, b) => {
-      if (a.v == null && b.v == null) return 0;
-      if (a.v == null) return 1;
-      if (b.v == null) return -1;
+      if(a.v == null && b.v == null) return 0;
+      if(a.v == null) return 1;
+      if(b.v == null) return -1;
       return a.v - b.v;
     });
+    const prices = ordered.map(o => o.v).filter(v => v != null);
+    const maxAll = prices.length ? Math.max(...prices) : 1;
+    const body = ordered.map(o => o.kind === 'm' ? meteredRow(o.q, C, maxAll) : planRow(o.r, maxAll)).join('');
 
-    const bestPlan = plans.map(unitOf).filter(v => v != null).sort((a, b) => a - b)[0];
-    // 必须同型号对比：取该族主口径的按量价，不能拿族内最便宜的变体来比
-    const pk = PRIMARY_QUOTE[curModel];
-    const primary = metereds.find(q => q.key === pk) || (metereds.length === 1 ? metereds[0] : null);
-    const bestMetered = primary ? primary.blended : null;
+    const bestPlan = model.rows.map(unitOf).filter(v => v != null).sort((a, b) => a - b)[0];
+    const mainQuote = model.quotes.find(q => /:off$|:flat$/.test(q.key)) || model.quotes[0];
+    const bestMetered = mainQuote ? mainQuote.blended : null;
     let gap = '';
-    if (bestPlan != null && bestMetered != null && bestPlan > 0) {
+    if(bestPlan != null && bestMetered != null && bestPlan > 0){
       gap = `<div class="gapbar">
-        <span>同型号套餐最低 <b>¥${u2(bestPlan)}</b></span>
+        <span>套餐最低 <b>¥${u2(bestPlan)}</b></span>
         <span>官方按量 <b>¥${u2(bestMetered)}</b></span>
         <span style="color:var(--accent);font-weight:600">差 ${(bestMetered / bestPlan).toFixed(0)} 倍</span>
       </div>`;
     }
 
-    const tabs = D.models.map(x => `<div class="tab ${x.id === curModel ? 'on' : ''}" data-m="${x.id}">${esc(x.name)}</div>`).join('');
-    const rows = items.map(i => i.html()).join('');
+    // 走势：该型号全部按量口径
+    const COLORS = ['#e0761c', '#5b8ff9', '#8d9aa8'];
+    const series = model.quotes.map((q, i) => ({
+      name: shortName(q), color: COLORS[i % COLORS.length], pts: keySeries(q.key)
+    })).filter(s => s.pts.length);
+    const dayCount = series.length ? Math.max(...series.map(s => s.pts.length)) : 0;
+    const svg = series.length ? modelChart(series) : '';
+    let chart;
+    if(svg){
+      chart = `<div class="chartbox">
+        <div class="chline"><span>价格走势</span><span style="color:var(--tx3)">近 30 天窗口 · 已存档 ${dayCount} 天</span></div>
+        ${svg}
+      </div>`;
+    } else if(series.length){
+      chart = `<div class="hint" style="padding:8px 0">该型号的历史记录不足 2 天，暂无法绘制走势。</div>`;
+    } else {
+      chart = `<div class="hint" style="padding:8px 0">该型号暂无自动抓取的历史价格，只有套餐数据。按量价需接入该厂商的开放平台接口才能形成走势。</div>`;
+    }
+
+    // 该型号今日调整
+    const keys = new Set(model.quotes.map(q => q.key));
+    const myChanges = C.changes.filter(c => keys.has(c.key));
+    const changeBlock = myChanges.length ? `<div class="chartbox" style="margin-top:8px">
+        <div class="chline"><span>与${esc(C.lastLabel || '上次抓取')}相比</span><span style="color:var(--up)">${myChanges.length} 项调整</span></div>
+        ${myChanges.map(c => `<div class="wt"><i class="st ok"></i><span class="nm">${esc(shortName({ label: c.label }))} · ${esc(c.field)}</span>
+          <span class="rs" style="color:${c.kind === 'up' ? 'var(--up)' : 'var(--down)'}">¥${u2(c.from)} → ¥${u2(c.to)}</span></div>`).join('')}
+      </div>` : '';
+
+    const vtabs = catalog.map(v => `<div class="tab ${v.name === vendor.name ? 'on' : ''}" data-v="${esc(v.name)}">${esc(v.name)}</div>`).join('');
+    const chips = vendor.models.map(mh => `<div class="chip ${mh.id === model.id ? 'on' : ''}" data-x="${esc(mh.id)}">${esc(mh.label)}</div>`).join('');
+
+    const changedKeys = new Set(C.changes.map(c => c.key));
+    const tag = changedKeys.size ? `${changedKeys.size} 个口径调价` : '今日无调价';
 
     const baseRows = (D.diffs || []).map(d => {
       const ic = d.kind === 'up' ? '↑' : '↓';
@@ -542,23 +643,19 @@ details[open] summary::after{content:'－'}
         ${baseRows}
       </details>` : '';
 
-    const changedKeys = new Set(C.changes.map(c => c.key));
-    const tag = changedKeys.size ? `${changedKeys.size} 个口径调价` : '今日无调价';
-    const note = C.note ? `<div class="hint" style="padding:8px 0 0">${esc(C.note)}</div>` : '';
-
     return `<div class="card">
       <div class="ch"><span class="idx">1</span><h2>模型价格对比</h2><span class="more">${esc(tag)}</span></div>
-      <div class="tabs" id="tabs">${tabs}</div>
+      <div class="tabs" id="vtabs">${vtabs}</div>
+      <div class="chips" id="mtabs">${chips}</div>
       <div class="seg">
         <button data-o="promo" class="${curOrder === 'promo' ? 'on' : ''}">按活动/当前价</button>
         <button data-o="normal" class="${curOrder === 'normal' ? 'on' : ''}">按常态刊例价</button>
       </div>
       <div class="cb">
-        <div class="hint" style="padding-top:6px">${esc(m.scene)} · 同一把尺子：元/百万 Token。按量=随用随付；套餐=预买额度，折算按额度用满计。</div>
-        ${gap}
-        ${rows}${note}
-        ${metereds.length ? '<div class="hint" style="padding:10px 0 0">点「按量·实时」的行可展开该口径的近期走势曲线；套餐行没有可抓的实时历史，不展开。</div>'
-                          : '<div class="hint" style="padding:10px 0 0">这一族目前只有套餐数据，官方按量价尚未纳入自动抓取。</div>'}
+        <div class="hint" style="padding-top:4px">同一把尺子：元/百万 Token。按量随用随付；套餐预买额度，折算按额度用满计。</div>
+        ${chart}${changeBlock}${gap}
+        ${body}
+        <div class="hint" style="padding:10px 0 0">${model.rows.length} 个销售渠道 · ${model.quotes.length} 个官方按量口径${model.rows.length ? '；套餐数据为基线，按量数据每日自动抓取' : ''}</div>
         ${baseBlock}
       </div>
     </div>`;
@@ -694,15 +791,16 @@ details[open] summary::after{content:'－'}
 
   function render(){
     $('#app').innerHTML = cloudBanner()+head()+priceCard()+watchCard()+srcCard();
-    document.querySelectorAll('#tabs .tab').forEach(t=>t.onclick=()=>{curModel=t.dataset.m;render();});
+    document.querySelectorAll('#vtabs .tab').forEach(t=>t.onclick=()=>{
+      curVendor=t.dataset.v;
+      const cs=buildCatalog().find(x=>x.name===curVendor);
+      curModelId=cs && cs.models[0] ? cs.models[0].id : curModelId;
+      render();
+    });
+    document.querySelectorAll('#mtabs .chip').forEach(c=>c.onclick=()=>{curModelId=c.dataset.x;render();});
     // (trend tabs removed).forEach(t=>t.onclick=()=>{trendSel=t.dataset.t;render();});
     document.querySelectorAll('.seg button').forEach(b=>b.onclick=()=>{curOrder=b.dataset.o;render();});
-    document.querySelectorAll('.quote:not(.plain)').forEach(el=>el.onclick=(e)=>{
-      if(e.target.closest('.detail')) return;
-      el.classList.toggle('open');
-      const cp = el.querySelector('.caret');
-      if(cp) cp.textContent = el.classList.contains('open') ? '▴' : '▾';
-    });
+
     const sb = $('#share');
     if(sb) sb.onclick = async ()=>{
       const url = location.href;
