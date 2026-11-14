@@ -116,6 +116,20 @@ body{
 .chline{display:flex;justify-content:space-between;font-size:11px;color:var(--tx2);margin-bottom:4px}
 .legend{display:flex;flex-wrap:wrap;gap:10px;font-size:10.5px;color:var(--tx3);margin-top:4px}
 .legend i{display:inline-block;width:9px;height:2px;vertical-align:middle;margin-right:4px;border-radius:1px}
+.rank{display:flex;gap:9px;align-items:flex-start;padding:9px 0;border-bottom:1px solid var(--line)}
+.rank:last-of-type{border-bottom:none}
+.rn{width:20px;flex:0 0 20px;font-size:11px;color:var(--tx3);text-align:right;padding-top:3px;font-variant-numeric:tabular-nums}
+.rn.top{color:var(--accent);font-weight:700}
+.rm{flex:1;min-width:0}
+.rt{font-size:12.5px;font-weight:600;line-height:1.4}
+.rt .plat{font-weight:400;color:var(--tx2);font-size:11.5px}
+.rs2{font-size:11px;color:var(--tx3);margin-top:1px;font-variant-numeric:tabular-nums}
+.rbar{height:3px;border-radius:2px;background:var(--card2);margin-top:5px;overflow:hidden}
+.rbar i{display:block;height:100%;border-radius:2px}
+.rbar i.plan{background:linear-gradient(90deg,#b9822e,#e0a04a)}
+.rbar i.meter{background:linear-gradient(90deg,#2f6fa8,#4f9fd8)}
+.rp{font-size:13px;font-weight:800;white-space:nowrap;font-variant-numeric:tabular-nums;letter-spacing:-.2px}
+.rp span{font-size:10px;font-weight:500;color:var(--tx3)}
 .promo{background:rgba(224,118,28,.06);border:1px solid rgba(224,118,28,.25);border-radius:9px;padding:10px 11px;margin:4px 0 2px}
 .promo .ptitle{font-size:12px;font-weight:700;color:var(--accent);margin-bottom:2px}
 .promo .pname{font-size:12.5px;color:var(--tx);margin-bottom:6px;line-height:1.4}
@@ -585,6 +599,84 @@ details[open] summary::after{content:'－'}
     </div>`;
   }
 
+  let rankFilter = 'all';
+  let rankExpanded = false;
+
+  function quoteSuffix(label){
+    const m = label.match(/（(.+?)时段）/) || label.match(/（(.+?)）/);
+    if(m) return ' · ' + m[1].replace('时段', '');
+    return '';
+  }
+
+  function rankCard(){
+    const items = [];
+    (D.models || []).forEach(fam => (fam.rows || []).forEach(r => {
+      const v = unitOf(r);
+      if(v == null) return;
+      items.push({
+        kind: 'plan', price: v, model: r.modelLabel || fam.name, vendor: r.vendor || '',
+        where: r.platform, sub: [r.product, r.priceMonthly != null ? '¥' + money(r.priceMonthly) + '/月' : '',
+          r.monthlyTokens ? (r.monthlyTokens / 1e8).toFixed(1) + '亿' : ''].filter(Boolean).join(' · '),
+        promo: !!r.promo, verify: r.verify
+      });
+    }));
+    (D.liveQuotes || []).forEach(q => {
+      if(q.blended == null) return;
+      const meta = QUOTE_META[q.key];
+      items.push({
+        kind: 'meter', price: q.blended, model: (meta ? meta[2] : q.label) + quoteSuffix(q.label),
+        vendor: meta ? meta[0] : '', where: '官方 API',
+        sub: '输入 ¥' + u2(q.input) + ' · 输出 ¥' + u2(q.output), promo: false, verify: 'measured'
+      });
+    });
+
+    const all = items.slice().sort((a, b) => a.price - b.price);
+    const shown = all.filter(x => rankFilter === 'all' || x.kind === rankFilter);
+    const list = rankExpanded ? shown : shown.slice(0, 12);
+    const max = shown.length ? shown[shown.length - 1].price : 1;
+    const mid = shown.length ? shown[Math.floor(shown.length / 2)].price : 0;
+
+    const rows = list.map((x, i) => {
+      const w = Math.max(3, Math.sqrt(x.price / max) * 100);
+      const tag = x.kind === 'plan'
+        ? `<span class="src-tag plan">套餐</span>`
+        : `<span class="src-tag live">按量</span>`;
+      return `<div class="rank">
+        <div class="rn ${i < 3 ? 'top' : ''}">${i + 1}</div>
+        <div class="rm">
+          <div class="rt">${tag}${esc(x.model)} <span class="plat">${esc(x.where)}</span>${x.promo ? '<span class="tag" style="border-color:rgba(224,118,28,.35);color:var(--accent);background:rgba(224,118,28,.08);margin-left:5px">活动</span>' : ''}</div>
+          <div class="rs2">${esc(x.sub)}</div>
+          <div class="rbar"><i class="${x.kind}" style="width:${w.toFixed(1)}%"></i></div>
+        </div>
+        <div class="rp">¥${u2(x.price)}<span>/百万</span></div>
+      </div>`;
+    }).join('');
+
+    const chips = [['all', '全部'], ['plan', '仅套餐'], ['meter', '仅按量']].map(([k, n]) =>
+      `<div class="chip ${rankFilter === k ? 'on' : ''}" data-r="${k}">${n}</div>`).join('');
+
+    const more = shown.length > 12
+      ? `<button class="btn" id="rankMore" style="margin-top:8px">${rankExpanded ? '收起' : `展开全部 ${shown.length} 条`}</button>`
+      : '';
+
+    const summary = shown.length
+      ? `<div class="gapbar"><span>最低 <b>¥${u2(shown[0].price)}</b> · ${esc(shown[0].model)}</span>
+          <span>中位 <b>¥${u2(mid)}</b></span>
+          <span>最高 <b>¥${u2(shown[shown.length - 1].price)}</b></span></div>`
+      : '';
+
+    return `<div class="card">
+      <div class="ch"><span class="idx">2</span><h2>全量价格排行</h2><span class="more">${shown.length} 个可选项</span></div>
+      <div class="chips" id="rtabs">${chips}</div>
+      <div class="cb">
+        ${summary}
+        <div class="hint" style="padding:6px 0 4px">把所有套餐与官方按量价折算到同一把尺子上排序。跨型号比价只反映单位 token 成本，不代表能力相当。</div>
+        ${rows}
+        ${more}
+      </div>
+    </div>`;
+  }
+
   function priceCard(){
     const C = D.compare || { available:false, changes:[], streaks:[], note:'' };
     const catalog = buildCatalog();
@@ -670,7 +762,7 @@ details[open] summary::after{content:'－'}
       `<div class="wt"><i class="st ok"></i><span class="nm" style="font-family:ui-monospace,Menlo,monospace;font-size:11.5px">${esc(o.id)}</span><span class="rs">¥${u2(o.blendedCny)}/百万</span></div>`
     ).join('');
     return `<div class="card">
-      <div class="ch"><span class="idx">2</span><h2>变更监控（B级源）</h2></div>
+      <div class="ch"><span class="idx">3</span><h2>变更监控（B级源）</h2></div>
       <div class="cb">${rows}
         <div class="hint">B 级源的页面由前端渲染或需登录，抓不到稳定价格字段。系统每日抓取其正文中的价格表述并做指纹比对，出现变化会在此标记，价格需人工复核后更新基线。</div>
         ${orRows?`<details><summary>OpenRouter 聚合参考价（第三方口径，USD 折算）</summary>${orRows}<div class="hint">按 1 USD = ${D.fx.usdCny} CNY 折算，用于交叉校验官方报价是否偏离市场水平。</div></details>`:''}
@@ -691,7 +783,7 @@ details[open] summary::after{content:'－'}
         <span class="rs">${s.status==='ok'?'B级监控':s.status==='dynamic'?'动态渲染':(s.error||'失败')}</span></div>`;
     })).join('');
     return `<div class="card">
-      <div class="ch"><span class="idx">3</span><h2>数据来源与口径</h2></div>
+      <div class="ch"><span class="idx">4</span><h2>数据来源与口径</h2></div>
       <div class="cb">
         <details open><summary>抓取源（${D.sources.length} 个 A 级源 + ${D.watch.length} 个 B 级源）</summary>${a}</details>
         <details><summary>计算口径</summary>
@@ -785,7 +877,7 @@ details[open] summary::after{content:'－'}
   }
 
   function render(){
-    $('#app').innerHTML = cloudBanner()+head()+priceCard()+watchCard()+srcCard();
+    $('#app').innerHTML = cloudBanner()+head()+priceCard()+rankCard()+watchCard()+srcCard();
     document.querySelectorAll('#vtabs .tab').forEach(t=>t.onclick=()=>{
       curVendor=t.dataset.v;
       const cs=buildCatalog().find(x=>x.name===curVendor);
@@ -793,6 +885,9 @@ details[open] summary::after{content:'－'}
       render();
     });
     document.querySelectorAll('#mtabs .chip').forEach(c=>c.onclick=()=>{curModelId=c.dataset.x;render();});
+    document.querySelectorAll('#rtabs .chip').forEach(c=>c.onclick=()=>{rankFilter=c.dataset.r;rankExpanded=false;render();});
+    const rm = $('#rankMore');
+    if(rm) rm.onclick=()=>{rankExpanded=!rankExpanded;render();};
     document.querySelectorAll('.quote').forEach(el=>el.onclick=(e)=>{
       if(e.target.closest('.detail') || e.target.closest('a')) return;
       el.classList.toggle('open');
