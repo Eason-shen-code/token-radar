@@ -147,6 +147,33 @@ Windows 下双击 `更新价格.cmd` 等同执行前两步。
 
 **新增套餐行时必须补这三个字段**，否则会落到「其他」厂商下。`vendor` 填的是被调用的模型厂商，不是卖它的云平台（火山卖 GLM-5.3，vendor 仍是智谱）。
 
+## 七之四、活动信息（2026-11-14）
+
+促销行在 baseline 里多了一个 `promo` 对象，点开该行时渲染成橙色活动区块：
+
+```json
+"promo": {
+  "discount": "限时 2.5 折",
+  "campaign": "火山引擎 mega-sale 限时特惠",
+  "campaignBasis": "活动规则页 acitvity-rule/mega-sale；活动页文案「旗舰模型，限时特惠」",
+  "sourceUrl": "https://www.volcengine.com/activity/ai618",
+  "ruleUrl": "https://docs.volcengine.com/docs/acitvity-rule/mega-sale",
+  "endsAt": null,
+  "conditions": null,
+  "listPrice": 200, "promoPrice": 49.9,
+  "verifiedAt": "2026-10-15",
+  "note": "..."
+}
+```
+
+现状与取舍：
+
+- **活动名称**：千帆、阿里的活动页有 `<title>`，可直接取；火山引擎的活动页是纯前端渲染，`<title>`、正文、规则页全部抓不到（curl 拿到的是空壳 SPA），所以按规则页路径 `acitvity-rule/mega-sale` 命名，并在 `campaignBasis` 里写明命名依据，不编造。
+- **截止时间 / 参与条件**：报告里没有，`endsAt` / `conditions` 保持 `null`，页面显示「未记录，需到活动页确认」，并给活动页与规则页的一键链接。
+- **不自动更新**：活动信息属于基线数据，B 级源只监控「页面内容变了」，不会改这里的字段。要补齐就手动改 baseline，或在 `promo.endsAt` 填实际日期。
+
+**不要凭空填活动名和日期。** 这类信息一旦编错，比留空危害大得多——采购决策会照着它做。
+
 ## 八、维护约定
 
 - **要新增源**：在 `config/sources.json` 加一条，写入 `id/name/url/type/tier`；能解析的再加适配器到 `scripts/parse.mjs`

@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-11-14T14:20:23.558Z",
-  "stamp": "2026-11-14 22:20",
+  "generatedAt": "2026-11-14T14:27:17.896Z",
+  "stamp": "2026-11-14 22:27",
   "asOfDate": "2026-11-14",
   "baselineVersion": "2026-10-15",
   "baselineOrigin": "Token采购比价报告_2026-10-15.html",
@@ -124,7 +124,20 @@
           "sourceUrl": "https://www.volcengine.com/activity/ai618",
           "vendor": "智谱",
           "model": "glm-5.3",
-          "modelLabel": "GLM-5.3"
+          "modelLabel": "GLM-5.3",
+          "promo": {
+            "discount": "限时 2.5 折",
+            "campaign": "火山引擎 mega-sale 限时特惠",
+            "campaignBasis": "活动规则页 acitvity-rule/mega-sale；活动页文案「旗舰模型，限时特惠」",
+            "sourceUrl": "https://www.volcengine.com/activity/ai618",
+            "ruleUrl": "https://docs.volcengine.com/docs/acitvity-rule/mega-sale",
+            "endsAt": null,
+            "conditions": null,
+            "listPrice": 200,
+            "promoPrice": 49.9,
+            "verifiedAt": "2026-10-15",
+            "note": "折扣与价格来自 2026-10-15 比价报告；活动截止时间与参与条件报告未记录，点链接自行确认。"
+          }
         },
         {
           "platform": "百度千帆",
@@ -142,7 +155,20 @@
           "sourceUrl": "https://cloud.baidu.com/product/codingplan.html",
           "vendor": "智谱",
           "model": "glm-5.3",
-          "modelLabel": "GLM-5.3"
+          "modelLabel": "GLM-5.3",
+          "promo": {
+            "discount": "限时 5 折",
+            "campaign": "百度千帆 Token Plan 个人版·限时活动",
+            "campaignBasis": "活动页标题「百度千帆Token Plan个人版-百度智能云」",
+            "sourceUrl": "https://cloud.baidu.com/product/codingplan.html",
+            "ruleUrl": null,
+            "endsAt": null,
+            "conditions": null,
+            "listPrice": 600,
+            "promoPrice": 299.9,
+            "verifiedAt": "2026-10-15",
+            "note": "折扣与价格来自 2026-10-15 比价报告；活动截止时间与参与条件报告未记录，点链接自行确认。"
+          }
         },
         {
           "platform": "智谱官方",
@@ -160,7 +186,20 @@
           "sourceUrl": "https://docs.bigmodel.cn/cn/coding-plan/overview.md",
           "vendor": "智谱",
           "model": "glm-5.3",
-          "modelLabel": "GLM-5.3"
+          "modelLabel": "GLM-5.3",
+          "promo": {
+            "discount": "连续包年 8 折（862.4 元/月）",
+            "campaign": "GLM Coding Plan 连续包年优惠",
+            "campaignBasis": "套餐概览页「连续包年 8 折」",
+            "sourceUrl": "https://docs.bigmodel.cn/cn/coding-plan/overview.md",
+            "ruleUrl": null,
+            "endsAt": null,
+            "conditions": "需连续订阅包年，非单月",
+            "listPrice": 1078,
+            "promoPrice": 1078,
+            "verifiedAt": "2026-10-15",
+            "note": "折扣与价格来自 2026-10-15 比价报告；活动截止时间与参与条件报告未记录，点链接自行确认。"
+          }
         },
         {
           "platform": "移动云",
@@ -293,7 +332,20 @@
           "sourceUrl": "https://docs.volcengine.com/docs/82379/1544106",
           "vendor": "DeepSeek",
           "model": "deepseek-v4-pro",
-          "modelLabel": "V4 Pro"
+          "modelLabel": "V4 Pro",
+          "promo": {
+            "discount": "限时 2.5 折",
+            "campaign": "火山引擎 mega-sale 限时特惠",
+            "campaignBasis": "活动规则页 acitvity-rule/mega-sale；活动页文案「旗舰模型，限时特惠」",
+            "sourceUrl": "https://www.volcengine.com/activity/ai618",
+            "ruleUrl": "https://docs.volcengine.com/docs/acitvity-rule/mega-sale",
+            "endsAt": null,
+            "conditions": null,
+            "listPrice": 200,
+            "promoPrice": 49.9,
+            "verifiedAt": "2026-10-15",
+            "note": "折扣与价格来自 2026-10-15 比价报告；活动截止时间与参与条件报告未记录，点链接自行确认。"
+          }
         },
         {
           "platform": "DeepSeek 官方",
@@ -375,7 +427,20 @@
           "sourceUrl": "https://cloud.baidu.com/product/codingplan.html",
           "vendor": "DeepSeek",
           "model": "deepseek-v4-pro",
-          "modelLabel": "V4 Pro"
+          "modelLabel": "V4 Pro",
+          "promo": {
+            "discount": "限时 5 折",
+            "campaign": "百度千帆 Token Plan 个人版·限时活动",
+            "campaignBasis": "活动页标题「百度千帆Token Plan个人版-百度智能云」",
+            "sourceUrl": "https://cloud.baidu.com/product/codingplan.html",
+            "ruleUrl": null,
+            "endsAt": null,
+            "conditions": null,
+            "listPrice": 600,
+            "promoPrice": 299.9,
+            "verifiedAt": "2026-10-15",
+            "note": "折扣与价格来自 2026-10-15 比价报告；活动截止时间与参与条件报告未记录，点链接自行确认。"
+          }
         },
         {
           "platform": "天翼云",
@@ -434,7 +499,20 @@
           "sourceUrl": "https://docs.volcengine.com/docs/82379/1544106",
           "vendor": "DeepSeek",
           "model": "deepseek-v41-flash",
-          "modelLabel": "V4.1 Flash"
+          "modelLabel": "V4.1 Flash",
+          "promo": {
+            "discount": "限时 2.5 折",
+            "campaign": "火山引擎 mega-sale 限时特惠",
+            "campaignBasis": "活动规则页 acitvity-rule/mega-sale；活动页文案「旗舰模型，限时特惠」",
+            "sourceUrl": "https://www.volcengine.com/activity/ai618",
+            "ruleUrl": "https://docs.volcengine.com/docs/acitvity-rule/mega-sale",
+            "endsAt": null,
+            "conditions": null,
+            "listPrice": 200,
+            "promoPrice": 49.9,
+            "verifiedAt": "2026-10-15",
+            "note": "折扣与价格来自 2026-10-15 比价报告；活动截止时间与参与条件报告未记录，点链接自行确认。"
+          }
         },
         {
           "platform": "DeepSeek 官方",
@@ -535,7 +613,20 @@
           "sourceUrl": "https://cloud.baidu.com/product/codingplan.html",
           "vendor": "DeepSeek",
           "model": "deepseek-v41-flash",
-          "modelLabel": "V4.1 Flash"
+          "modelLabel": "V4.1 Flash",
+          "promo": {
+            "discount": "限时 5 折",
+            "campaign": "百度千帆 Token Plan 个人版·限时活动",
+            "campaignBasis": "活动页标题「百度千帆Token Plan个人版-百度智能云」",
+            "sourceUrl": "https://cloud.baidu.com/product/codingplan.html",
+            "ruleUrl": null,
+            "endsAt": null,
+            "conditions": null,
+            "listPrice": 600,
+            "promoPrice": 299.9,
+            "verifiedAt": "2026-10-15",
+            "note": "折扣与价格来自 2026-10-15 比价报告；活动截止时间与参与条件报告未记录，点链接自行确认。"
+          }
         },
         {
           "platform": "天翼云",
@@ -594,7 +685,20 @@
           "sourceUrl": "https://docs.volcengine.com/docs/82379/1544106",
           "vendor": "字节跳动",
           "model": "doubao-evolving",
-          "modelLabel": "Seed-Evolving"
+          "modelLabel": "Seed-Evolving",
+          "promo": {
+            "discount": "限时 2.5 折",
+            "campaign": "火山引擎 mega-sale 限时特惠",
+            "campaignBasis": "活动规则页 acitvity-rule/mega-sale；活动页文案「旗舰模型，限时特惠」",
+            "sourceUrl": "https://www.volcengine.com/activity/ai618",
+            "ruleUrl": "https://docs.volcengine.com/docs/acitvity-rule/mega-sale",
+            "endsAt": null,
+            "conditions": null,
+            "listPrice": 200,
+            "promoPrice": 49.9,
+            "verifiedAt": "2026-10-15",
+            "note": "折扣与价格来自 2026-10-15 比价报告；活动截止时间与参与条件报告未记录，点链接自行确认。"
+          }
         },
         {
           "platform": "火山引擎",
@@ -612,7 +716,20 @@
           "sourceUrl": "https://docs.volcengine.com/docs/82379/1544106",
           "vendor": "字节跳动",
           "model": "doubao-21-turbo",
-          "modelLabel": "Seed-2.1-Turbo"
+          "modelLabel": "Seed-2.1-Turbo",
+          "promo": {
+            "discount": "限时 2.5 折",
+            "campaign": "火山引擎 mega-sale 限时特惠",
+            "campaignBasis": "活动规则页 acitvity-rule/mega-sale；活动页文案「旗舰模型，限时特惠」",
+            "sourceUrl": "https://www.volcengine.com/activity/ai618",
+            "ruleUrl": "https://docs.volcengine.com/docs/acitvity-rule/mega-sale",
+            "endsAt": null,
+            "conditions": null,
+            "listPrice": 200,
+            "promoPrice": 49.9,
+            "verifiedAt": "2026-10-15",
+            "note": "折扣与价格来自 2026-10-15 比价报告；活动截止时间与参与条件报告未记录，点链接自行确认。"
+          }
         },
         {
           "platform": "火山方舟",
@@ -743,7 +860,20 @@
           "sourceUrl": "https://help.aliyun.com/zh/model-studio/token-plan-personal-overview",
           "vendor": "阿里",
           "model": "qwen38-max",
-          "modelLabel": "Qwen3.8-Max"
+          "modelLabel": "Qwen3.8-Max",
+          "promo": {
+            "discount": "限时价（原价 60/120/180/600，现 39/79/139/499）",
+            "campaign": "百炼 Token Plan 个人版·限时价",
+            "campaignBasis": "帮助页标题「Token Plan 个人版订阅与权益-大模型服务平台百炼」",
+            "sourceUrl": "https://help.aliyun.com/zh/model-studio/token-plan-personal-overview",
+            "ruleUrl": null,
+            "endsAt": null,
+            "conditions": null,
+            "listPrice": 180,
+            "promoPrice": 139,
+            "verifiedAt": "2026-10-15",
+            "note": "折扣与价格来自 2026-10-15 比价报告；活动截止时间与参与条件报告未记录，点链接自行确认。"
+          }
         },
         {
           "platform": "阿里百炼",
@@ -785,7 +915,20 @@
           "sourceUrl": "https://docs.volcengine.com/docs/82379/1544106",
           "vendor": "月之暗面",
           "model": "kimi-k27-code",
-          "modelLabel": "K2.7-Code"
+          "modelLabel": "K2.7-Code",
+          "promo": {
+            "discount": "限时 2.5 折",
+            "campaign": "火山引擎 mega-sale 限时特惠",
+            "campaignBasis": "活动规则页 acitvity-rule/mega-sale；活动页文案「旗舰模型，限时特惠」",
+            "sourceUrl": "https://www.volcengine.com/activity/ai618",
+            "ruleUrl": "https://docs.volcengine.com/docs/acitvity-rule/mega-sale",
+            "endsAt": null,
+            "conditions": null,
+            "listPrice": 200,
+            "promoPrice": 49.9,
+            "verifiedAt": "2026-10-15",
+            "note": "折扣与价格来自 2026-10-15 比价报告；活动截止时间与参与条件报告未记录，点链接自行确认。"
+          }
         },
         {
           "platform": "火山引擎",
@@ -803,7 +946,20 @@
           "sourceUrl": "https://docs.volcengine.com/docs/82379/1544106",
           "vendor": "月之暗面",
           "model": "kimi-k3",
-          "modelLabel": "K3"
+          "modelLabel": "K3",
+          "promo": {
+            "discount": "限时 2.5 折",
+            "campaign": "火山引擎 mega-sale 限时特惠",
+            "campaignBasis": "活动规则页 acitvity-rule/mega-sale；活动页文案「旗舰模型，限时特惠」",
+            "sourceUrl": "https://www.volcengine.com/activity/ai618",
+            "ruleUrl": "https://docs.volcengine.com/docs/acitvity-rule/mega-sale",
+            "endsAt": null,
+            "conditions": null,
+            "listPrice": 200,
+            "promoPrice": 49.9,
+            "verifiedAt": "2026-10-15",
+            "note": "折扣与价格来自 2026-10-15 比价报告；活动截止时间与参与条件报告未记录，点链接自行确认。"
+          }
         },
         {
           "platform": "华为云",
@@ -980,10 +1136,10 @@
       "changed": false,
       "samples": [],
       "note": "页面正文由前端渲染，抓不到价格文本，仅能监控 HTTP 可达性",
-      "ms": 582,
+      "ms": 536,
       "signals": 0,
       "fingerprint": "1505",
-      "checkedAt": "2026-11-14 22:20"
+      "checkedAt": "2026-11-14 22:27"
     },
     {
       "id": "aliyun-tokenplan",
@@ -994,10 +1150,10 @@
       "hint": "Credits 档位与限时价",
       "changed": false,
       "samples": [],
-      "ms": 533,
+      "ms": 473,
       "signals": 3,
       "fingerprint": "16e6d9a0",
-      "checkedAt": "2026-11-14 22:20"
+      "checkedAt": "2026-11-14 22:27"
     },
     {
       "id": "qianfan-codingplan",
@@ -1009,10 +1165,10 @@
       "changed": false,
       "samples": [],
       "note": "页面正文由前端渲染，抓不到价格文本，仅能监控 HTTP 可达性",
-      "ms": 301,
+      "ms": 220,
       "signals": 2,
       "fingerprint": "66407d59",
-      "checkedAt": "2026-11-14 22:20"
+      "checkedAt": "2026-11-14 22:27"
     },
     {
       "id": "huawei-maas",
@@ -1024,10 +1180,10 @@
       "changed": false,
       "samples": [],
       "note": "页面正文由前端渲染，抓不到价格文本，仅能监控 HTTP 可达性",
-      "ms": 217,
+      "ms": 206,
       "signals": 0,
       "fingerprint": "1505",
-      "checkedAt": "2026-11-14 22:20"
+      "checkedAt": "2026-11-14 22:27"
     },
     {
       "id": "volcengine-price",
@@ -1038,10 +1194,10 @@
       "hint": "抵扣系数调整会改变套餐等效单价",
       "changed": false,
       "samples": [],
-      "ms": 1801,
+      "ms": 1530,
       "signals": 25,
       "fingerprint": "4c1a3fed",
-      "checkedAt": "2026-11-14 22:20"
+      "checkedAt": "2026-11-14 22:27"
     },
     {
       "id": "volcengine-codingplan",
@@ -1055,7 +1211,7 @@
       "ms": 469,
       "signals": 5,
       "fingerprint": "d253312",
-      "checkedAt": "2026-11-14 22:20"
+      "checkedAt": "2026-11-14 22:27"
     },
     {
       "id": "unicom-tokenplan",
@@ -1067,10 +1223,10 @@
       "changed": false,
       "samples": [],
       "note": "页面正文由前端渲染，抓不到价格文本，仅能监控 HTTP 可达性",
-      "ms": 316,
+      "ms": 232,
       "signals": 0,
       "fingerprint": "1505",
-      "checkedAt": "2026-11-14 22:20"
+      "checkedAt": "2026-11-14 22:27"
     },
     {
       "id": "tencent-tokenhub",
@@ -1081,10 +1237,10 @@
       "hint": "积分兑换系数",
       "changed": false,
       "samples": [],
-      "ms": 422,
+      "ms": 376,
       "signals": 8,
       "fingerprint": "6c0e255c",
-      "checkedAt": "2026-11-14 22:20"
+      "checkedAt": "2026-11-14 22:27"
     },
     {
       "id": "ctyun-tokenhub",
@@ -1095,10 +1251,10 @@
       "hint": "积分制档位",
       "changed": false,
       "samples": [],
-      "ms": 1066,
+      "ms": 793,
       "signals": 6,
       "fingerprint": "8e3865f7",
-      "checkedAt": "2026-11-14 22:20"
+      "checkedAt": "2026-11-14 22:27"
     },
     {
       "id": "kimi-pricing",
@@ -1110,10 +1266,10 @@
       "changed": false,
       "samples": [],
       "note": "页面正文由前端渲染，抓不到价格文本，仅能监控 HTTP 可达性",
-      "ms": 604,
+      "ms": 520,
       "signals": 0,
       "fingerprint": "1505",
-      "checkedAt": "2026-11-14 22:20"
+      "checkedAt": "2026-11-14 22:27"
     }
   ],
   "sources": [
@@ -1123,7 +1279,7 @@
       "url": "https://api-docs.deepseek.com/zh-cn/quick_start/pricing",
       "tier": "A",
       "status": "ok",
-      "ms": 367,
+      "ms": 553,
       "parsed": true,
       "items": 2,
       "columns": [
@@ -1137,7 +1293,7 @@
       "url": "https://openrouter.ai/api/v1/models",
       "tier": "A",
       "status": "ok",
-      "ms": 2788,
+      "ms": 2622,
       "parsed": true,
       "items": 100
     },
@@ -1147,7 +1303,7 @@
       "url": "https://docs.bigmodel.cn/cn/guide/start/pricing.md",
       "tier": "A",
       "status": "ok",
-      "ms": 307,
+      "ms": 98,
       "parsed": true,
       "items": 27
     },
@@ -1157,7 +1313,7 @@
       "url": "https://docs.bigmodel.cn/cn/coding-plan/overview.md",
       "tier": "A",
       "status": "ok",
-      "ms": 310,
+      "ms": 67,
       "parsed": true,
       "items": 3
     }
@@ -1204,20 +1360,20 @@
       "blendedCny": 0.923
     },
     {
-      "id": "qwen/qwen3.5-9b",
-      "name": "Qwen: Qwen3.5-9B",
-      "context": 262144,
-      "inputCny": 0.866,
-      "outputCny": 1.278,
-      "blendedCny": 1.003
-    },
-    {
       "id": "qwen/qwen3-32b",
       "name": "Qwen: Qwen3 32B",
       "context": 131072,
       "inputCny": 0.568,
       "outputCny": 1.988,
       "blendedCny": 1.041
+    },
+    {
+      "id": "qwen/qwen3.5-9b",
+      "name": "Qwen: Qwen3.5-9B",
+      "context": 262144,
+      "inputCny": 0.923,
+      "outputCny": 1.356,
+      "blendedCny": 1.067
     },
     {
       "id": "qwen/qwen3-14b",

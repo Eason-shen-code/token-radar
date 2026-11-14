@@ -24,7 +24,20 @@
           "sourceUrl": "https://www.volcengine.com/activity/ai618",
           "vendor": "智谱",
           "model": "glm-5.3",
-          "modelLabel": "GLM-5.3"
+          "modelLabel": "GLM-5.3",
+          "promo": {
+            "discount": "限时 2.5 折",
+            "campaign": "火山引擎 mega-sale 限时特惠",
+            "campaignBasis": "活动规则页 acitvity-rule/mega-sale；活动页文案「旗舰模型，限时特惠」",
+            "sourceUrl": "https://www.volcengine.com/activity/ai618",
+            "ruleUrl": "https://docs.volcengine.com/docs/acitvity-rule/mega-sale",
+            "endsAt": null,
+            "conditions": null,
+            "listPrice": 200,
+            "promoPrice": 49.9,
+            "verifiedAt": "2026-10-15",
+            "note": "折扣与价格来自 2026-10-15 比价报告；活动截止时间与参与条件报告未记录，点链接自行确认。"
+          }
         },
         {
           "platform": "百度千帆",
@@ -42,7 +55,20 @@
           "sourceUrl": "https://cloud.baidu.com/product/codingplan.html",
           "vendor": "智谱",
           "model": "glm-5.3",
-          "modelLabel": "GLM-5.3"
+          "modelLabel": "GLM-5.3",
+          "promo": {
+            "discount": "限时 5 折",
+            "campaign": "百度千帆 Token Plan 个人版·限时活动",
+            "campaignBasis": "活动页标题「百度千帆Token Plan个人版-百度智能云」",
+            "sourceUrl": "https://cloud.baidu.com/product/codingplan.html",
+            "ruleUrl": null,
+            "endsAt": null,
+            "conditions": null,
+            "listPrice": 600,
+            "promoPrice": 299.9,
+            "verifiedAt": "2026-10-15",
+            "note": "折扣与价格来自 2026-10-15 比价报告；活动截止时间与参与条件报告未记录，点链接自行确认。"
+          }
         },
         {
           "platform": "智谱官方",
@@ -60,7 +86,20 @@
           "sourceUrl": "https://docs.bigmodel.cn/cn/coding-plan/overview.md",
           "vendor": "智谱",
           "model": "glm-5.3",
-          "modelLabel": "GLM-5.3"
+          "modelLabel": "GLM-5.3",
+          "promo": {
+            "discount": "连续包年 8 折（862.4 元/月）",
+            "campaign": "GLM Coding Plan 连续包年优惠",
+            "campaignBasis": "套餐概览页「连续包年 8 折」",
+            "sourceUrl": "https://docs.bigmodel.cn/cn/coding-plan/overview.md",
+            "ruleUrl": null,
+            "endsAt": null,
+            "conditions": "需连续订阅包年，非单月",
+            "listPrice": 1078,
+            "promoPrice": 1078,
+            "verifiedAt": "2026-10-15",
+            "note": "折扣与价格来自 2026-10-15 比价报告；活动截止时间与参与条件报告未记录，点链接自行确认。"
+          }
         },
         {
           "platform": "移动云",
@@ -193,7 +232,20 @@
           "sourceUrl": "https://docs.volcengine.com/docs/82379/1544106",
           "vendor": "DeepSeek",
           "model": "deepseek-v4-pro",
-          "modelLabel": "V4 Pro"
+          "modelLabel": "V4 Pro",
+          "promo": {
+            "discount": "限时 2.5 折",
+            "campaign": "火山引擎 mega-sale 限时特惠",
+            "campaignBasis": "活动规则页 acitvity-rule/mega-sale；活动页文案「旗舰模型，限时特惠」",
+            "sourceUrl": "https://www.volcengine.com/activity/ai618",
+            "ruleUrl": "https://docs.volcengine.com/docs/acitvity-rule/mega-sale",
+            "endsAt": null,
+            "conditions": null,
+            "listPrice": 200,
+            "promoPrice": 49.9,
+            "verifiedAt": "2026-10-15",
+            "note": "折扣与价格来自 2026-10-15 比价报告；活动截止时间与参与条件报告未记录，点链接自行确认。"
+          }
         },
         {
           "platform": "DeepSeek 官方",
@@ -263,7 +315,20 @@
           "sourceUrl": "https://cloud.baidu.com/product/codingplan.html",
           "vendor": "DeepSeek",
           "model": "deepseek-v4-pro",
-          "modelLabel": "V4 Pro"
+          "modelLabel": "V4 Pro",
+          "promo": {
+            "discount": "限时 5 折",
+            "campaign": "百度千帆 Token Plan 个人版·限时活动",
+            "campaignBasis": "活动页标题「百度千帆Token Plan个人版-百度智能云」",
+            "sourceUrl": "https://cloud.baidu.com/product/codingplan.html",
+            "ruleUrl": null,
+            "endsAt": null,
+            "conditions": null,
+            "listPrice": 600,
+            "promoPrice": 299.9,
+            "verifiedAt": "2026-10-15",
+            "note": "折扣与价格来自 2026-10-15 比价报告；活动截止时间与参与条件报告未记录，点链接自行确认。"
+          }
         },
         {
           "platform": "天翼云",
@@ -322,7 +387,20 @@
           "sourceUrl": "https://docs.volcengine.com/docs/82379/1544106",
           "vendor": "DeepSeek",
           "model": "deepseek-v41-flash",
-          "modelLabel": "V4.1 Flash"
+          "modelLabel": "V4.1 Flash",
+          "promo": {
+            "discount": "限时 2.5 折",
+            "campaign": "火山引擎 mega-sale 限时特惠",
+            "campaignBasis": "活动规则页 acitvity-rule/mega-sale；活动页文案「旗舰模型，限时特惠」",
+            "sourceUrl": "https://www.volcengine.com/activity/ai618",
+            "ruleUrl": "https://docs.volcengine.com/docs/acitvity-rule/mega-sale",
+            "endsAt": null,
+            "conditions": null,
+            "listPrice": 200,
+            "promoPrice": 49.9,
+            "verifiedAt": "2026-10-15",
+            "note": "折扣与价格来自 2026-10-15 比价报告；活动截止时间与参与条件报告未记录，点链接自行确认。"
+          }
         },
         {
           "platform": "DeepSeek 官方",
@@ -411,7 +489,20 @@
           "sourceUrl": "https://cloud.baidu.com/product/codingplan.html",
           "vendor": "DeepSeek",
           "model": "deepseek-v41-flash",
-          "modelLabel": "V4.1 Flash"
+          "modelLabel": "V4.1 Flash",
+          "promo": {
+            "discount": "限时 5 折",
+            "campaign": "百度千帆 Token Plan 个人版·限时活动",
+            "campaignBasis": "活动页标题「百度千帆Token Plan个人版-百度智能云」",
+            "sourceUrl": "https://cloud.baidu.com/product/codingplan.html",
+            "ruleUrl": null,
+            "endsAt": null,
+            "conditions": null,
+            "listPrice": 600,
+            "promoPrice": 299.9,
+            "verifiedAt": "2026-10-15",
+            "note": "折扣与价格来自 2026-10-15 比价报告；活动截止时间与参与条件报告未记录，点链接自行确认。"
+          }
         },
         {
           "platform": "天翼云",
@@ -470,7 +561,20 @@
           "sourceUrl": "https://docs.volcengine.com/docs/82379/1544106",
           "vendor": "字节跳动",
           "model": "doubao-evolving",
-          "modelLabel": "Seed-Evolving"
+          "modelLabel": "Seed-Evolving",
+          "promo": {
+            "discount": "限时 2.5 折",
+            "campaign": "火山引擎 mega-sale 限时特惠",
+            "campaignBasis": "活动规则页 acitvity-rule/mega-sale；活动页文案「旗舰模型，限时特惠」",
+            "sourceUrl": "https://www.volcengine.com/activity/ai618",
+            "ruleUrl": "https://docs.volcengine.com/docs/acitvity-rule/mega-sale",
+            "endsAt": null,
+            "conditions": null,
+            "listPrice": 200,
+            "promoPrice": 49.9,
+            "verifiedAt": "2026-10-15",
+            "note": "折扣与价格来自 2026-10-15 比价报告；活动截止时间与参与条件报告未记录，点链接自行确认。"
+          }
         },
         {
           "platform": "火山引擎",
@@ -488,7 +592,20 @@
           "sourceUrl": "https://docs.volcengine.com/docs/82379/1544106",
           "vendor": "字节跳动",
           "model": "doubao-21-turbo",
-          "modelLabel": "Seed-2.1-Turbo"
+          "modelLabel": "Seed-2.1-Turbo",
+          "promo": {
+            "discount": "限时 2.5 折",
+            "campaign": "火山引擎 mega-sale 限时特惠",
+            "campaignBasis": "活动规则页 acitvity-rule/mega-sale；活动页文案「旗舰模型，限时特惠」",
+            "sourceUrl": "https://www.volcengine.com/activity/ai618",
+            "ruleUrl": "https://docs.volcengine.com/docs/acitvity-rule/mega-sale",
+            "endsAt": null,
+            "conditions": null,
+            "listPrice": 200,
+            "promoPrice": 49.9,
+            "verifiedAt": "2026-10-15",
+            "note": "折扣与价格来自 2026-10-15 比价报告；活动截止时间与参与条件报告未记录，点链接自行确认。"
+          }
         },
         {
           "platform": "火山方舟",
@@ -619,7 +736,20 @@
           "sourceUrl": "https://help.aliyun.com/zh/model-studio/token-plan-personal-overview",
           "vendor": "阿里",
           "model": "qwen38-max",
-          "modelLabel": "Qwen3.8-Max"
+          "modelLabel": "Qwen3.8-Max",
+          "promo": {
+            "discount": "限时价（原价 60/120/180/600，现 39/79/139/499）",
+            "campaign": "百炼 Token Plan 个人版·限时价",
+            "campaignBasis": "帮助页标题「Token Plan 个人版订阅与权益-大模型服务平台百炼」",
+            "sourceUrl": "https://help.aliyun.com/zh/model-studio/token-plan-personal-overview",
+            "ruleUrl": null,
+            "endsAt": null,
+            "conditions": null,
+            "listPrice": 180,
+            "promoPrice": 139,
+            "verifiedAt": "2026-10-15",
+            "note": "折扣与价格来自 2026-10-15 比价报告；活动截止时间与参与条件报告未记录，点链接自行确认。"
+          }
         },
         {
           "platform": "阿里百炼",
@@ -661,7 +791,20 @@
           "sourceUrl": "https://docs.volcengine.com/docs/82379/1544106",
           "vendor": "月之暗面",
           "model": "kimi-k27-code",
-          "modelLabel": "K2.7-Code"
+          "modelLabel": "K2.7-Code",
+          "promo": {
+            "discount": "限时 2.5 折",
+            "campaign": "火山引擎 mega-sale 限时特惠",
+            "campaignBasis": "活动规则页 acitvity-rule/mega-sale；活动页文案「旗舰模型，限时特惠」",
+            "sourceUrl": "https://www.volcengine.com/activity/ai618",
+            "ruleUrl": "https://docs.volcengine.com/docs/acitvity-rule/mega-sale",
+            "endsAt": null,
+            "conditions": null,
+            "listPrice": 200,
+            "promoPrice": 49.9,
+            "verifiedAt": "2026-10-15",
+            "note": "折扣与价格来自 2026-10-15 比价报告；活动截止时间与参与条件报告未记录，点链接自行确认。"
+          }
         },
         {
           "platform": "火山引擎",
@@ -679,7 +822,20 @@
           "sourceUrl": "https://docs.volcengine.com/docs/82379/1544106",
           "vendor": "月之暗面",
           "model": "kimi-k3",
-          "modelLabel": "K3"
+          "modelLabel": "K3",
+          "promo": {
+            "discount": "限时 2.5 折",
+            "campaign": "火山引擎 mega-sale 限时特惠",
+            "campaignBasis": "活动规则页 acitvity-rule/mega-sale；活动页文案「旗舰模型，限时特惠」",
+            "sourceUrl": "https://www.volcengine.com/activity/ai618",
+            "ruleUrl": "https://docs.volcengine.com/docs/acitvity-rule/mega-sale",
+            "endsAt": null,
+            "conditions": null,
+            "listPrice": 200,
+            "promoPrice": 49.9,
+            "verifiedAt": "2026-10-15",
+            "note": "折扣与价格来自 2026-10-15 比价报告；活动截止时间与参与条件报告未记录，点链接自行确认。"
+          }
         },
         {
           "platform": "华为云",
@@ -738,5 +894,6 @@
       ]
     }
   ],
-  "catalogVersion": "2026-11-14"
+  "catalogVersion": "2026-11-14",
+  "promoVersion": "2026-11-14"
 }
