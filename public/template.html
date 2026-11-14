@@ -110,8 +110,10 @@ body{
 .chline{display:flex;justify-content:space-between;font-size:11px;color:var(--tx2);margin-bottom:4px}
 .legend{display:flex;flex-wrap:wrap;gap:10px;font-size:10.5px;color:var(--tx3);margin-top:4px}
 .legend i{display:inline-block;width:9px;height:2px;vertical-align:middle;margin-right:4px;border-radius:1px}
-.rank{display:flex;gap:9px;align-items:flex-start;padding:9px 0;border-bottom:1px solid var(--line)}
-.rank:last-of-type{border-bottom:none}
+.rankwrap{border-bottom:1px solid var(--line);padding:9px 0}
+.rankwrap:last-of-type{border-bottom:none}
+.rankwrap .rank{padding:0;border-bottom:none}
+.rank{display:flex;gap:9px;align-items:flex-start;padding:0}
 .rn{width:20px;flex:0 0 20px;font-size:11px;color:var(--tx3);text-align:right;padding-top:3px;font-variant-numeric:tabular-nums}
 .rn.top{color:var(--accent);font-weight:700}
 .rm{flex:1;min-width:0}
@@ -257,14 +259,6 @@ details[open] summary::after{content:'－'}
     tag.textContent = text;
   }
 
-  const TREND_MODELS = [
-    { id: 'v4pro',   name: 'V4 Pro',      match: k => k.includes('deepseek-v4-pro') },
-    { id: 'v4flash', name: 'V4.1 Flash',  match: k => k.includes('deepseek-v41-flash') },
-    { id: 'glm',     name: 'GLM-5.3',     match: k => k === 'zhipu:GLM-5.3' }
-  ];
-  let trendSel = 'v4pro';
-
-  // 从云端历史行现算：与上一次抓取的差异 + 各口径连续未变天数
   function computeCompare(histRows, todayQuotes, todayDate){
     const EPS = 0.0001;
     if(!histRows || !histRows.length) return null;
@@ -498,52 +492,25 @@ details[open] summary::after{content:'－'}
     return list;
   }
 
-  function meteredRow(q, C, maxAll){
-    const w = Math.max(2, (q.blended / maxAll) * 100);
+  function meterDetail(q, C){
     const mine = C.changes.filter(c => c.key === q.key);
     const main = mine.find(c => c.field === '官方综合单价') || mine[0];
-    const todayLabel = D.stamp ? D.stamp.slice(5, 10) : '今日';
-    const badge = main ? `<span class="badge ${main.kind}">${todayLabel} ${main.pct > 0 ? '+' : ''}${main.pct}%</span>` : '';
-    const streak = (C.streaks || []).find(x => x.key === q.key);
     const pts = keySeries(q.key);
     const svg = pts.length >= 2 ? miniChart(pts, main ? (main.kind === 'up' ? 'var(--up)' : 'var(--down)') : '#e0761c') : '';
     const det = mine.filter(c => c !== main).map(c =>
       `<div class="wt"><i class="st ok"></i><span class="nm">${esc(c.field)}</span>
         <span class="rs" style="color:${c.kind === 'up' ? 'var(--up)' : 'var(--down)'}">¥${u2(c.from)} → ¥${u2(c.to)} · ${c.pct > 0 ? '+' : ''}${c.pct}%</span></div>`).join('');
 
-    return `<div class="quote" data-k="${esc(q.key)}">
-      <div class="qh">
-        <div class="nm"><span class="src-tag live">按量·实时</span>${esc(q.label)}${badge}</div>
-        <div class="pr">¥${u2(q.blended)}<span>/百万</span></div>
-        <span class="caret">▾</span>
-      </div>
-      <div class="bar"><i class="meter" style="width:${w}%"></i></div>
-      <div class="qm">
-        <span>输入 <b>¥${u2(q.input)}</b></span>
-        <span>缓存 <b>¥${u2(q.inputCacheHit)}</b></span>
-        <span>输出 <b>¥${u2(q.output)}</b></span>
-        ${streak ? `<span style="color:var(--tx3)">连续 ${streak.days} 天未变</span>` : ''}
-      </div>
-      <div class="detail">
-        ${svg ? `<div class="chline"><span>官方综合单价走势</span><span style="color:var(--tx3)">近 30 天窗口 · 已存档 ${pts.length} 天</span></div>${svg}
-                 ${pts.length >= 2 && pts.every(x => Math.abs(x.v - pts[0].v) < 1e-4)
-                   ? `<div class="hint" style="padding:2px 0 0">窗口内价格全程未变，恒定 ¥${u2(pts[0].v)}。</div>` : ''}`
-              : `<div class="hint" style="padding:2px 0 6px">历史记录不足 2 天，暂无法绘制走势。</div>`}
-        ${main ? `<div class="hint" style="padding:8px 0 2px">与${esc(C.lastLabel || '上一次抓取')}相比，本口径共 ${mine.length} 项调整：</div>${det}`
-               : `<div class="hint" style="padding:8px 0 2px">与${esc(C.lastLabel || '上一次抓取')}相比，本口径价格无变化。</div>`}
-        <div class="hint" style="padding:6px 0 0">数据来源：${esc(q.source || '—')} · 每日自动抓取</div>
-      </div>
-    </div>`;
+    return `${svg ? `<div class="chline"><span>官方综合单价走势</span><span style="color:var(--tx3)">近 30 天窗口 · 已存档 ${pts.length} 天</span></div>${svg}
+        ${pts.length >= 2 && pts.every(x => Math.abs(x.v - pts[0].v) < 1e-4)
+          ? `<div class="hint" style="padding:2px 0 0">窗口内价格全程未变，恒定 ¥${u2(pts[0].v)}。</div>` : ''}`
+      : `<div class="hint" style="padding:2px 0 6px">历史记录不足 2 天，暂无法绘制走势。</div>`}
+      ${main ? `<div class="hint" style="padding:8px 0 2px">与${esc(C.lastLabel || '上一次抓取')}相比，本口径共 ${mine.length} 项调整：</div>${det}`
+             : `<div class="hint" style="padding:8px 0 2px">与${esc(C.lastLabel || '上一次抓取')}相比，本口径价格无变化。</div>`}
+      <div class="hint" style="padding:6px 0 0">数据来源：${esc(q.source || '—')} · 每日自动抓取</div>`;
   }
 
-  function planRow(r, maxAll){
-    const u = unitOf(r);
-    const w = u == null ? 0 : Math.max(1.5, (u / maxAll) * 100);
-    const v = VER[r.verify] || ['pend', '待核'];
-    const priceTxt = r.priceMonthly != null
-      ? `¥${money(r.priceMonthly)}<span>/月</span>${r.listMonthly && r.listMonthly > r.priceMonthly ? ` <s style="font-size:10.5px;color:var(--tx3)">¥${money(r.listMonthly)}</s>` : ''}`
-      : (r.priceIn != null ? `输入 ¥${u2(r.priceIn)} / 输出 ¥${u2(r.priceOut)}` : '—');
-
+  function planDetail(r, u){
     const p = r.promo;
     const promoBlock = p ? `<div class="promo">
         <div class="ptitle">活动价 · ${esc(p.discount)}</div>
@@ -564,7 +531,47 @@ details[open] summary::after{content:'－'}
       ? `${(r.monthlyTokens / 1e8).toFixed(2)} 亿 Token`
       : (r.verify === 'unsupported' ? '不支持该型号' : '按积分/Credits 计，无公开兑换率');
 
-    return `<div class="quote" data-k="">
+    return `${promoBlock}
+      <div class="chline" style="margin-top:${p ? '10px' : '0'}"><span>套餐明细</span></div>
+      <div class="kv"><span>月费</span><b>¥${money(r.priceMonthly)}${r.listMonthly && r.listMonthly > r.priceMonthly ? `（刊例 ¥${money(r.listMonthly)}）` : ''}</b></div>
+      <div class="kv"><span>单账号月额度</span><b>${esc(quota)}</b></div>
+      <div class="kv"><span>折算单价</span><b>¥${u == null ? '—' : u2(u)}/百万</b></div>
+      ${r.note ? `<div class="kv"><span>备注</span><b style="font-weight:400;color:var(--tx2)">${esc(r.note)}</b></div>` : ''}
+      <div class="hint" style="padding:8px 0 0">套餐价格来自基线快照（${esc(D.diffsBaselineDate || D.baselineVersion)}），不是每日抓取，因此没有走势曲线。销售渠道：${esc(r.platform)}。</div>`;
+  }
+
+  function meteredRow(q, C, maxAll){
+    const w = Math.max(2, (q.blended / maxAll) * 100);
+    const mine = C.changes.filter(c => c.key === q.key);
+    const main = mine.find(c => c.field === '官方综合单价') || mine[0];
+    const todayLabel = D.stamp ? D.stamp.slice(5, 10) : '今日';
+    const badge = main ? `<span class="badge ${main.kind}">${todayLabel} ${main.pct > 0 ? '+' : ''}${main.pct}%</span>` : '';
+    const streak = (C.streaks || []).find(x => x.key === q.key);
+    return `<div class="quote" data-k="${esc(q.key)}">
+      <div class="qh">
+        <div class="nm"><span class="src-tag live">按量·实时</span>${esc(q.label)}${badge}</div>
+        <div class="pr">¥${u2(q.blended)}<span>/百万</span></div>
+        <span class="caret">▾</span>
+      </div>
+      <div class="bar"><i class="meter" style="width:${w}%"></i></div>
+      <div class="qm">
+        <span>输入 <b>¥${u2(q.input)}</b></span>
+        <span>缓存 <b>¥${u2(q.inputHit ?? q.inputCacheHit)}</b></span>
+        <span>输出 <b>¥${u2(q.output)}</b></span>
+        ${streak ? `<span style="color:var(--tx3)">连续 ${streak.days} 天未变</span>` : ''}
+      </div>
+      <div class="detail">${meterDetail(q, C)}</div>
+    </div>`;
+  }
+
+  function planRow(r, maxAll){
+    const u = unitOf(r);
+    const w = u == null ? 0 : Math.max(1.5, (u / maxAll) * 100);
+    const v = VER[r.verify] || ['pend', '待核'];
+    const priceTxt = r.priceMonthly != null
+      ? `¥${money(r.priceMonthly)}<span>/月</span>${r.listMonthly && r.listMonthly > r.priceMonthly ? ` <s style="font-size:10.5px;color:var(--tx3)">¥${money(r.listMonthly)}</s>` : ''}`
+      : (r.priceIn != null ? `输入 ¥${u2(r.priceIn)} / 输出 ¥${u2(r.priceOut)}` : '—');
+    return `<div class="quote">
       <div class="qh">
         <div class="nm"><span class="src-tag plan">套餐·基线</span>${esc(r.platform)} <span style="font-weight:400;color:var(--tx2);font-size:12px">${esc(r.product)}</span></div>
         <div class="pr">${u == null ? '<span style="font-size:12px;color:var(--tx3)">待核</span>' : '¥' + u2(u)}${u == null ? '' : '<span>/百万</span>'}</div>
@@ -578,18 +585,10 @@ details[open] summary::after{content:'－'}
       </div>
       <div class="qm" style="margin-top:2px">
         <span class="tag ${v[0]}">${v[1]}</span>
-        ${p ? '<span class="tag" style="border-color:rgba(224,118,28,.35);color:var(--accent);background:rgba(224,118,28,.08)">有活动</span>' : ''}
+        ${r.promo ? '<span class="tag" style="border-color:rgba(224,118,28,.35);color:var(--accent);background:rgba(224,118,28,.08)">有活动</span>' : ''}
         ${r.unitPriceNormal != null && r.unitPriceNormal !== r.unitPrice ? `<span>常态 ¥${u2(r.unitPriceNormal)}</span>` : ''}
       </div>
-      <div class="detail">
-        ${promoBlock}
-        <div class="chline" style="margin-top:${p ? '10px' : '0'}"><span>套餐明细</span></div>
-        <div class="kv"><span>月费</span><b>¥${money(r.priceMonthly)}${r.listMonthly && r.listMonthly > r.priceMonthly ? `（刊例 ¥${money(r.listMonthly)}）` : ''}</b></div>
-        <div class="kv"><span>单账号月额度</span><b>${esc(quota)}</b></div>
-        <div class="kv"><span>折算单价</span><b>¥${u == null ? '—' : u2(u)}/百万</b></div>
-        ${r.note ? `<div class="kv"><span>备注</span><b style="font-weight:400;color:var(--tx2)">${esc(r.note)}</b></div>` : ''}
-        <div class="hint" style="padding:8px 0 0">套餐价格来自基线快照（${esc(D.diffsBaselineDate || D.baselineVersion)}），不是每日抓取，因此没有走势曲线。销售渠道：${esc(r.platform)}。</div>
-      </div>
+      <div class="detail">${planDetail(r, u)}</div>
     </div>`;
   }
 
@@ -603,15 +602,16 @@ details[open] summary::after{content:'－'}
   }
 
   function rankCard(){
+    const C = D.compare || { available:false, changes:[], streaks:[], note:'' };
     const items = [];
     (D.models || []).forEach(fam => (fam.rows || []).forEach(r => {
       const v = unitOf(r);
       if(v == null) return;
       items.push({
-        kind: 'plan', price: v, model: r.modelLabel || fam.name, vendor: r.vendor || '',
-        where: r.platform, sub: [r.product, r.priceMonthly != null ? '¥' + money(r.priceMonthly) + '/月' : '',
-          r.monthlyTokens ? (r.monthlyTokens / 1e8).toFixed(1) + '亿' : ''].filter(Boolean).join(' · '),
-        promo: !!r.promo, verify: r.verify
+        kind: 'plan', price: v, model: r.modelLabel || fam.name,
+        where: r.platform, ref: r, promo: !!r.promo,
+        sub: [r.product, r.priceMonthly != null ? '¥' + money(r.priceMonthly) + '/月' : '',
+          r.monthlyTokens ? (r.monthlyTokens / 1e8).toFixed(1) + '亿' : ''].filter(Boolean).join(' · ')
       });
     }));
     (D.liveQuotes || []).forEach(q => {
@@ -619,12 +619,12 @@ details[open] summary::after{content:'－'}
       const meta = QUOTE_META[q.key];
       items.push({
         kind: 'meter', price: q.blended, model: (meta ? meta[2] : q.label) + quoteSuffix(q.label),
-        vendor: meta ? meta[0] : '', where: '官方 API',
-        sub: '输入 ¥' + u2(q.input) + ' · 输出 ¥' + u2(q.output), promo: false, verify: 'measured'
+        where: '官方 API', ref: q, promo: false,
+        sub: '输入 ¥' + u2(q.input) + ' · 输出 ¥' + u2(q.output)
       });
     });
 
-    const all = items.slice().sort((a, b) => a.price - b.price);
+    const all = items.slice().sort((x, y) => x.price - y.price);
     const shown = all.filter(x => rankFilter === 'all' || x.kind === rankFilter);
     const list = rankExpanded ? shown : shown.slice(0, 12);
     const max = shown.length ? shown[shown.length - 1].price : 1;
@@ -633,16 +633,20 @@ details[open] summary::after{content:'－'}
     const rows = list.map((x, i) => {
       const w = Math.max(3, Math.sqrt(x.price / max) * 100);
       const tag = x.kind === 'plan'
-        ? `<span class="src-tag plan">套餐</span>`
-        : `<span class="src-tag live">按量</span>`;
-      return `<div class="rank">
-        <div class="rn ${i < 3 ? 'top' : ''}">${i + 1}</div>
-        <div class="rm">
-          <div class="rt">${tag}${esc(x.model)} <span class="plat">${esc(x.where)}</span>${x.promo ? '<span class="tag" style="border-color:rgba(224,118,28,.35);color:var(--accent);background:rgba(224,118,28,.08);margin-left:5px">活动</span>' : ''}</div>
-          <div class="rs2">${esc(x.sub)}</div>
-          <div class="rbar"><i class="${x.kind}" style="width:${w.toFixed(1)}%"></i></div>
+        ? `<span class="src-tag plan">套餐</span>` : `<span class="src-tag live">按量</span>`;
+      const detail = x.kind === 'plan' ? planDetail(x.ref, x.price) : meterDetail(x.ref, C);
+      return `<div class="quote rankwrap">
+        <div class="rank">
+          <div class="rn ${i < 3 ? 'top' : ''}">${i + 1}</div>
+          <div class="rm">
+            <div class="rt">${tag}${esc(x.model)} <span class="plat">${esc(x.where)}</span>${x.promo ? '<span class="tag" style="border-color:rgba(224,118,28,.35);color:var(--accent);background:rgba(224,118,28,.08);margin-left:5px">活动</span>' : ''}</div>
+            <div class="rs2">${esc(x.sub)}</div>
+            <div class="rbar"><i class="${x.kind}" style="width:${w.toFixed(1)}%"></i></div>
+          </div>
+          <div class="rp">¥${u2(x.price)}<span>/百万</span></div>
+          <span class="caret">▾</span>
         </div>
-        <div class="rp">¥${u2(x.price)}<span>/百万</span></div>
+        <div class="detail">${detail}</div>
       </div>`;
     }).join('');
 
@@ -660,11 +664,11 @@ details[open] summary::after{content:'－'}
       : '';
 
     return `<div class="card">
-      <div class="ch"><span class="idx">2</span><h2>全量价格排行</h2><span class="more">${shown.length} 个可选项</span></div>
+      <div class="ch"><span class="idx">1</span><h2>全量价格排行</h2><span class="more">${shown.length} 个可选项</span></div>
       <div class="chips" id="rtabs">${chips}</div>
       <div class="cb">
         ${summary}
-        <div class="hint" style="padding:6px 0 4px">把所有套餐与官方按量价折算到同一把尺子上排序。跨型号比价只反映单位 token 成本，不代表能力相当。</div>
+        <div class="hint" style="padding:6px 0 4px">所有套餐与官方按量价折算到同一把尺子上排序。点任意一行展开明细；跨型号比价只反映单位 token 成本，不代表能力相当。</div>
         ${rows}
         ${more}
       </div>
@@ -725,7 +729,7 @@ details[open] summary::after{content:'－'}
       </details>` : '';
 
     return `<div class="card">
-      <div class="ch"><span class="idx">1</span><h2>模型价格对比</h2><span class="more">${esc(tag)}</span></div>
+      <div class="ch"><span class="idx">2</span><h2>模型价格对比</h2><span class="more">${esc(tag)}</span></div>
       <div class="tabs" id="vtabs">${vtabs}</div>
       <div class="chips" id="mtabs">${chips}</div>
       <div class="seg">
@@ -742,44 +746,46 @@ details[open] summary::after{content:'－'}
     </div>`;
   }
 
-  function watchCard(){
-    const rows = D.watch.map(w=>{
-      const cls = w.changed ? 'chg' : '';
-      const rs = w.status==='ok' ? (w.changed?'有变更':`${w.signals} 处价格`) : w.status==='dynamic' ? '动态渲染' : '抓取失败';
-      return `<div class="wt">
-        <i class="st ${w.status}"></i>
-        <span class="nm">${esc(w.name)}</span>
-        <span class="rs ${cls}">${rs}</span>
-      </div>`;
-    }).join('');
-    const orRows = (D.openrouterRef||[]).slice(0,8).map(o=>
-      `<div class="wt"><i class="st ok"></i><span class="nm" style="font-family:ui-monospace,Menlo,monospace;font-size:11.5px">${esc(o.id)}</span><span class="rs">¥${u2(o.blendedCny)}/百万</span></div>`
-    ).join('');
-    return `<div class="card">
-      <div class="ch"><span class="idx">3</span><h2>变更监控（B级源）</h2></div>
-      <div class="cb">${rows}
-        <div class="hint">B 级源的页面由前端渲染或需登录，抓不到稳定价格字段。系统每日抓取其正文中的价格表述并做指纹比对，出现变化会在此标记，价格需人工复核后更新基线。</div>
-        ${orRows?`<details><summary>OpenRouter 聚合参考价（第三方口径，USD 折算）</summary>${orRows}<div class="hint">按 1 USD = ${D.fx.usdCny} CNY 折算，用于交叉校验官方报价是否偏离市场水平。</div></details>`:''}
-      </div>
-    </div>`;
-  }
+  function sourceCard(){
+    const h = D.health || {};
+    const aTot = (h.aOk || 0) + (h.aFail || 0);
+    const bTot = (h.bOk || 0) + (h.bFail || 0);
+    const changed = (D.watch || []).filter(w => w.changed);
 
-  function srcCard(){
-    const a = D.sources.map(s=>{
-      const st = s.status==='ok'?'ok':(s.status==='dynamic'?'dynamic':'fail');
+    const aRows = (D.sources || []).map(s => {
+      const st = s.status === 'ok' ? 'ok' : (s.status === 'dynamic' ? 'dynamic' : 'fail');
       return `<div class="wt"><i class="st ${st}"></i>
-        <span class="nm"><a href="${esc(s.url)}" target="_blank" rel="noopener" style="color:inherit;text-decoration:none">${esc(s.name)}</a></span>
-        <span class="rs">${s.status==='ok'?'A级自动':s.status==='dynamic'?'监控':(s.error||'失败')}</span></div>`;
-    }).concat(D.watch.map(s=>{
-      const st = s.status==='ok'?'ok':(s.status==='dynamic'?'dynamic':'fail');
+        <span class="nm"><a href="${esc(s.url)}" target="_blank" rel="noopener">${esc(s.name)}</a></span>
+        <span class="rs">${s.status === 'ok' ? '自动 · ' + (s.items || 0) + ' 项' : (s.error || '解析失败')}</span></div>`;
+    }).join('');
+
+    const bRows = (D.watch || []).map(w => {
+      const st = w.status === 'ok' ? 'ok' : (w.status === 'dynamic' ? 'dynamic' : 'fail');
+      const rs = w.status === 'ok' ? (w.changed ? '页面有变更' : `${w.signals} 处价格表述`)
+        : w.status === 'dynamic' ? '动态渲染' : (w.error || '抓取失败');
       return `<div class="wt"><i class="st ${st}"></i>
-        <span class="nm"><a href="${esc(s.url)}" target="_blank" rel="noopener" style="color:inherit;text-decoration:none">${esc(s.name)}</a></span>
-        <span class="rs">${s.status==='ok'?'B级监控':s.status==='dynamic'?'动态渲染':(s.error||'失败')}</span></div>`;
-    })).join('');
+        <span class="nm"><a href="${esc(w.url)}" target="_blank" rel="noopener">${esc(w.name)}</a></span>
+        <span class="rs ${w.changed ? 'chg' : ''}">${rs}</span></div>`;
+    }).join('');
+
+    const orRows = (D.openrouterRef || []).slice(0, 8).map(o =>
+      `<div class="wt"><i class="st ok"></i><span class="nm" style="font-family:ui-monospace,Menlo,monospace;font-size:11.5px">${esc(o.id)}</span>
+        <span class="rs">¥${u2(o.blendedCny)}/百万</span></div>`).join('');
+
     return `<div class="card">
-      <div class="ch"><span class="idx">4</span><h2>数据来源与口径</h2></div>
+      <div class="ch"><span class="idx">3</span><h2>数据来源与变更监控</h2>
+        <span class="more">A ${h.aOk || 0}/${aTot} · B ${h.bOk || 0}/${bTot}</span></div>
       <div class="cb">
-        <details open><summary>抓取源（${D.sources.length} 个 A 级源 + ${D.watch.length} 个 B 级源）</summary>${a}</details>
+        ${changed.length ? `<div class="gapbar" style="border-color:rgba(224,118,28,.3);background:rgba(224,118,28,.06)">
+          <span style="color:var(--accent);font-weight:600">今日 ${changed.length} 个 B 级源页面有变更</span>
+          <span style="color:var(--tx2)">需人工核对后更新基线</span></div>` : ''}
+        <div class="chline" style="margin-top:6px"><span>A 级源 · 每日自动抓取数值</span><span style="color:var(--tx3)">${aTot} 个</span></div>
+        ${aRows}
+        <div class="chline" style="margin-top:12px"><span>B 级源 · 仅监控页面变更</span><span style="color:var(--tx3)">${bTot} 个</span></div>
+        <div class="hint" style="padding:2px 0 4px">这些页面由前端渲染或需登录，抓不到稳定价格字段。系统每日比对其正文中的价格表述，变了会标注，数值需人工复核。</div>
+        ${bRows}
+        ${orRows ? `<details><summary>OpenRouter 聚合参考价（第三方口径）</summary>${orRows}
+          <div class="hint">按 1 USD = ${D.fx.usdCny} CNY 折算，用于交叉校验官方报价是否偏离市场水平。</div></details>` : ''}
         <details><summary>计算口径</summary>
           <div class="src">${esc(D.method.unitFromPlan)}</div>
           <div class="src">${esc(D.method.blended)}</div>
@@ -797,81 +803,8 @@ details[open] summary::after{content:'－'}
       <div class="hint" style="padding:0">${esc(CLOUD.note)}</div></div></div>`;
   }
 
-  function trendCard(){
-    if(CLOUD.status !== 'ok' || !CLOUD.trend.length) return '';
-    const m = TREND_MODELS.find(t => t.id === trendSel);
-    const byDate = new Map();
-    CLOUD.trend.filter(r => m.match(r.key)).forEach(r => {
-      const cur = byDate.get(r.date) || { date: r.date, min: Infinity, max: -Infinity };
-      cur.min = Math.min(cur.min, r.v);
-      cur.max = Math.max(cur.max, r.v);
-      byDate.set(r.date, cur);
-    });
-    const series = [...byDate.values()].sort((a, b) => a.date.localeCompare(b.date));
-    if(!series.length) return '';
-
-    const W = 320, H = 140, PL = 36, PR = 12, PT = 16, PB = 26;
-    const vals = [];
-    series.forEach(s => { vals.push(s.min); if(s.max !== s.min) vals.push(s.max); });
-    let lo = Math.min(...vals), hi = Math.max(...vals);
-    const span = (hi - lo) || (hi * 0.5) || 1;
-    lo = Math.max(0, lo - span * 0.25); hi = hi + span * 0.25;
-    const X = i => series.length === 1 ? PL + (W - PL - PR) / 2 : PL + i * (W - PL - PR) / (series.length - 1);
-    const Y = v => PT + (1 - (v - lo) / (hi - lo)) * (H - PT - PB);
-
-    const grid = [lo, (lo + hi) / 2, hi].map(v =>
-      `<line x1="${PL}" y1="${Y(v).toFixed(1)}" x2="${W - PR}" y2="${Y(v).toFixed(1)}" stroke="var(--line)" stroke-width="1"/>
-       <text x="${PL - 5}" y="${(Y(v) + 3.2).toFixed(1)}" text-anchor="end" font-size="8.5" fill="var(--tx3)">${v.toFixed(2)}</text>`
-    ).join('');
-
-    const line = (key, color, dash) => {
-      const pts = series.map((s, i) => `${X(i).toFixed(1)},${Y(s[key]).toFixed(1)}`).join(' ');
-      const dots = series.map((s, i) => `<circle cx="${X(i).toFixed(1)}" cy="${Y(s[key]).toFixed(1)}" r="2.6" fill="${color}"/>`).join('');
-      return `<polyline points="${pts}" fill="none" stroke="${color}" stroke-width="2" stroke-linejoin="round" stroke-linecap="round" ${dash ? 'stroke-dasharray="4 3"' : ''}/>${dots}`;
-    };
-
-    const hasRange = series.some(s => s.max !== s.min);
-    const xLabel = series.map((s, i) => {
-      if(series.length > 4 && i !== 0 && i !== series.length - 1) return '';
-      return `<text x="${X(i).toFixed(1)}" y="${H - 8}" text-anchor="middle" font-size="8.5" fill="var(--tx3)">${s.date.slice(5)}</text>`;
-    }).join('');
-
-    const last = series[series.length - 1];
-    const prev = series[series.length - 2];
-    let deltaTxt = '';
-    if(prev){
-      const d = ((last.min - prev.min) / prev.min) * 100;
-      deltaTxt = `　较上次 <b style="color:${d > 0 ? 'var(--up)' : 'var(--down)'}">${d > 0 ? '+' : ''}${d.toFixed(1)}%</b>`;
-    }
-
-    const chips = TREND_MODELS.map(t => `<div class="tab ${t.id === trendSel ? 'on' : ''}" data-t="${t.id}">${esc(t.name)}</div>`).join('');
-    const snaps = CLOUD.snaps.slice(0, 6).map(s =>
-      `<div class="wt"><i class="st ok"></i><span class="nm">${s.date}</span>
-        <span class="rs">${s.quote_count || 0} 条报价 · ${s.diff_count || 0} 条变动</span></div>`
-    ).join('');
-
-    return `<div class="card">
-      <div class="ch"><span class="idx">3</span><h2>历史趋势（云端存档）</h2><span class="more">${series.length} 个记录日</span></div>
-      <div class="tabs" id="ttabs">${chips}</div>
-      <div class="cb" style="padding-top:0">
-        <div style="background:var(--card2);border:1px solid var(--line);border-radius:10px;padding:6px 2px 0;margin-top:2px">
-          <svg viewBox="0 0 ${W} ${H}" style="width:100%;height:auto;display:block">
-            ${grid}${hasRange ? line('max', 'var(--tx3)', true) : ''}${line('min', '#e0761c', false)}${xLabel}
-          </svg>
-        </div>
-        <div class="qm" style="margin-top:8px">
-          <span>${esc(m.name)} 官方综合单价</span>
-          <span>最新 <b>¥${u2(last.min)}</b>${last.max !== last.min ? ` ~ <b>¥${u2(last.max)}</b>` : ''}</span>
-          ${deltaTxt}
-        </div>
-        <div class="hint">${hasRange ? '实线=当日最优时段，虚线=当日最差时段；' : ''}每日抓取自动写入云端，页面实时读取，无需重新发布。下方为云端已存档的记录日。</div>
-        ${snaps}
-      </div>
-    </div>`;
-  }
-
   function render(){
-    $('#app').innerHTML = cloudBanner()+head()+priceCard()+rankCard()+watchCard()+srcCard();
+    $('#app').innerHTML = cloudBanner()+head()+rankCard()+priceCard()+sourceCard();
     document.querySelectorAll('#vtabs .tab').forEach(t=>t.onclick=()=>{
       curVendor=t.dataset.v;
       const cs=buildCatalog().find(x=>x.name===curVendor);
