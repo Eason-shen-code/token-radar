@@ -10,3 +10,4 @@ data/snapshots/
 
 # Agent 工作区内部记录，不进代码仓库
 .workbuddy/
+variants/

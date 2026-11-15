@@ -22,201 +22,222 @@ ${l.stack}`)}else c=o?.stack??"";let f=this.url.toString().length;return o?.name
 </script>
 <style>
 :root{
-  --bg:#050506; --surface:#0A0A0C; --surface2:#0E0E10;
-  --stroke:#232326; --stroke2:#17171A;
-  --t1:#FFFFFF; --t2:#8A8A8C; --t3:#4A4A4E;
-  --up:#C24B3A; --down:#6E9E5A; --amber:#E2571B;
-  /* 旧变量别名：图表与内联样式仍在引用 */
-  --tx:var(--t1); --tx2:var(--t2); --tx3:var(--t3);
-  --line:var(--stroke2); --accent:var(--amber); --card2:#0E0E10;
-  --r:22px;
+  --bg:#f2f5f9; --card:#fff; --card2:#f8fafc; --line:#e3e9f1;
+  --tx:#132133; --tx2:#5b6b80; --tx3:#8b9aad;
+  --brand:#12304f; --brand2:#1f4d79; --accent:#e0761c;
+  --up:#cf3f32; --down:#12855c; --warn:#b8860b;
+  --r:14px; --sh:0 1px 2px rgba(16,38,62,.06),0 4px 16px rgba(16,38,62,.05);
+}
+@media (prefers-color-scheme: dark){
+  :root{
+    --bg:#0b1219; --card:#131c26; --card2:#0f1720; --line:#22303f;
+    --tx:#e7eef6; --tx2:#96a7ba; --tx3:#6d7f93;
+    --brand:#0b1219; --brand2:#16283c; --accent:#f0952f;
+    --up:#ff6b5e; --down:#31c48d; --warn:#e0b341;
+    --sh:0 1px 2px rgba(0,0,0,.4),0 6px 20px rgba(0,0,0,.3);
+  }
 }
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-html{-webkit-text-size-adjust:100%}
 body{
-  background:var(--bg);color:var(--t1);
   font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei","Segoe UI",Roboto,sans-serif;
-  line-height:1.5;-webkit-font-smoothing:antialiased;
-  padding-bottom:calc(20px + env(safe-area-inset-bottom));
+  background:var(--bg);color:var(--tx);line-height:1.55;
+  padding-bottom:calc(24px + env(safe-area-inset-bottom));
+  -webkit-font-smoothing:antialiased;
 }
-body::before{
-  content:"";position:fixed;top:-140px;left:50%;transform:translateX(-50%);
-  width:420px;height:280px;pointer-events:none;z-index:0;
-  background:radial-gradient(ellipse at center,rgba(42,10,18,.55) 0%,rgba(42,10,18,0) 70%);
-}
-.wrap{max-width:520px;margin:0 auto;padding:0 20px;position:relative;z-index:1}
+.wrap{max-width:720px;margin:0 auto;padding:0 14px}
 
-/* 顶部 */
-.top{padding:calc(16px + env(safe-area-inset-top)) 0 4px}
-.meta{display:flex;align-items:center;gap:8px;font-size:9.5px;letter-spacing:.18em;color:var(--t2);text-transform:uppercase}
-.meta .sep{color:var(--t3)}
-.meta .live{display:inline-flex;align-items:center;gap:5px;margin-left:auto}
-.meta .live i{width:5px;height:5px;border-radius:50%;background:var(--status,#8BC34A);display:inline-block}
-.top h1{font-size:23px;font-weight:500;letter-spacing:-.01em;margin-top:9px}
-.card.hero{margin-top:18px}
+/* 顶栏 */
+.top{
+  position:sticky;top:0;z-index:20;
+  background:linear-gradient(135deg,var(--brand),var(--brand2));
+  color:#fff;padding:calc(12px + env(safe-area-inset-top)) 14px 14px;
+  box-shadow:0 2px 12px rgba(10,25,42,.18);
+}
+.top .row{display:flex;align-items:center;gap:8px;max-width:720px;margin:0 auto}
+.top h1{font-size:16px;font-weight:700;letter-spacing:.4px;flex:1}
+.pill{
+  display:inline-flex;align-items:center;gap:5px;
+  font-size:11px;padding:3px 9px;border-radius:20px;
+  background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.22);
+  white-space:nowrap;
+}
+.dot{width:6px;height:6px;border-radius:50%;background:#3ddc84;box-shadow:0 0 6px #3ddc84}
+.dot.warn{background:#ffc046;box-shadow:0 0 6px #ffc046}
+.dot.err{background:#ff7b6b;box-shadow:0 0 6px #ff7b6b}
+.top .sub{
+  max-width:720px;margin:8px auto 0;display:flex;flex-wrap:wrap;gap:6px 14px;
+  font-size:11.5px;color:rgba(255,255,255,.72);
+}
+.top .sub b{color:#ffd9a8;font-weight:600}
 
 /* 卡片 */
-.card{
-  background:var(--surface);border:1px solid var(--stroke);border-radius:var(--r);
-  margin:12px 0;padding:18px 18px 16px;position:relative;
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--sh);margin:14px 0;overflow:hidden}
+.ch{display:flex;align-items:center;gap:8px;padding:13px 14px;border-bottom:1px solid var(--line)}
+.ch .idx{
+  width:20px;height:20px;border-radius:6px;background:var(--brand2);color:#fff;
+  font-size:11px;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-weight:700;
 }
-.ch{display:flex;align-items:baseline;gap:10px;padding-bottom:14px}
-.ch .idx{font-size:9.5px;letter-spacing:.14em;color:var(--t3);font-variant-numeric:tabular-nums}
-.ch h2{font-size:13px;font-weight:500;color:var(--t1);flex:1;letter-spacing:.01em}
-.ch .more{font-size:9.5px;letter-spacing:.14em;color:var(--t3);text-transform:uppercase}
-.cb{padding:0}
-.hint{font-size:10.5px;color:var(--t3);line-height:1.7}
+.ch h2{font-size:14px;font-weight:700;flex:1;letter-spacing:.2px}
+.ch .more{font-size:11.5px;color:var(--tx3)}
+.cb{padding:0 14px 14px}
+.hint{font-size:11.5px;color:var(--tx3);padding:12px 0 2px;line-height:1.6}
 
-/* 主卡：点阵读数 */
-.hero{padding-bottom:14px}
-.hlabel{display:flex;align-items:center;gap:7px;font-size:11px;color:var(--t2);letter-spacing:.04em}
-.hlabel svg{flex:0 0 auto}
-.hnum{margin:14px 0 2px;display:flex;align-items:flex-end}
-.hnum svg{display:block;width:auto;height:64px}
-.hunit{font-size:10px;color:var(--t2);letter-spacing:.06em;margin-top:6px}
-.hnote{font-size:10px;color:var(--t3);margin-top:2px;letter-spacing:.02em}
+/* 概览格 */
+.px2{display:grid;grid-template-columns:1fr 1fr;padding:14px 14px 0}
+.pxi{padding-right:12px}
+.pxi.r{padding-right:0;padding-left:12px;border-left:1px solid var(--line);text-align:right}
+.pk{font-size:10.5px;color:var(--tx3);letter-spacing:.02em}
+.pv{font-size:27px;font-weight:800;letter-spacing:-1px;line-height:1.15;margin-top:3px;font-variant-numeric:tabular-nums}
+.pv.low{color:var(--down)}
+.pv.high{color:var(--up)}
+.pm{font-size:12.5px;font-weight:600;margin-top:5px;line-height:1.35;word-break:break-word}
+.pc{font-size:10.5px;color:var(--tx3);margin-top:2px;line-height:1.45}
+.ptag{display:inline-block;font-size:9px;padding:0 4px;margin-left:4px;border-radius:3px;
+      background:rgba(224,118,28,.12);color:var(--accent);vertical-align:1px}
+.bandnote{font-size:11.5px;color:var(--tx2);line-height:1.65;padding:12px 14px 0}
+.bandnote b{color:var(--tx);font-weight:700;font-variant-numeric:tabular-nums}
+.dist{margin:12px 14px 0;background:var(--card2);border:1px solid var(--line);border-radius:10px;padding:9px 10px 7px}
+.dist .dh{font-size:10.5px;color:var(--tx3);margin-bottom:6px}
+.dbars{display:flex;align-items:flex-end;gap:5px;height:58px}
+.dcol{flex:1;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;gap:3px;height:100%}
+.dcol span{font-size:9.5px;color:var(--tx3);font-variant-numeric:tabular-nums;line-height:1}
+.dcol i{width:100%;display:block;background:var(--line);border-radius:2px 2px 0 0;min-height:2px}
+.dcol i.peak{background:var(--accent)}
+.dlabs{display:flex;gap:5px;margin-top:5px}
+.dlabs span{flex:1;text-align:center;font-size:8.5px;color:var(--tx3);letter-spacing:-.2px;white-space:nowrap}
 
-/* 价格分布刻度 */
-.strip{margin-top:18px;position:relative;height:42px}
-.strip .axis{position:absolute;left:0;right:0;top:16px;height:1px;background:var(--stroke2)}
-.strip .pt{position:absolute;top:14px;width:3px;height:5px;border-radius:1px;background:#3A3A3E;transform:translateX(-50%)}
-.strip .pt.hi{background:var(--t1);width:3px;height:14px;top:8px}
-.strip .lbl{position:absolute;font-size:8.5px;color:var(--t3);letter-spacing:.08em;top:26px;transform:translateX(-50%);font-variant-numeric:tabular-nums}
+/* 变动条目 */
+.diff{display:flex;gap:10px;padding:11px 0;border-bottom:1px dashed var(--line)}
+.diff:last-child{border-bottom:none}
+.diff .ic{width:22px;height:22px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;flex-shrink:0;margin-top:1px}
+.diff .ic.up{background:rgba(207,63,50,.12);color:var(--up)}
+.diff .ic.down{background:rgba(18,133,92,.12);color:var(--down)}
+.diff .ic.watch{background:rgba(184,134,11,.14);color:var(--warn)}
+.diff .m{flex:1;min-width:0}
+.diff .t{font-size:13px;font-weight:600;line-height:1.4}
+.diff .v{font-size:12px;color:var(--tx2);margin-top:2px;font-variant-numeric:tabular-nums;word-break:break-word}
+.diff .v em{font-style:normal;color:var(--tx3)}
+.diff .p{font-size:12px;font-weight:800;font-variant-numeric:tabular-nums;white-space:nowrap;align-self:center}
+.p.up{color:var(--up)} .p.down{color:var(--down)}
 
-/* 两张次卡 */
-.duo{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:12px 0}
-.sub{background:var(--surface);border:1px solid var(--stroke);border-radius:18px;padding:14px}
-.slabel{display:flex;align-items:center;gap:6px;font-size:10px;color:var(--t2)}
-.snum{font-size:30px;font-weight:300;letter-spacing:-.02em;margin-top:12px;line-height:1;font-variant-numeric:tabular-nums}
-.snum small{font-size:10px;font-weight:400;color:var(--t2);letter-spacing:.06em;margin-left:5px}
-.snote{font-size:9.5px;color:var(--t3);margin-top:8px;letter-spacing:.03em}
-.segs{display:flex;gap:2px;margin-top:14px;height:10px;align-items:flex-end}
-.segs i{flex:1;height:100%;background:#3A3A3E;border-radius:1px}
-.segs i.ok,.segs i.a{background:#B4B4B8}
-.segs i.bad{background:var(--up)}
-
-/* 标签条 */
-.tabs{display:flex;gap:6px;overflow-x:auto;padding:0 0 10px;scrollbar-width:none}
-.tabs::-webkit-scrollbar{display:none}
-.tab,.chip{
-  flex:0 0 auto;font-size:10.5px;padding:5px 11px;border-radius:14px;
-  border:1px solid var(--stroke);background:transparent;color:var(--t2);
-  white-space:nowrap;cursor:pointer;letter-spacing:.04em;
-}
-.tab.on,.chip.on{color:var(--t1);border-color:var(--t3)}
-.chips{display:flex;gap:6px;overflow-x:auto;padding:0 0 12px;scrollbar-width:none}
+/* 报价行 */
+.quote{padding:11px 0;border-bottom:1px solid var(--line)}
+.quote:last-child{border-bottom:none}
+.qh{display:flex;align-items:baseline;gap:8px}
+.qh .nm{font-size:13px;font-weight:600;flex:1;min-width:0;line-height:1.35;word-break:break-word}
+.chips{display:flex;gap:6px;overflow-x:auto;padding:0 14px 8px;scrollbar-width:none}
 .chips::-webkit-scrollbar{display:none}
-.chip{font-size:10px;padding:4px 10px;border-radius:12px}
-.seg{display:flex;gap:14px;padding:0 0 12px}
-.seg button{font-size:10px;letter-spacing:.04em;padding:0;border:0;background:none;color:var(--t3);cursor:pointer}
-.seg button.on{color:var(--t1)}
+.chip{flex:0 0 auto;font-size:11.5px;padding:4px 11px;border-radius:14px;border:1px solid var(--line);background:transparent;color:var(--tx2);cursor:pointer;white-space:nowrap}
+.chip.on{background:var(--card2);border-color:var(--tx3);color:var(--tx);font-weight:600}
+.chartbox{background:var(--card2);border:1px solid var(--line);border-radius:10px;padding:9px 10px 8px;margin:6px 0}
+.chline{display:flex;justify-content:space-between;font-size:11px;color:var(--tx2);margin-bottom:4px}
+.legend{display:flex;flex-wrap:wrap;gap:10px;font-size:10.5px;color:var(--tx3);margin-top:4px}
+.legend i{display:inline-block;width:9px;height:2px;vertical-align:middle;margin-right:4px;border-radius:1px}
+.rankwrap{border-bottom:1px solid var(--line);padding:9px 0}
+.rankwrap:last-of-type{border-bottom:none}
+.rankwrap .rank{padding:0;border-bottom:none}
+.rank{display:flex;gap:9px;align-items:flex-start;padding:0}
+.rn{width:20px;flex:0 0 20px;font-size:11px;color:var(--tx3);text-align:right;padding-top:3px;font-variant-numeric:tabular-nums}
+.rn.top{color:var(--accent);font-weight:700}
+.rm{flex:1;min-width:0}
+.rt{font-size:12.5px;font-weight:600;line-height:1.4}
+.rt .plat{font-weight:400;color:var(--tx2);font-size:11.5px}
+.rs2{font-size:11px;color:var(--tx3);margin-top:1px;font-variant-numeric:tabular-nums}
+.rbar{height:3px;border-radius:2px;background:var(--card2);margin-top:5px;overflow:hidden}
+.rbar i{display:block;height:100%;border-radius:2px}
+.rbar i.plan{background:linear-gradient(90deg,#b9822e,#e0a04a)}
+.rbar i.meter{background:linear-gradient(90deg,#2f6fa8,#4f9fd8)}
+.rp{font-size:13px;font-weight:800;white-space:nowrap;font-variant-numeric:tabular-nums;letter-spacing:-.2px}
+.rp span{font-size:10px;font-weight:500;color:var(--tx3)}
+.promo{background:rgba(224,118,28,.06);border:1px solid rgba(224,118,28,.25);border-radius:9px;padding:10px 11px;margin:4px 0 2px}
+.promo .ptitle{font-size:12px;font-weight:700;color:var(--accent);margin-bottom:2px}
+.promo .pname{font-size:12.5px;color:var(--tx);margin-bottom:6px;line-height:1.4}
+.kv{display:flex;gap:10px;font-size:11.5px;padding:2px 0;font-variant-numeric:tabular-nums}
+.kv span{color:var(--tx3);flex:0 0 72px}
+.kv b{color:var(--tx);font-weight:600;flex:1;word-break:break-word}
+.plinks{display:flex;gap:12px;margin-top:6px;font-size:11.5px}
+.plinks a{color:var(--accent);text-decoration:none;border-bottom:1px dotted rgba(224,118,28,.5)}
+.src-tag{display:inline-block;font-size:9.5px;padding:0 5px;border-radius:4px;margin-right:6px;vertical-align:1px;letter-spacing:.2px}
+.src-tag.live{background:rgba(55,138,221,.14);color:#3d7fc4;border:1px solid rgba(55,138,221,.3)}
+.src-tag.plan{background:rgba(224,118,28,.14);color:#c96a12;border:1px solid rgba(224,118,28,.3)}
+.bar i.meter{background:linear-gradient(90deg,#2f6fa8,#4f9fd8)}
+.bar i.plan{background:linear-gradient(90deg,#b9822e,#e0a04a)}
+.gapbar{display:flex;flex-wrap:wrap;gap:4px 12px;font-size:11px;color:var(--tx2);background:var(--card2);border:1px solid var(--line);border-radius:8px;padding:7px 10px;margin:8px 0 4px;font-variant-numeric:tabular-nums}
+.gapbar b{color:var(--tx);font-weight:600}
+.badge{display:inline-block;font-size:10px;font-weight:600;padding:1px 6px;border-radius:5px;margin-left:6px;vertical-align:1px;white-space:nowrap}
+.badge.up{background:rgba(207,63,50,.14);color:var(--up);border:1px solid rgba(207,63,50,.28)}
+.badge.down{background:rgba(18,133,92,.14);color:var(--down);border:1px solid rgba(18,133,92,.28)}
+.caret{flex-shrink:0;align-self:center;color:var(--tx3);font-size:10px;line-height:1}
+.quote{cursor:pointer}
+.detail{display:none;margin:10px -2px 2px;padding-top:10px;border-top:1px dashed var(--line);cursor:default}
+.quote.open .detail{display:block}
+.qh .pr{font-size:15px;font-weight:800;font-variant-numeric:tabular-nums;letter-spacing:-.3px;white-space:nowrap;flex-shrink:0}
+.qh .pr span{font-size:10.5px;font-weight:500;color:var(--tx3);margin-left:1px}
+.bar{height:4px;border-radius:3px;background:var(--card2);margin:7px 0 5px;overflow:hidden;position:relative}
+.bar i{display:block;height:100%;border-radius:3px;background:linear-gradient(90deg,var(--brand2),var(--accent))}
+.qm{font-size:11px;color:var(--tx3);display:flex;flex-wrap:wrap;gap:3px 10px;font-variant-numeric:tabular-nums}
+.qm b{color:var(--tx2);font-weight:600}
+.tag{display:inline-block;font-size:10px;padding:1px 6px;border-radius:5px;border:1px solid var(--line);color:var(--tx2);background:var(--card2);margin-left:6px;vertical-align:1px}
+.tag.live{border-color:rgba(18,133,92,.35);color:var(--down);background:rgba(18,133,92,.08)}
+.tag.base{border-color:rgba(224,118,28,.35);color:var(--accent);background:rgba(224,118,28,.08)}
+.tag.pend{border-color:var(--line);color:var(--tx3)}
+.tag.no{border-color:rgba(207,63,50,.3);color:var(--up);background:rgba(207,63,50,.07)}
 
-/* 列表行 */
-.quote{padding:12px 0;border-bottom:1px solid var(--stroke2);cursor:pointer}
-.quote:last-child{border-bottom:0}
-.qh{display:flex;align-items:baseline;gap:9px}
-.qh .nm{font-size:12.5px;font-weight:400;flex:1;min-width:0;line-height:1.4;color:var(--t1);word-break:break-word}
-.qh .pr{font-size:15px;font-weight:400;white-space:nowrap;font-variant-numeric:tabular-nums;letter-spacing:-.01em;flex-shrink:0}
-.qh .pr span{font-size:9px;color:var(--t2);margin-left:3px;letter-spacing:.04em;white-space:nowrap}
-.caret{flex-shrink:0;color:var(--t3);font-size:9px;line-height:1}
-.bar{height:1px;background:var(--stroke2);margin:9px 0 8px;overflow:hidden}
-.bar i{display:block;height:1px;background:#EDEDED}
-.bar i.meter{background:#FFFFFF}
-.bar i.plan{background:#7A7A7E}
-.qm{font-size:9.5px;color:var(--t3);display:flex;flex-wrap:wrap;gap:2px 10px;letter-spacing:.02em;font-variant-numeric:tabular-nums}
-.qm b{color:var(--t2);font-weight:400}
-
-/* 来源标签 */
-.src-tag{display:inline-block;font-size:8.5px;letter-spacing:.12em;padding:1px 5px;border:1px solid var(--stroke);border-radius:3px;margin-right:6px;vertical-align:1.5px;color:var(--t3);text-transform:uppercase}
-.src-tag.live{color:var(--t2)}
-.src-tag.plan{color:var(--t3)}
-.tag{display:inline-block;font-size:8.5px;letter-spacing:.1em;padding:0;border:0;color:var(--t3);margin-left:6px;vertical-align:1.5px}
-.tag.on-amber{color:var(--amber)}
-.tag.on-amber::before{content:'';display:inline-block;width:3px;height:3px;border-radius:50%;background:var(--amber);margin-right:4px;vertical-align:2px}
-.tag.base,.tag.pend{color:var(--t3)}
-.tag.no{color:var(--up);border-color:#3A2320}
-.badge{display:inline-block;font-size:9px;letter-spacing:.04em;margin-left:7px;vertical-align:1px;font-variant-numeric:tabular-nums}
-.badge.up{color:var(--up)}
-.badge.down{color:var(--down)}
-
-/* 排行行 */
-.rankwrap{padding:12px 0;border-bottom:1px solid var(--stroke2);cursor:pointer}
-.rankwrap:last-of-type{border-bottom:0}
-.rank{display:flex;gap:10px;align-items:flex-start;padding:0}
-.rn{width:18px;flex:0 0 18px;font-size:9.5px;color:var(--t3);text-align:right;padding-top:3px;font-variant-numeric:tabular-nums}
-.rt{font-size:12.5px;color:var(--t1);line-height:1.4}
-.rt .plat{color:var(--t3);font-size:10.5px;margin-left:4px}
-.rs2{font-size:9.5px;color:var(--t3);margin-top:2px;font-variant-numeric:tabular-nums;letter-spacing:.02em}
-.rbar{height:1px;background:var(--stroke2);margin-top:8px;overflow:hidden}
-.rbar i{display:block;height:1px;background:#EDEDED}
-.rbar i.plan{background:#7A7A7E}
-.rp{font-size:13.5px;font-weight:400;white-space:nowrap;flex-shrink:0;font-variant-numeric:tabular-nums;letter-spacing:-.01em}
-.rp span{font-size:9px;color:var(--t2);margin-left:3px;white-space:nowrap}
-
-/* 统计条 */
-.gapbar{display:flex;flex-wrap:wrap;gap:4px 16px;font-size:10px;color:var(--t2);padding:0 0 12px;letter-spacing:.02em;font-variant-numeric:tabular-nums}
-.gapbar b{color:var(--t1);font-weight:400}
-
-/* 展开明细 */
-.detail{display:none;padding-top:2px;cursor:default}
-.quote.open .detail,.rankwrap.open .detail{display:block}
-.chline{display:flex;justify-content:space-between;font-size:9.5px;color:var(--t3);letter-spacing:.1em;text-transform:uppercase;margin:12px 0 8px}
-.legend{display:flex;flex-wrap:wrap;gap:12px;font-size:9.5px;color:var(--t3);margin-top:6px;letter-spacing:.04em}
-.legend i{display:inline-block;width:8px;height:1px;vertical-align:middle;margin-right:4px}
-.chartbox{border:1px solid var(--stroke2);border-radius:12px;padding:12px;margin:10px 0}
-
-/* 活动区块 */
-.promo{border:1px solid var(--stroke);border-radius:14px;padding:13px 14px;margin:6px 0 2px}
-.promo .ptitle{font-size:10px;letter-spacing:.12em;color:var(--amber);text-transform:uppercase;margin-bottom:5px}
-.promo .pname{font-size:12px;color:var(--t1);margin-bottom:9px;line-height:1.45}
-.kv{display:flex;gap:10px;font-size:10.5px;padding:3px 0;font-variant-numeric:tabular-nums}
-.kv span{color:var(--t3);flex:0 0 78px;letter-spacing:.02em}
-.kv b{color:var(--t1);font-weight:400;flex:1;word-break:break-word}
-.plinks{display:flex;gap:16px;margin-top:9px;font-size:10px;letter-spacing:.04em}
-.plinks a{color:var(--t2);text-decoration:none;border-bottom:1px solid var(--stroke);padding-bottom:1px}
-
-/* 源列表 */
-.wt{display:flex;align-items:center;gap:9px;padding:9px 0;border-bottom:1px solid var(--stroke2);font-size:11px}
-.wt:last-child{border-bottom:0}
-.wt .st{width:4px;height:4px;border-radius:50%;flex-shrink:0;background:#3A3A3E}
-.wt .st.ok{background:#6E9E5A}
-.wt .st.dynamic{background:#8A8A8C}
-.wt .st.fail{background:var(--up)}
-.wt .nm{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--t2)}
-.wt .nm a{color:inherit;text-decoration:none}
-.wt .rs{font-size:9.5px;color:var(--t3);white-space:nowrap;letter-spacing:.04em}
-.wt .rs.chg{color:var(--amber)}
-
-/* 折叠与按钮 */
-details{border-top:1px solid var(--stroke2);margin-top:4px}
-details summary{list-style:none;cursor:pointer;padding:12px 0;font-size:10.5px;color:var(--t2);display:flex;justify-content:space-between;letter-spacing:.04em}
-details summary::-webkit-details-marker{display:none}
-details summary::after{content:'+';color:var(--t3)}
-details[open] summary::after{content:'−'}
-.src{font-size:10px;color:var(--t3);padding:6px 0;border-bottom:1px solid var(--stroke2);line-height:1.7}
-.src:last-child{border-bottom:0}
-.btn{
-  display:flex;align-items:center;gap:12px;width:100%;margin-top:6px;padding:0 18px;
-  height:56px;border-radius:28px;border:1px solid var(--stroke);background:transparent;
-  color:var(--t1);font-size:12px;letter-spacing:.04em;cursor:pointer;text-align:left;
-  font-family:inherit;
+/* Tab */
+.tabs{display:flex;gap:6px;overflow-x:auto;padding:12px 14px 10px;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+.tabs::-webkit-scrollbar{display:none}
+.tab{
+  flex:0 0 auto;font-size:12px;padding:6px 12px;border-radius:20px;
+  border:1px solid var(--line);background:var(--card2);color:var(--tx2);white-space:nowrap;cursor:pointer;
+  transition:.15s;
 }
-.btn::before{content:'';width:32px;height:32px;border-radius:50%;background:#FFF;flex:0 0 32px}
-#share::after{content:'LINK READY';margin-left:auto;font-size:8.5px;letter-spacing:.16em;color:var(--t3)}
-.btn:active{opacity:.8}
-.foot{text-align:left;font-size:9px;color:var(--t3);padding:20px 0 8px;line-height:1.9;letter-spacing:.06em}
-@media(min-width:760px){.wrap{max-width:560px}}
+.tab.on{background:var(--brand2);border-color:var(--brand2);color:#fff;font-weight:600}
+.seg{display:flex;gap:6px;padding:0 14px 4px}
+.seg button{font-size:11.5px;padding:4px 10px;border-radius:8px;border:1px solid var(--line);background:transparent;color:var(--tx3);cursor:pointer}
+.seg button.on{background:var(--card2);color:var(--tx);border-color:var(--tx3)}
+
+/* 监控表 */
+.wt{display:flex;align-items:center;gap:9px;padding:9px 0;border-bottom:1px dashed var(--line);font-size:12.5px}
+.wt:last-child{border-bottom:none}
+.wt .st{width:7px;height:7px;border-radius:50%;flex-shrink:0}
+.wt .st.ok{background:var(--down)} .wt .st.dynamic{background:var(--warn)} .wt .st.fail{background:var(--up)}
+.wt .nm{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.wt .rs{font-size:11px;color:var(--tx3);white-space:nowrap}
+.wt .rs.chg{color:var(--warn);font-weight:600}
+
+/* 折叠 */
+details{border-top:1px solid var(--line)}
+details summary{
+  list-style:none;cursor:pointer;padding:11px 0;font-size:12.5px;color:var(--tx2);
+  display:flex;align-items:center;justify-content:space-between;
+}
+details summary::-webkit-details-marker{display:none}
+details summary::after{content:'＋';color:var(--tx3);font-size:13px}
+details[open] summary::after{content:'－'}
+.src{font-size:11.5px;color:var(--tx3);padding:7px 0;border-bottom:1px dashed var(--line);line-height:1.55;word-break:break-all}
+.src:last-child{border-bottom:none}
+.src a{color:var(--brand2);text-decoration:none}
+@media (prefers-color-scheme: dark){.src a{color:#6fa8dc}}
+
+.foot{text-align:center;font-size:11px;color:var(--tx3);padding:18px 0 6px;line-height:1.9}
+.btn{
+  display:block;width:100%;margin-top:12px;padding:11px;border-radius:10px;border:1px solid var(--line);
+  background:var(--card2);color:var(--tx);font-size:13px;font-weight:600;cursor:pointer;
+}
+.btn:active{transform:scale(.99)}
+@media(min-width:760px){ .wrap{padding:0 20px} .top h1{font-size:17px} }
 </style>
 </head>
 <body>
 
 <div class="top">
-  <div class="wrap">
-    <div class="meta">
-      <span id="datemeta">—</span>
-      <span class="live"><i id="cloudDot"></i><span id="cloudTag">SYNCING</span></span>
-    </div>
+  <div class="row">
     <h1>AI算力价格监测台</h1>
+    <span class="pill" id="cloudPill"><i class="dot" id="cloudDot"></i><span id="cloudTag">连接云端</span></span>
+  </div>
+  <div class="sub">
+    <span>数据时间 <b id="stamp">—</b></span>
+    <span>下次抓取 <b>每日 05:30</b></span>
   </div>
 </div>
 
@@ -228,7 +249,7 @@ details[open] summary::after{content:'−'}
   </div>
 </div>
 
-<script id="payload" type="application/json">{"generatedAt":"2026-11-15T01:19:35.471Z","stamp":"2026-11-15 09:19","asOfDate":"2026-11-15","baselineVersion":"2026-10-15","baselineOrigin":"Token采购比价报告_2026-10-15.html","fx":{"usdCny":7.1,"note":"USD→CNY 用于 OpenRouter 参考价折算，固定值人工维护（汇率源接口在本机不可达）","updated":"2026-11-03"},"health":{"aOk":4,"aFail":0,"bOk":10,"bFail":0,"bChanged":0},"liveQuotes":[{"key":"zhipu:GLM-5.3-Flash","label":"GLM-5.3-Flash · 智谱官方 API","source":"docs.bigmodel.cn/cn/guide/start/pricing","billing":"按量计费","input":0.8,"inputCacheHit":0.23,"output":2.8,"blended":1.47,"unit":"元/百万Token","note":"1M 上下文；官方综合口径 (2×输入+输出)/3"},{"key":"deepseek:deepseek-v41-flash:off","label":"DeepSeek V4.1 Flash · 官方 API（空闲时段）","source":"api-docs.deepseek.com/zh-cn/quick_start/pricing","billing":"按量计费 · 峰谷分时","input":1,"inputCacheHit":0.02,"output":4,"blended":2,"unit":"元/百万Token","note":"空闲时段价；综合口径 (2×输入+输出)/3"},{"key":"zhipu:GLM-5.3-FlashX","label":"GLM-5.3-FlashX · 智谱官方 API","source":"docs.bigmodel.cn/cn/guide/start/pricing","billing":"按量计费","input":2,"inputCacheHit":0.57,"output":7,"blended":3.67,"unit":"元/百万Token","note":"1M 上下文；官方综合口径 (2×输入+输出)/3"},{"key":"deepseek:deepseek-v41-flash:peak","label":"DeepSeek V4.1 Flash · 官方 API（高峰时段）","source":"api-docs.deepseek.com/zh-cn/quick_start/pricing","billing":"按量计费 · 峰谷分时","input":2,"inputCacheHit":0.04,"output":8,"blended":4,"unit":"元/百万Token","note":"高峰时段价；综合口径 (2×输入+输出)/3"},{"key":"deepseek:deepseek-v4-pro:off","label":"DeepSeek V4 Pro · 官方 API（空闲时段）","source":"api-docs.deepseek.com/zh-cn/quick_start/pricing","billing":"按量计费 · 峰谷分时","input":4.5,"inputCacheHit":0.15,"output":13.5,"blended":7.5,"unit":"元/百万Token","note":"空闲时段价；综合口径 (2×输入+输出)/3"},{"key":"zhipu:GLM-5.3","label":"GLM-5.3 · 智谱官方 API","source":"docs.bigmodel.cn/cn/guide/start/pricing","billing":"按量计费","input":8,"inputCacheHit":2,"output":28,"blended":14.67,"unit":"元/百万Token","note":"1M 上下文；官方综合口径 (2×输入+输出)/3"},{"key":"deepseek:deepseek-v4-pro:peak","label":"DeepSeek V4 Pro · 官方 API（高峰时段）","source":"api-docs.deepseek.com/zh-cn/quick_start/pricing","billing":"按量计费 · 峰谷分时","input":9,"inputCacheHit":0.3,"output":27,"blended":15,"unit":"元/百万Token","note":"高峰时段价；综合口径 (2×输入+输出)/3"}],"models":[{"id":"glm-5.3","name":"GLM-5.3","scene":"编码场景主力模型","rows":[{"platform":"火山引擎","product":"Coding Plan Pro","billing":"包月（限时2.5折）","modelNote":"GLM-5.3","priceMonthly":49.9,"listMonthly":200,"monthlyTokens":250000000,"unitPrice":0.2,"unitPriceNormal":0.8,"verify":"measured","tier":"B","note":"月额度2.5亿Token为实测用量；抵扣系数4.5","sourceUrl":"https://www.volcengine.com/activity/ai618","vendor":"智谱","model":"glm-5.3","modelLabel":"GLM-5.3","promo":{"discount":"限时 2.5 折","campaign":"火山引擎 mega-sale 限时特惠","campaignBasis":"活动规则页 acitvity-rule/mega-sale；活动页文案「旗舰模型，限时特惠」","sourceUrl":"https://www.volcengine.com/activity/ai618","ruleUrl":"https://docs.volcengine.com/docs/acitvity-rule/mega-sale","endsAt":null,"conditions":null,"listPrice":200,"promoPrice":49.9,"verifiedAt":"2026-10-15","note":"折扣与价格来自 2026-10-15 比价报告；活动截止时间与参与条件报告未记录，点链接自行确认。"}},{"platform":"百度千帆","product":"Token Plan Max","billing":"包月（活动5折）","modelNote":"GLM-5.3（9月上线）/ 实测为 GLM-5.2","priceMonthly":299.9,"listMonthly":600,"monthlyTokens":1300000000,"unitPrice":0.23,"unitPriceNormal":0.46,"verify":"measured","tier":"B","note":"实测13亿为GLM-5.2口径（消耗梯度折扣期）；GLM-5.3额度未实测","sourceUrl":"https://cloud.baidu.com/product/codingplan.html","vendor":"智谱","model":"glm-5.3","modelLabel":"GLM-5.3","promo":{"discount":"限时 5 折","campaign":"百度千帆 Token Plan 个人版·限时活动","campaignBasis":"活动页标题「百度千帆Token Plan个人版-百度智能云」","sourceUrl":"https://cloud.baidu.com/product/codingplan.html","ruleUrl":null,"endsAt":null,"conditions":null,"listPrice":600,"promoPrice":299.9,"verifiedAt":"2026-10-15","note":"折扣与价格来自 2026-10-15 比价报告；活动截止时间与参与条件报告未记录，点链接自行确认。"}},{"platform":"智谱官方","product":"GLM Coding Plan Max","billing":"包月（连续包年8折 862.4）","modelNote":"GLM-5.3","priceMonthly":1078,"listMonthly":1078,"monthlyTokens":1500000000,"unitPrice":0.72,"unitPriceNormal":0.72,"verify":"measured","tier":"A","note":"140,000积分/周≈15亿Token/月；套餐限单人使用","sourceUrl":"https://docs.bigmodel.cn/cn/coding-plan/overview.md","vendor":"智谱","model":"glm-5.3","modelLabel":"GLM-5.3","promo":{"discount":"连续包年 8 折（862.4 元/月）","campaign":"GLM Coding Plan 连续包年优惠","campaignBasis":"套餐概览页「连续包年 8 折」","sourceUrl":"https://docs.bigmodel.cn/cn/coding-plan/overview.md","ruleUrl":null,"endsAt":null,"conditions":"需连续订阅包年，非单月","listPrice":1078,"promoPrice":1078,"verifiedAt":"2026-10-15","note":"折扣与价格来自 2026-10-15 比价报告；活动截止时间与参与条件报告未记录，点链接自行确认。"}},{"platform":"移动云","product":"政企报价套餐","billing":"包月","modelNote":"GLM-5.2（未含5.3）","priceMonthly":5000,"listMonthly":5000,"monthlyTokens":5500000000,"unitPrice":0.91,"unitPriceNormal":0.91,"verify":"nominal","tier":"C","note":"政企报价 5,000元 = 55亿Token，实测未观测到缓存命中，有效单价高于标称","sourceUrl":"manual://移动云政企报价文件","vendor":"智谱","model":"glm-5.2","modelLabel":"GLM-5.2"},{"platform":"华为云","product":"MaaS Token Plan Max","billing":"包月","modelNote":"GLM-5.3","priceMonthly":799,"listMonthly":799,"monthlyTokens":880000000,"unitPrice":0.91,"unitPriceNormal":0.91,"verify":"unverified","tier":"B","note":"Token制直接折算，未实测","sourceUrl":"https://support.huaweicloud.com/Token-plan-maas/","vendor":"智谱","model":"glm-5.3","modelLabel":"GLM-5.3"},{"platform":"阿里百炼","product":"尊享坐席","billing":"包月（Credits制）","modelNote":"套餐内模型（Credits折算）","priceMonthly":1398,"listMonthly":1398,"monthlyTokens":1200000000,"unitPrice":1.17,"unitPriceNormal":1.17,"verify":"measured","tier":"B","note":"250,000 Credits 实测=12亿Token；缓存命中未专门验证","sourceUrl":"https://help.aliyun.com/zh/model-studio/token-plan-personal-overview","vendor":"智谱","model":"glm-5.3","modelLabel":"GLM-5.3"},{"platform":"天翼云","product":"星辰 TokenHub","billing":"包月（积分制）","modelNote":"GLM-5.2（未含5.3）","priceMonthly":199,"listMonthly":199,"monthlyTokens":null,"unitPrice":null,"unitPriceNormal":null,"verify":"pending","tier":"B","note":"25,000积分；无官方兑换系数，待实测","sourceUrl":"https://www.ctyun.cn/products/31761580","vendor":"智谱","model":"glm-5.2","modelLabel":"GLM-5.2"},{"platform":"腾讯云","product":"TokenHub 通用 Plan Max","billing":"包月（积分制）","modelNote":"GLM-5.2 / GLM-5.3","priceMonthly":599,"listMonthly":599,"monthlyTokens":null,"unitPrice":null,"unitPriceNormal":null,"verify":"pending","tier":"B","note":"11,980积分；暂无官方兑换系数","sourceUrl":"https://cloud.tencent.com/document/product/1823/130060","vendor":"智谱","model":"glm-5.3","modelLabel":"GLM-5.3"},{"platform":"联通云","product":"Token Plan 个人 Max","billing":"包月（Token制）","modelNote":"不支持 GLM 系列","priceMonthly":45,"listMonthly":45,"monthlyTokens":18000000,"unitPrice":null,"unitPriceNormal":null,"verify":"unsupported","tier":"B","note":"仅支持 DeepSeek V4-Flash、MiniMax","sourceUrl":"https://www.cucloud.cn/product/tokenplan.html","vendor":"智谱","model":"glm-5.3","modelLabel":"GLM-5.3"}]},{"id":"deepseek-v4-pro","name":"DeepSeek V4 Pro","scene":"Agent 工具 API 调用","rows":[{"platform":"火山引擎","product":"Coding Plan Pro","billing":"订阅套餐（限时2.5折）","modelNote":"V4 Pro（抵扣系数5.5）","priceMonthly":49.9,"listMonthly":200,"monthlyTokens":205000000,"unitPrice":0.24,"unitPriceNormal":0.98,"verify":"unverified","tier":"B","note":"按抵扣系数5.5折算，套餐总额度约112,500 AFP/月","sourceUrl":"https://docs.volcengine.com/docs/82379/1544106","vendor":"DeepSeek","model":"deepseek-v4-pro","modelLabel":"V4 Pro","promo":{"discount":"限时 2.5 折","campaign":"火山引擎 mega-sale 限时特惠","campaignBasis":"活动规则页 acitvity-rule/mega-sale；活动页文案「旗舰模型，限时特惠」","sourceUrl":"https://www.volcengine.com/activity/ai618","ruleUrl":"https://docs.volcengine.com/docs/acitvity-rule/mega-sale","endsAt":null,"conditions":null,"listPrice":200,"promoPrice":49.9,"verifiedAt":"2026-10-15","note":"折扣与价格来自 2026-10-15 比价报告；活动截止时间与参与条件报告未记录，点链接自行确认。"}},{"platform":"DeepSeek 官方","product":"API 按量","billing":"按量计费","modelNote":"DeepSeek V4 Pro","priceIn":3,"priceOut":6,"priceInCache":0.025,"unitPrice":4,"unitPriceMeasured":3.5,"unitPriceNormal":4,"verify":"measured","tier":"A","note":"4.00为官方综合（输入:输出=2:1）；实测约3.50，低约12%","sourceUrl":"https://api-docs.deepseek.com/zh-cn/quick_start/pricing","vendor":"DeepSeek","model":"deepseek-v4-pro","modelLabel":"V4 Pro","live":{"mode":"peak-valley","input":4.5,"output":13.5,"inputCacheHit":0.15,"inputPeak":9,"outputPeak":27,"blended":7.5,"blendedPeak":15},"unitPriceLive":7.5,"unitPriceLivePeak":15},{"platform":"华为云","product":"MaaS Token Plan Max","billing":"订阅套餐","modelNote":"不支持 V4 Pro","priceMonthly":799,"listMonthly":799,"monthlyTokens":null,"unitPrice":null,"verify":"unsupported","tier":"B","note":"官方支持列表未含 V4 Pro","sourceUrl":"https://support.huaweicloud.com/Token-plan-maas/","vendor":"DeepSeek","model":"deepseek-v4-pro","modelLabel":"V4 Pro"},{"platform":"移动云","product":"政企报价套餐","billing":"订阅套餐","modelNote":"套餐内为GLM-5.2，V4 Pro 待核实","priceMonthly":5000,"listMonthly":5000,"monthlyTokens":null,"unitPrice":null,"verify":"pending","tier":"C","note":"V4 Pro 支持情况待核实","sourceUrl":"manual://移动云政企报价文件","vendor":"DeepSeek","model":"deepseek-v4-pro","modelLabel":"V4 Pro"},{"platform":"百度千帆","product":"Token Plan Max","billing":"订阅套餐（限时5折）","modelNote":"V4 Pro（积分系数待核）","priceMonthly":299.9,"listMonthly":600,"monthlyTokens":null,"unitPrice":null,"verify":"pending","tier":"B","note":"Token制与积分制口径并存，可用量待实测","sourceUrl":"https://cloud.baidu.com/product/codingplan.html","vendor":"DeepSeek","model":"deepseek-v4-pro","modelLabel":"V4 Pro","promo":{"discount":"限时 5 折","campaign":"百度千帆 Token Plan 个人版·限时活动","campaignBasis":"活动页标题「百度千帆Token Plan个人版-百度智能云」","sourceUrl":"https://cloud.baidu.com/product/codingplan.html","ruleUrl":null,"endsAt":null,"conditions":null,"listPrice":600,"promoPrice":299.9,"verifiedAt":"2026-10-15","note":"折扣与价格来自 2026-10-15 比价报告；活动截止时间与参与条件报告未记录，点链接自行确认。"}},{"platform":"天翼云","product":"星辰 TokenHub","billing":"订阅套餐（积分制）","modelNote":"DeepSeek V4 Pro","priceMonthly":199,"listMonthly":199,"monthlyTokens":null,"unitPrice":null,"verify":"pending","tier":"B","note":"25,000积分，无兑换系数","sourceUrl":"https://www.ctyun.cn/products/31761580","vendor":"DeepSeek","model":"deepseek-v4-pro","modelLabel":"V4 Pro"},{"platform":"腾讯云","product":"TokenHub 通用 Plan Max","billing":"订阅套餐（积分制）","modelNote":"DeepSeek V4 系列","priceMonthly":599,"listMonthly":599,"monthlyTokens":null,"unitPrice":null,"verify":"pending","tier":"B","note":"11,980积分，无兑换系数","sourceUrl":"https://cloud.tencent.com/document/product/1823/130060","vendor":"DeepSeek","model":"deepseek-v4-pro","modelLabel":"V4 Pro"}]},{"id":"deepseek-v41-flash","name":"DeepSeek V4.1 Flash","scene":"Agent 工具 API 调用（低成本档）","rows":[{"platform":"火山引擎","product":"Coding Plan Pro","billing":"订阅套餐（限时2.5折）","modelNote":"V4.1 Flash（抵扣系数2.5，限时5折1.25）","priceMonthly":49.9,"listMonthly":200,"monthlyTokens":450000000,"unitPrice":0.11,"unitPriceNormal":0.44,"verify":"unverified","tier":"B","note":"限时折扣期折算0.06（常态0.22）；可用量约4.5亿，折扣期约9亿","sourceUrl":"https://docs.volcengine.com/docs/82379/1544106","vendor":"DeepSeek","model":"deepseek-v41-flash","modelLabel":"V4.1 Flash","promo":{"discount":"限时 2.5 折","campaign":"火山引擎 mega-sale 限时特惠","campaignBasis":"活动规则页 acitvity-rule/mega-sale；活动页文案「旗舰模型，限时特惠」","sourceUrl":"https://www.volcengine.com/activity/ai618","ruleUrl":"https://docs.volcengine.com/docs/acitvity-rule/mega-sale","endsAt":null,"conditions":null,"listPrice":200,"promoPrice":49.9,"verifiedAt":"2026-10-15","note":"折扣与价格来自 2026-10-15 比价报告；活动截止时间与参与条件报告未记录，点链接自行确认。"}},{"platform":"DeepSeek 官方","product":"API 按量","billing":"按量计费","modelNote":"DeepSeek V4.1 Flash","priceIn":1,"priceOut":2,"priceInCache":0.02,"unitPrice":1.33,"unitPriceMeasured":0.7,"unitPriceNormal":1.33,"verify":"measured","tier":"A","note":"实测约0.70，较官方综合低约47%","sourceUrl":"https://api-docs.deepseek.com/zh-cn/quick_start/pricing","vendor":"DeepSeek","model":"deepseek-v41-flash","modelLabel":"V4.1 Flash","live":{"mode":"peak-valley","input":1,"output":4,"inputCacheHit":0.02,"inputPeak":2,"outputPeak":8,"blended":2,"blendedPeak":4},"unitPriceLive":2,"unitPriceLivePeak":4},{"platform":"联通云","product":"Token Plan 个人版","billing":"订阅套餐（Token制）","modelNote":"DeepSeek V4 Flash","priceMonthly":45,"listMonthly":45,"monthlyTokens":18000000,"unitPrice":2.5,"unitPriceNormal":2.5,"verify":"unverified","tier":"B","note":"个人版15/30/45元三档，单价恒定2.50；团队版1,398元含25万Credits≈20亿Token，约0.70","sourceUrl":"https://www.cucloud.cn/product/tokenplan.html","vendor":"DeepSeek","model":"deepseek-v41-flash","modelLabel":"V4.1 Flash"},{"platform":"华为云","product":"MaaS Token Plan Max","billing":"订阅套餐","modelNote":"V4.1-Flash（各模型共享额度）","priceMonthly":799,"listMonthly":799,"monthlyTokens":880000000,"unitPrice":0.91,"unitPriceNormal":0.91,"verify":"unverified","tier":"B","note":"Token制直接折算","sourceUrl":"https://support.huaweicloud.com/Token-plan-maas/","vendor":"DeepSeek","model":"deepseek-v41-flash","modelLabel":"V4.1 Flash"},{"platform":"移动云","product":"政企报价套餐","billing":"订阅套餐","modelNote":"套餐内为GLM-5.2，V4.1 Flash 待核实","priceMonthly":5000,"listMonthly":5000,"monthlyTokens":null,"unitPrice":null,"verify":"pending","tier":"C","note":"支持情况待核实","sourceUrl":"manual://移动云政企报价文件","vendor":"DeepSeek","model":"deepseek-v41-flash","modelLabel":"V4.1 Flash"},{"platform":"百度千帆","product":"Token Plan Max","billing":"订阅套餐（限时5折）","modelNote":"V4-Flash（积分系数待核）","priceMonthly":299.9,"listMonthly":600,"monthlyTokens":null,"unitPrice":null,"verify":"pending","tier":"B","note":"可用量与折算单价待实测","sourceUrl":"https://cloud.baidu.com/product/codingplan.html","vendor":"DeepSeek","model":"deepseek-v41-flash","modelLabel":"V4.1 Flash","promo":{"discount":"限时 5 折","campaign":"百度千帆 Token Plan 个人版·限时活动","campaignBasis":"活动页标题「百度千帆Token Plan个人版-百度智能云」","sourceUrl":"https://cloud.baidu.com/product/codingplan.html","ruleUrl":null,"endsAt":null,"conditions":null,"listPrice":600,"promoPrice":299.9,"verifiedAt":"2026-10-15","note":"折扣与价格来自 2026-10-15 比价报告；活动截止时间与参与条件报告未记录，点链接自行确认。"}},{"platform":"天翼云","product":"星辰 TokenHub","billing":"订阅套餐（积分制）","modelNote":"DeepSeek V4 Flash","priceMonthly":199,"listMonthly":199,"monthlyTokens":null,"unitPrice":null,"verify":"pending","tier":"B","note":"25,000积分，无兑换系数","sourceUrl":"https://www.ctyun.cn/products/31761580","vendor":"DeepSeek","model":"deepseek-v41-flash","modelLabel":"V4.1 Flash"},{"platform":"腾讯云","product":"TokenHub 通用 Plan Max","billing":"订阅套餐（积分制）","modelNote":"DeepSeek V4 系列","priceMonthly":599,"listMonthly":599,"monthlyTokens":null,"unitPrice":null,"verify":"pending","tier":"B","note":"11,980积分，无兑换系数","sourceUrl":"https://cloud.tencent.com/document/product/1823/130060","vendor":"DeepSeek","model":"deepseek-v41-flash","modelLabel":"V4.1 Flash"}]},{"id":"doubao","name":"豆包 Doubao-Seed","scene":"火山引擎自研系列（Coding / 通用 / 均衡）","rows":[{"platform":"火山引擎","product":"Coding Plan Pro","billing":"订阅套餐（限时2.5折）","modelNote":"Doubao-Seed-Evolving（系数2.5）","priceMonthly":49.9,"listMonthly":200,"monthlyTokens":450000000,"unitPrice":0.11,"unitPriceNormal":0.44,"verify":"unverified","tier":"B","note":"按GLM-5.3实测锚点×系数比1.8换算","sourceUrl":"https://docs.volcengine.com/docs/82379/1544106","vendor":"字节跳动","model":"doubao-evolving","modelLabel":"Seed-Evolving","promo":{"discount":"限时 2.5 折","campaign":"火山引擎 mega-sale 限时特惠","campaignBasis":"活动规则页 acitvity-rule/mega-sale；活动页文案「旗舰模型，限时特惠」","sourceUrl":"https://www.volcengine.com/activity/ai618","ruleUrl":"https://docs.volcengine.com/docs/acitvity-rule/mega-sale","endsAt":null,"conditions":null,"listPrice":200,"promoPrice":49.9,"verifiedAt":"2026-10-15","note":"折扣与价格来自 2026-10-15 比价报告；活动截止时间与参与条件报告未记录，点链接自行确认。"}},{"platform":"火山引擎","product":"Coding Plan Pro","billing":"订阅套餐（限时2.5折）","modelNote":"Doubao-Seed-2.1-Turbo（系数2.5）","priceMonthly":49.9,"listMonthly":200,"monthlyTokens":450000000,"unitPrice":0.11,"unitPriceNormal":0.44,"verify":"unverified","tier":"B","note":"同上换算口径","sourceUrl":"https://docs.volcengine.com/docs/82379/1544106","vendor":"字节跳动","model":"doubao-21-turbo","modelLabel":"Seed-2.1-Turbo","promo":{"discount":"限时 2.5 折","campaign":"火山引擎 mega-sale 限时特惠","campaignBasis":"活动规则页 acitvity-rule/mega-sale；活动页文案「旗舰模型，限时特惠」","sourceUrl":"https://www.volcengine.com/activity/ai618","ruleUrl":"https://docs.volcengine.com/docs/acitvity-rule/mega-sale","endsAt":null,"conditions":null,"listPrice":200,"promoPrice":49.9,"verifiedAt":"2026-10-15","note":"折扣与价格来自 2026-10-15 比价报告；活动截止时间与参与条件报告未记录，点链接自行确认。"}},{"platform":"火山方舟","product":"API 按量","billing":"按量计费","modelNote":"Doubao-Seed-2.1-Turbo","priceIn":3,"priceOut":15,"priceInCache":0.6,"unitPrice":7,"unitPriceNormal":7,"verify":"unverified","tier":"B","note":"Batch 1.50/7.50；Fast档 6.00/30.00","sourceUrl":"https://docs.volcengine.com/docs/82379/1544106","vendor":"字节跳动","model":"doubao-21-turbo","modelLabel":"Seed-2.1-Turbo"},{"platform":"火山方舟","product":"API 按量","billing":"按量计费","modelNote":"Doubao-Seed-Evolving","priceIn":6,"priceOut":30,"priceInCache":1.2,"unitPrice":14,"unitPriceNormal":14,"verify":"unverified","tier":"B","note":"1M上下文、最大输出256k","sourceUrl":"https://docs.volcengine.com/docs/82379/1544106","vendor":"字节跳动","model":"doubao-evolving","modelLabel":"Seed-Evolving"},{"platform":"火山方舟","product":"API 按量","billing":"按量计费","modelNote":"Doubao-Seed-2.1-Pro","priceIn":6,"priceOut":30,"priceInCache":1.2,"unitPrice":14,"unitPriceNormal":14,"verify":"unverified","tier":"B","note":"与 Seed-Evolving 按量价相同","sourceUrl":"https://docs.volcengine.com/docs/82379/1544106","vendor":"字节跳动","model":"doubao-21-pro","modelLabel":"Seed-2.1-Pro"}]},{"id":"qwen","name":"千问 Qwen3.8","scene":"阿里百炼主力系列","rows":[{"platform":"阿里百炼","product":"API 按量（Qwen3.7-Flash）","billing":"按量计费","modelNote":"Qwen3.7-Flash（≤32k档）","priceIn":0.2,"priceOut":0.8,"unitPrice":0.4,"unitPriceNormal":0.4,"verify":"unverified","tier":"B","note":"三档计价，1M档输入1.20/输出4.80；Batch 约5折","sourceUrl":"https://help.aliyun.com/zh/model-studio/models","vendor":"阿里","model":"qwen37-flash","modelLabel":"Qwen3.7-Flash"},{"platform":"移动云","product":"政企报价套餐","billing":"订阅套餐","modelNote":"Qwen3-max（未含3.8）","priceMonthly":5000,"listMonthly":5000,"monthlyTokens":5500000000,"unitPrice":0.91,"unitPriceNormal":0.91,"verify":"nominal","tier":"C","note":"套餐内为 2026-01 快照版 Qwen3-max","sourceUrl":"manual://移动云政企报价文件","vendor":"阿里","model":"qwen3-max","modelLabel":"Qwen3-max"},{"platform":"阿里百炼","product":"API 按量（Qwen3.8-Max）","billing":"按量计费","modelNote":"Qwen3.8-Max","priceIn":12,"priceOut":36,"priceInCache":1.5,"unitPrice":20,"unitPriceNormal":20,"verify":"unverified","tier":"B","note":"夜间22:00-次日8:00 限时4折≈8.00","sourceUrl":"https://help.aliyun.com/zh/model-studio/models","vendor":"阿里","model":"qwen38-max","modelLabel":"Qwen3.8-Max"},{"platform":"阿里百炼","product":"Token Plan 个人版","billing":"订阅套餐（Credits制）","modelNote":"Qwen3.8-Max(0902)/Flash 等23款共享","priceMonthly":139,"listMonthly":180,"monthlyTokens":null,"unitPrice":null,"verify":"pending","tier":"B","note":"四档 39/79/139/499（原价60/120/180/600），Credits 11,500/25,500/45,000/180,000","sourceUrl":"https://help.aliyun.com/zh/model-studio/token-plan-personal-overview","vendor":"阿里","model":"qwen38-max","modelLabel":"Qwen3.8-Max","promo":{"discount":"限时价（原价 60/120/180/600，现 39/79/139/499）","campaign":"百炼 Token Plan 个人版·限时价","campaignBasis":"帮助页标题「Token Plan 个人版订阅与权益-大模型服务平台百炼」","sourceUrl":"https://help.aliyun.com/zh/model-studio/token-plan-personal-overview","ruleUrl":null,"endsAt":null,"conditions":null,"listPrice":180,"promoPrice":139,"verifiedAt":"2026-10-15","note":"折扣与价格来自 2026-10-15 比价报告；活动截止时间与参与条件报告未记录，点链接自行确认。"}},{"platform":"阿里百炼","product":"尊享坐席","billing":"订阅套餐（Credits制）","modelNote":"套餐内模型（千问口径待核实）","priceMonthly":1398,"listMonthly":1398,"monthlyTokens":null,"unitPrice":null,"verify":"pending","tier":"B","note":"250,000 Credits；千问折算系数待核实","sourceUrl":"https://help.aliyun.com/zh/model-studio/token-plan-personal-overview","vendor":"阿里","model":"qwen38-max","modelLabel":"Qwen3.8-Max"}]},{"id":"kimi","name":"Kimi K3 / K2.7-Code","scene":"Coding / Agent 场景","rows":[{"platform":"火山引擎","product":"Coding Plan Pro","billing":"订阅套餐（限时2.5折）","modelNote":"Kimi-K2.7-Code（系数4.5）","priceMonthly":49.9,"listMonthly":200,"monthlyTokens":250000000,"unitPrice":0.2,"unitPriceNormal":0.8,"verify":"unverified","tier":"B","note":"与同套餐GLM-5.3实测2.5亿Token互为印证","sourceUrl":"https://docs.volcengine.com/docs/82379/1544106","vendor":"月之暗面","model":"kimi-k27-code","modelLabel":"K2.7-Code","promo":{"discount":"限时 2.5 折","campaign":"火山引擎 mega-sale 限时特惠","campaignBasis":"活动规则页 acitvity-rule/mega-sale；活动页文案「旗舰模型，限时特惠」","sourceUrl":"https://www.volcengine.com/activity/ai618","ruleUrl":"https://docs.volcengine.com/docs/acitvity-rule/mega-sale","endsAt":null,"conditions":null,"listPrice":200,"promoPrice":49.9,"verifiedAt":"2026-10-15","note":"折扣与价格来自 2026-10-15 比价报告；活动截止时间与参与条件报告未记录，点链接自行确认。"}},{"platform":"火山引擎","product":"Coding Plan Pro","billing":"订阅套餐（限时2.5折）","modelNote":"Kimi-K3（系数10）","priceMonthly":49.9,"listMonthly":200,"monthlyTokens":112500000,"unitPrice":0.44,"unitPriceNormal":1.78,"verify":"unverified","tier":"B","note":"全系最高抵扣系数，可用量约1.125亿Token/月","sourceUrl":"https://docs.volcengine.com/docs/82379/1544106","vendor":"月之暗面","model":"kimi-k3","modelLabel":"K3","promo":{"discount":"限时 2.5 折","campaign":"火山引擎 mega-sale 限时特惠","campaignBasis":"活动规则页 acitvity-rule/mega-sale；活动页文案「旗舰模型，限时特惠」","sourceUrl":"https://www.volcengine.com/activity/ai618","ruleUrl":"https://docs.volcengine.com/docs/acitvity-rule/mega-sale","endsAt":null,"conditions":null,"listPrice":200,"promoPrice":49.9,"verifiedAt":"2026-10-15","note":"折扣与价格来自 2026-10-15 比价报告；活动截止时间与参与条件报告未记录，点链接自行确认。"}},{"platform":"华为云","product":"MaaS Token Plan Max","billing":"订阅套餐","modelNote":"Kimi-K2.6（未含K3/K2.7-Code）","priceMonthly":799,"listMonthly":799,"monthlyTokens":880000000,"unitPrice":0.91,"unitPriceNormal":0.91,"verify":"unverified","tier":"B","note":"Token制直接折算","sourceUrl":"https://support.huaweicloud.com/Token-plan-maas/","vendor":"月之暗面","model":"kimi-k26","modelLabel":"K2.6"},{"platform":"Kimi 官方","product":"API 按量（K2.7-Code）","billing":"按量计费","modelNote":"Kimi K2.7-Code","priceIn":6.5,"priceOut":27,"priceInCache":1.3,"unitPrice":13.33,"unitPriceNormal":13.33,"verify":"unverified","tier":"B","note":"Batch API 为标准价6折","sourceUrl":"https://platform.kimi.com/docs/pricing/chat","vendor":"月之暗面","model":"kimi-k27-code","modelLabel":"K2.7-Code"},{"platform":"Kimi 官方","product":"API 按量（K3）","billing":"按量计费","modelNote":"Kimi K3","priceIn":20,"priceOut":100,"priceInCache":2,"unitPrice":46.67,"unitPriceNormal":46.67,"verify":"unverified","tier":"B","note":"缓存写入20元（5分钟）/40元（1小时）；1M上下文","sourceUrl":"https://platform.kimi.com/docs/pricing/chat","vendor":"月之暗面","model":"kimi-k3","modelLabel":"K3"}]}],"compare":{"available":true,"lastDate":"2026-11-14","lastLabel":"上一次抓取 2026-11-14","changes":[],"streaks":[{"key":"zhipu:GLM-5.3","label":"GLM-5.3 · 智谱官方 API","days":13,"since":"2026-11-03","blended":14.67},{"key":"zhipu:GLM-5.3-Flash","label":"GLM-5.3-Flash · 智谱官方 API","days":13,"since":"2026-11-03","blended":1.47},{"key":"zhipu:GLM-5.3-FlashX","label":"GLM-5.3-FlashX · 智谱官方 API","days":13,"since":"2026-11-03","blended":3.67},{"key":"deepseek:deepseek-v41-flash:off","label":"DeepSeek V4.1 Flash · 官方 API（空闲时段）","days":13,"since":"2026-11-03","blended":2},{"key":"deepseek:deepseek-v41-flash:peak","label":"DeepSeek V4.1 Flash · 官方 API（高峰时段）","days":13,"since":"2026-11-03","blended":4},{"key":"deepseek:deepseek-v4-pro:off","label":"DeepSeek V4 Pro · 官方 API（空闲时段）","days":13,"since":"2026-11-03","blended":7.5},{"key":"deepseek:deepseek-v4-pro:peak","label":"DeepSeek V4 Pro · 官方 API（高峰时段）","days":13,"since":"2026-11-03","blended":15}],"note":null},"diffs":[{"level":"high","scope":"DeepSeek V4 Pro","title":"DeepSeek V4 Pro 官方输入价（缓存未命中）变动","from":"¥3","to":"¥4.5（空闲） / ¥9（高峰）","pct":50,"kind":"up"},{"level":"high","scope":"DeepSeek V4 Pro","title":"DeepSeek V4 Pro 官方输出价变动","from":"¥6","to":"¥13.5（空闲） / ¥27（高峰）","pct":125,"kind":"up"},{"level":"high","scope":"DeepSeek V4 Pro","title":"DeepSeek V4 Pro 官方综合单价变动","from":"¥4/百万","to":"¥7.5/百万（空闲） / ¥15/百万（高峰）","pct":87.5,"kind":"up"},{"level":"high","scope":"DeepSeek V4.1 Flash","title":"DeepSeek V4.1 Flash 官方输出价变动","from":"¥2","to":"¥4（空闲） / ¥8（高峰）","pct":100,"kind":"up"},{"level":"high","scope":"DeepSeek V4.1 Flash","title":"DeepSeek V4.1 Flash 官方综合单价变动","from":"¥1.33/百万","to":"¥2/百万（空闲） / ¥4/百万（高峰）","pct":50.4,"kind":"up"}],"diffsBaselineDate":"2026-10-15","watchChanges":[],"watch":[{"id":"aliyun-models","name":"阿里百炼 · 模型价格","url":"https://help.aliyun.com/zh/model-studio/models","tier":"B","status":"dynamic","hint":"Qwen 系列按量价","changed":false,"samples":[],"note":"页面正文由前端渲染，抓不到价格文本，仅能监控 HTTP 可达性","ms":766,"signals":0,"fingerprint":"1505","checkedAt":"2026-11-15 09:19"},{"id":"aliyun-tokenplan","name":"阿里百炼 · Token Plan 个人版","url":"https://help.aliyun.com/zh/model-studio/token-plan-personal-overview","tier":"B","status":"ok","hint":"Credits 档位与限时价","changed":false,"samples":[],"ms":554,"signals":3,"fingerprint":"16e6d9a0","checkedAt":"2026-11-15 09:19"},{"id":"qianfan-codingplan","name":"百度千帆 · Token Plan","url":"https://cloud.baidu.com/product/codingplan.html","tier":"B","status":"dynamic","hint":"活动折扣与套餐档位","changed":false,"samples":[],"note":"页面正文由前端渲染，抓不到价格文本，仅能监控 HTTP 可达性","ms":269,"signals":2,"fingerprint":"66407d59","checkedAt":"2026-11-15 09:19"},{"id":"huawei-maas","name":"华为云 · MaaS Token Plan","url":"https://www.huaweicloud.com/intl/zh-cn/product/maas.html","tier":"B","status":"dynamic","hint":"档位与共享额度（原 support.huaweicloud.com/Token-plan-maas 文档路径已 404，2026-11-03 核验）","changed":false,"samples":[],"note":"页面正文由前端渲染，抓不到价格文本，仅能监控 HTTP 可达性","ms":180,"signals":0,"fingerprint":"1505","checkedAt":"2026-11-15 09:19"},{"id":"volcengine-price","name":"火山方舟 · 模型价格与抵扣系数","url":"https://docs.volcengine.com/docs/82379/1544106","tier":"B","status":"dynamic","hint":"抵扣系数调整会改变套餐等效单价","changed":false,"samples":[],"note":"页面正文由前端渲染，抓不到价格文本，仅能监控 HTTP 可达性","ms":1779,"signals":0,"fingerprint":"1505","checkedAt":"2026-11-15 09:19"},{"id":"volcengine-codingplan","name":"火山引擎 · Coding Plan 活动页","url":"https://www.volcengine.com/activity/ai618","tier":"B","status":"ok","hint":"促销折扣与套餐价","changed":false,"samples":[],"ms":642,"signals":5,"fingerprint":"d253312","checkedAt":"2026-11-15 09:19"},{"id":"unicom-tokenplan","name":"联通云 · Token Plan","url":"https://www.cucloud.cn/product/tokenplan.html","tier":"B","status":"dynamic","hint":"个人版/团队版档位（站点有 WAF，可能抓取失败）","changed":false,"samples":[],"note":"页面正文由前端渲染，抓不到价格文本，仅能监控 HTTP 可达性","ms":279,"signals":0,"fingerprint":"1505","checkedAt":"2026-11-15 09:19"},{"id":"tencent-tokenhub","name":"腾讯云 · TokenHub","url":"https://cloud.tencent.com/document/product/1823/130060","tier":"B","status":"ok","hint":"积分兑换系数","changed":false,"samples":[],"ms":588,"signals":8,"fingerprint":"6c0e255c","checkedAt":"2026-11-15 09:19"},{"id":"ctyun-tokenhub","name":"天翼云 · 星辰 TokenHub","url":"https://www.ctyun.cn/products/31761580","tier":"B","status":"ok","hint":"积分制档位","changed":false,"samples":[],"ms":1037,"signals":6,"fingerprint":"8e3865f7","checkedAt":"2026-11-15 09:19"},{"id":"kimi-pricing","name":"Kimi 开放平台 · 模型定价","url":"https://platform.kimi.com/docs/pricing/chat","tier":"B","status":"dynamic","hint":"前端渲染，正文需 JS 执行","changed":false,"samples":[],"note":"页面正文由前端渲染，抓不到价格文本，仅能监控 HTTP 可达性","ms":743,"signals":0,"fingerprint":"1505","checkedAt":"2026-11-15 09:19"}],"sources":[{"id":"deepseek-api","name":"DeepSeek · 官方 API 定价","url":"https://api-docs.deepseek.com/zh-cn/quick_start/pricing","tier":"A","status":"ok","ms":374,"parsed":true,"items":2,"columns":["deepseek-flash","deepseek-v4-pro"]},{"id":"openrouter","name":"OpenRouter · 多模型聚合参考价","url":"https://openrouter.ai/api/v1/models","tier":"A","status":"ok","ms":1136,"parsed":true,"items":100},{"id":"zhipu-api","name":"智谱开放平台 · API 定价","url":"https://docs.bigmodel.cn/cn/guide/start/pricing.md","tier":"A","status":"ok","ms":444,"parsed":true,"items":27},{"id":"zhipu-plan","name":"智谱 · GLM Coding Plan 套餐","url":"https://docs.bigmodel.cn/cn/coding-plan/overview.md","tier":"A","status":"ok","ms":252,"parsed":true,"items":3}],"openrouterRef":[{"id":"qwen/qwen3.5-9b","name":"Qwen: Qwen3.5-9B","context":262144,"inputCny":0.291,"outputCny":0.426,"blendedCny":0.336},{"id":"z-ai/glm-5.3-flash","name":"Z.ai: GLM 5.3 Flash","context":1048576,"inputCny":0.283,"outputCny":0.557,"blendedCny":0.374},{"id":"qwen/qwen3.7-flash","name":"Qwen: Qwen3.7 Flash","context":1000000,"inputCny":0.213,"outputCny":0.923,"blendedCny":0.45},{"id":"deepseek/deepseek-v4-flash-0731","name":"DeepSeek: DeepSeek V4 Flash 0731","context":1048576,"inputCny":0.426,"outputCny":1.278,"blendedCny":0.71},{"id":"deepseek/deepseek-v4.1-flash","name":"DeepSeek: DeepSeek V4.1 Flash","context":1048576,"inputCny":0.36,"outputCny":1.44,"blendedCny":0.72},{"id":"qwen/qwen3.5-flash-02-23","name":"Qwen: Qwen3.5-Flash","context":1000000,"inputCny":0.461,"outputCny":1.846,"blendedCny":0.923},{"id":"qwen/qwen3-32b","name":"Qwen: Qwen3 32B","context":131072,"inputCny":0.568,"outputCny":1.988,"blendedCny":1.041},{"id":"qwen/qwen3-14b","name":"Qwen: Qwen3 14B","context":40960,"inputCny":0.852,"outputCny":1.704,"blendedCny":1.136},{"id":"qwen/qwen3-30b-a3b-instruct-2507","name":"Qwen: Qwen3 30B A3B Instruct 2507","context":262144,"inputCny":0.71,"outputCny":2.13,"blendedCny":1.183},{"id":"z-ai/glm-4.7-flash","name":"Z.ai: GLM 4.7 Flash","context":200000,"inputCny":0.43,"outputCny":2.84,"blendedCny":1.233},{"id":"qwen/qwen3-30b-a3b","name":"Qwen: Qwen3 30B A3B","context":40960,"inputCny":0.852,"outputCny":3.55,"blendedCny":1.751},{"id":"qwen/qwen3.8-omni-flash","name":"Qwen: Qwen3.8 Omni Flash","context":1000000,"inputCny":1.065,"outputCny":3.337,"blendedCny":1.822},{"id":"qwen/qwen3.8-flash","name":"Qwen: Qwen3.8 Flash","context":1000000,"inputCny":1.065,"outputCny":3.337,"blendedCny":1.822},{"id":"deepseek/deepseek-v3.2","name":"DeepSeek: DeepSeek V3.2","context":163840,"inputCny":1.846,"outputCny":2.698,"blendedCny":2.13}],"method":{"unitFromPlan":"折算单价 = 月单价 ÷ (单账号月额度Token数 ÷ 100万)","blended":"官方综合单价 = (2×输入单价 + 1×输出单价) ÷ 3，输入:输出=2:1 混合、不含缓存命中假设","measured":"实测单价 = 实际费用 ÷ 实际消耗Token，含缓存命中与时段折扣","freshness":"A级源每次运行自动更新；B级源监控页面变更、数值需人工复核；C级为无公开价格的政企报价基线"}}</script>
+<script id="payload" type="application/json">{"generatedAt":"2026-11-15T01:19:35.471Z","stamp":"2026-11-15 09:19","asOfDate":"2026-11-15","baselineVersion":"2026-10-15","baselineOrigin":"Token采购比价报告_2026-10-15.html","fx":{"usdCny":7.1,"note":"USD→CNY 用于 OpenRouter 参考价折算，固定值人工维护（汇率源接口在本机不可达）","updated":"2026-11-03"},"health":{"aOk":4,"aFail":0,"bOk":10,"bFail":0,"bChanged":0},"liveQuotes":[{"key":"zhipu:GLM-5.3-Flash","label":"GLM-5.3-Flash · 智谱官方 API","source":"docs.bigmodel.cn/cn/guide/start/pricing","billing":"按量计费","input":0.8,"inputCacheHit":0.23,"output":2.8,"blended":1.47,"unit":"元/百万Token","note":"1M 上下文；官方综合口径 (2×输入+输出)/3"},{"key":"deepseek:deepseek-v41-flash:off","label":"DeepSeek V4.1 Flash · 官方 API（空闲时段）","source":"api-docs.deepseek.com/zh-cn/quick_start/pricing","billing":"按量计费 · 峰谷分时","input":1,"inputCacheHit":0.02,"output":4,"blended":2,"unit":"元/百万Token","note":"空闲时段价；综合口径 (2×输入+输出)/3"},{"key":"zhipu:GLM-5.3-FlashX","label":"GLM-5.3-FlashX · 智谱官方 API","source":"docs.bigmodel.cn/cn/guide/start/pricing","billing":"按量计费","input":2,"inputCacheHit":0.57,"output":7,"blended":3.67,"unit":"元/百万Token","note":"1M 上下文；官方综合口径 (2×输入+输出)/3"},{"key":"deepseek:deepseek-v41-flash:peak","label":"DeepSeek V4.1 Flash · 官方 API（高峰时段）","source":"api-docs.deepseek.com/zh-cn/quick_start/pricing","billing":"按量计费 · 峰谷分时","input":2,"inputCacheHit":0.04,"output":8,"blended":4,"unit":"元/百万Token","note":"高峰时段价；综合口径 (2×输入+输出)/3"},{"key":"deepseek:deepseek-v4-pro:off","label":"DeepSeek V4 Pro · 官方 API（空闲时段）","source":"api-docs.deepseek.com/zh-cn/quick_start/pricing","billing":"按量计费 · 峰谷分时","input":4.5,"inputCacheHit":0.15,"output":13.5,"blended":7.5,"unit":"元/百万Token","note":"空闲时段价；综合口径 (2×输入+输出)/3"},{"key":"zhipu:GLM-5.3","label":"GLM-5.3 · 智谱官方 API","source":"docs.bigmodel.cn/cn/guide/start/pricing","billing":"按量计费","input":8,"inputCacheHit":2,"output":28,"blended":14.67,"unit":"元/百万Token","note":"1M 上下文；官方综合口径 (2×输入+输出)/3"},{"key":"deepseek:deepseek-v4-pro:peak","label":"DeepSeek V4 Pro · 官方 API（高峰时段）","source":"api-docs.deepseek.com/zh-cn/quick_start/pricing","billing":"按量计费 · 峰谷分时","input":9,"inputCacheHit":0.3,"output":27,"blended":15,"unit":"元/百万Token","note":"高峰时段价；综合口径 (2×输入+输出)/3"}],"models":[{"id":"glm-5.3","name":"GLM-5.3","scene":"编码场景主力模型","rows":[{"platform":"火山引擎","product":"Coding Plan Pro","billing":"包月（限时2.5折）","modelNote":"GLM-5.3","priceMonthly":49.9,"listMonthly":200,"monthlyTokens":250000000,"unitPrice":0.2,"unitPriceNormal":0.8,"verify":"measured","tier":"B","note":"月额度2.5亿Token为实测用量；抵扣系数4.5","sourceUrl":"https://www.volcengine.com/activity/ai618","vendor":"智谱","model":"glm-5.3","modelLabel":"GLM-5.3","promo":{"discount":"限时 2.5 折","campaign":"火山引擎 mega-sale 限时特惠","campaignBasis":"活动规则页 acitvity-rule/mega-sale；活动页文案「旗舰模型，限时特惠」","sourceUrl":"https://www.volcengine.com/activity/ai618","ruleUrl":"https://docs.volcengine.com/docs/acitvity-rule/mega-sale","endsAt":null,"conditions":null,"listPrice":200,"promoPrice":49.9,"verifiedAt":"2026-10-15","note":"折扣与价格来自 2026-10-15 比价报告；活动截止时间与参与条件报告未记录，点链接自行确认。"}},{"platform":"百度千帆","product":"Token Plan Max","billing":"包月（活动5折）","modelNote":"GLM-5.3（9月上线）/ 实测为 GLM-5.2","priceMonthly":299.9,"listMonthly":600,"monthlyTokens":1300000000,"unitPrice":0.23,"unitPriceNormal":0.46,"verify":"measured","tier":"B","note":"实测13亿为GLM-5.2口径（消耗梯度折扣期）；GLM-5.3额度未实测","sourceUrl":"https://cloud.baidu.com/product/codingplan.html","vendor":"智谱","model":"glm-5.3","modelLabel":"GLM-5.3","promo":{"discount":"限时 5 折","campaign":"百度千帆 Token Plan 个人版·限时活动","campaignBasis":"活动页标题「百度千帆Token Plan个人版-百度智能云」","sourceUrl":"https://cloud.baidu.com/product/codingplan.html","ruleUrl":null,"endsAt":null,"conditions":null,"listPrice":600,"promoPrice":299.9,"verifiedAt":"2026-10-15","note":"折扣与价格来自 2026-10-15 比价报告；活动截止时间与参与条件报告未记录，点链接自行确认。"}},{"platform":"智谱官方","product":"GLM Coding Plan Max","billing":"包月（连续包年8折 862.4）","modelNote":"GLM-5.3","priceMonthly":1078,"listMonthly":1078,"monthlyTokens":1500000000,"unitPrice":0.72,"unitPriceNormal":0.72,"verify":"measured","tier":"A","note":"140,000积分/周≈15亿Token/月；套餐限单人使用","sourceUrl":"https://docs.bigmodel.cn/cn/coding-plan/overview.md","vendor":"智谱","model":"glm-5.3","modelLabel":"GLM-5.3","promo":{"discount":"连续包年 8 折（862.4 元/月）","campaign":"GLM Coding Plan 连续包年优惠","campaignBasis":"套餐概览页「连续包年 8 折」","sourceUrl":"https://docs.bigmodel.cn/cn/coding-plan/overview.md","ruleUrl":null,"endsAt":null,"conditions":"需连续订阅包年，非单月","listPrice":1078,"promoPrice":1078,"verifiedAt":"2026-10-15","note":"折扣与价格来自 2026-10-15 比价报告；活动截止时间与参与条件报告未记录，点链接自行确认。"}},{"platform":"移动云","product":"政企报价套餐","billing":"包月","modelNote":"GLM-5.2（未含5.3）","priceMonthly":5000,"listMonthly":5000,"monthlyTokens":5500000000,"unitPrice":0.91,"unitPriceNormal":0.91,"verify":"nominal","tier":"C","note":"政企报价 5,000元 = 55亿Token，实测未观测到缓存命中，有效单价高于标称","sourceUrl":"manual://移动云政企报价文件","vendor":"智谱","model":"glm-5.2","modelLabel":"GLM-5.2"},{"platform":"华为云","product":"MaaS Token Plan Max","billing":"包月","modelNote":"GLM-5.3","priceMonthly":799,"listMonthly":799,"monthlyTokens":880000000,"unitPrice":0.91,"unitPriceNormal":0.91,"verify":"unverified","tier":"B","note":"Token制直接折算，未实测","sourceUrl":"https://support.huaweicloud.com/Token-plan-maas/","vendor":"智谱","model":"glm-5.3","modelLabel":"GLM-5.3"},{"platform":"阿里百炼","product":"尊享坐席","billing":"包月（Credits制）","modelNote":"套餐内模型（Credits折算）","priceMonthly":1398,"listMonthly":1398,"monthlyTokens":1200000000,"unitPrice":1.17,"unitPriceNormal":1.17,"verify":"measured","tier":"B","note":"250,000 Credits 实测=12亿Token；缓存命中未专门验证","sourceUrl":"https://help.aliyun.com/zh/model-studio/token-plan-personal-overview","vendor":"智谱","model":"glm-5.3","modelLabel":"GLM-5.3"},{"platform":"天翼云","product":"星辰 TokenHub","billing":"包月（积分制）","modelNote":"GLM-5.2（未含5.3）","priceMonthly":199,"listMonthly":199,"monthlyTokens":null,"unitPrice":null,"unitPriceNormal":null,"verify":"pending","tier":"B","note":"25,000积分；无官方兑换系数，待实测","sourceUrl":"https://www.ctyun.cn/products/31761580","vendor":"智谱","model":"glm-5.2","modelLabel":"GLM-5.2"},{"platform":"腾讯云","product":"TokenHub 通用 Plan Max","billing":"包月（积分制）","modelNote":"GLM-5.2 / GLM-5.3","priceMonthly":599,"listMonthly":599,"monthlyTokens":null,"unitPrice":null,"unitPriceNormal":null,"verify":"pending","tier":"B","note":"11,980积分；暂无官方兑换系数","sourceUrl":"https://cloud.tencent.com/document/product/1823/130060","vendor":"智谱","model":"glm-5.3","modelLabel":"GLM-5.3"},{"platform":"联通云","product":"Token Plan 个人 Max","billing":"包月（Token制）","modelNote":"不支持 GLM 系列","priceMonthly":45,"listMonthly":45,"monthlyTokens":18000000,"unitPrice":null,"unitPriceNormal":null,"verify":"unsupported","tier":"B","note":"仅支持 DeepSeek V4-Flash、MiniMax","sourceUrl":"https://www.cucloud.cn/product/tokenplan.html","vendor":"智谱","model":"glm-5.3","modelLabel":"GLM-5.3"}]},{"id":"deepseek-v4-pro","name":"DeepSeek V4 Pro","scene":"Agent 工具 API 调用","rows":[{"platform":"火山引擎","product":"Coding Plan Pro","billing":"订阅套餐（限时2.5折）","modelNote":"V4 Pro（抵扣系数5.5）","priceMonthly":49.9,"listMonthly":200,"monthlyTokens":205000000,"unitPrice":0.24,"unitPriceNormal":0.98,"verify":"unverified","tier":"B","note":"按抵扣系数5.5折算，套餐总额度约112,500 AFP/月","sourceUrl":"https://docs.volcengine.com/docs/82379/1544106","vendor":"DeepSeek","model":"deepseek-v4-pro","modelLabel":"V4 Pro","promo":{"discount":"限时 2.5 折","campaign":"火山引擎 mega-sale 限时特惠","campaignBasis":"活动规则页 acitvity-rule/mega-sale；活动页文案「旗舰模型，限时特惠」","sourceUrl":"https://www.volcengine.com/activity/ai618","ruleUrl":"https://docs.volcengine.com/docs/acitvity-rule/mega-sale","endsAt":null,"conditions":null,"listPrice":200,"promoPrice":49.9,"verifiedAt":"2026-10-15","note":"折扣与价格来自 2026-10-15 比价报告；活动截止时间与参与条件报告未记录，点链接自行确认。"}},{"platform":"DeepSeek 官方","product":"API 按量","billing":"按量计费","modelNote":"DeepSeek V4 Pro","priceIn":3,"priceOut":6,"priceInCache":0.025,"unitPrice":4,"unitPriceMeasured":3.5,"unitPriceNormal":4,"verify":"measured","tier":"A","note":"4.00为官方综合（输入:输出=2:1）；实测约3.50，低约12%","sourceUrl":"https://api-docs.deepseek.com/zh-cn/quick_start/pricing","vendor":"DeepSeek","model":"deepseek-v4-pro","modelLabel":"V4 Pro","live":{"mode":"peak-valley","input":4.5,"output":13.5,"inputCacheHit":0.15,"inputPeak":9,"outputPeak":27,"blended":7.5,"blendedPeak":15},"unitPriceLive":7.5,"unitPriceLivePeak":15},{"platform":"华为云","product":"MaaS Token Plan Max","billing":"订阅套餐","modelNote":"不支持 V4 Pro","priceMonthly":799,"listMonthly":799,"monthlyTokens":null,"unitPrice":null,"verify":"unsupported","tier":"B","note":"官方支持列表未含 V4 Pro","sourceUrl":"https://support.huaweicloud.com/Token-plan-maas/","vendor":"DeepSeek","model":"deepseek-v4-pro","modelLabel":"V4 Pro"},{"platform":"移动云","product":"政企报价套餐","billing":"订阅套餐","modelNote":"套餐内为GLM-5.2，V4 Pro 待核实","priceMonthly":5000,"listMonthly":5000,"monthlyTokens":null,"unitPrice":null,"verify":"pending","tier":"C","note":"V4 Pro 支持情况待核实","sourceUrl":"manual://移动云政企报价文件","vendor":"DeepSeek","model":"deepseek-v4-pro","modelLabel":"V4 Pro"},{"platform":"百度千帆","product":"Token Plan Max","billing":"订阅套餐（限时5折）","modelNote":"V4 Pro（积分系数待核）","priceMonthly":299.9,"listMonthly":600,"monthlyTokens":null,"unitPrice":null,"verify":"pending","tier":"B","note":"Token制与积分制口径并存，可用量待实测","sourceUrl":"https://cloud.baidu.com/product/codingplan.html","vendor":"DeepSeek","model":"deepseek-v4-pro","modelLabel":"V4 Pro","promo":{"discount":"限时 5 折","campaign":"百度千帆 Token Plan 个人版·限时活动","campaignBasis":"活动页标题「百度千帆Token Plan个人版-百度智能云」","sourceUrl":"https://cloud.baidu.com/product/codingplan.html","ruleUrl":null,"endsAt":null,"conditions":null,"listPrice":600,"promoPrice":299.9,"verifiedAt":"2026-10-15","note":"折扣与价格来自 2026-10-15 比价报告；活动截止时间与参与条件报告未记录，点链接自行确认。"}},{"platform":"天翼云","product":"星辰 TokenHub","billing":"订阅套餐（积分制）","modelNote":"DeepSeek V4 Pro","priceMonthly":199,"listMonthly":199,"monthlyTokens":null,"unitPrice":null,"verify":"pending","tier":"B","note":"25,000积分，无兑换系数","sourceUrl":"https://www.ctyun.cn/products/31761580","vendor":"DeepSeek","model":"deepseek-v4-pro","modelLabel":"V4 Pro"},{"platform":"腾讯云","product":"TokenHub 通用 Plan Max","billing":"订阅套餐（积分制）","modelNote":"DeepSeek V4 系列","priceMonthly":599,"listMonthly":599,"monthlyTokens":null,"unitPrice":null,"verify":"pending","tier":"B","note":"11,980积分，无兑换系数","sourceUrl":"https://cloud.tencent.com/document/product/1823/130060","vendor":"DeepSeek","model":"deepseek-v4-pro","modelLabel":"V4 Pro"}]},{"id":"deepseek-v41-flash","name":"DeepSeek V4.1 Flash","scene":"Agent 工具 API 调用（低成本档）","rows":[{"platform":"火山引擎","product":"Coding Plan Pro","billing":"订阅套餐（限时2.5折）","modelNote":"V4.1 Flash（抵扣系数2.5，限时5折1.25）","priceMonthly":49.9,"listMonthly":200,"monthlyTokens":450000000,"unitPrice":0.11,"unitPriceNormal":0.44,"verify":"unverified","tier":"B","note":"限时折扣期折算0.06（常态0.22）；可用量约4.5亿，折扣期约9亿","sourceUrl":"https://docs.volcengine.com/docs/82379/1544106","vendor":"DeepSeek","model":"deepseek-v41-flash","modelLabel":"V4.1 Flash","promo":{"discount":"限时 2.5 折","campaign":"火山引擎 mega-sale 限时特惠","campaignBasis":"活动规则页 acitvity-rule/mega-sale；活动页文案「旗舰模型，限时特惠」","sourceUrl":"https://www.volcengine.com/activity/ai618","ruleUrl":"https://docs.volcengine.com/docs/acitvity-rule/mega-sale","endsAt":null,"conditions":null,"listPrice":200,"promoPrice":49.9,"verifiedAt":"2026-10-15","note":"折扣与价格来自 2026-10-15 比价报告；活动截止时间与参与条件报告未记录，点链接自行确认。"}},{"platform":"DeepSeek 官方","product":"API 按量","billing":"按量计费","modelNote":"DeepSeek V4.1 Flash","priceIn":1,"priceOut":2,"priceInCache":0.02,"unitPrice":1.33,"unitPriceMeasured":0.7,"unitPriceNormal":1.33,"verify":"measured","tier":"A","note":"实测约0.70，较官方综合低约47%","sourceUrl":"https://api-docs.deepseek.com/zh-cn/quick_start/pricing","vendor":"DeepSeek","model":"deepseek-v41-flash","modelLabel":"V4.1 Flash","live":{"mode":"peak-valley","input":1,"output":4,"inputCacheHit":0.02,"inputPeak":2,"outputPeak":8,"blended":2,"blendedPeak":4},"unitPriceLive":2,"unitPriceLivePeak":4},{"platform":"联通云","product":"Token Plan 个人版","billing":"订阅套餐（Token制）","modelNote":"DeepSeek V4 Flash","priceMonthly":45,"listMonthly":45,"monthlyTokens":18000000,"unitPrice":2.5,"unitPriceNormal":2.5,"verify":"unverified","tier":"B","note":"个人版15/30/45元三档，单价恒定2.50；团队版1,398元含25万Credits≈20亿Token，约0.70","sourceUrl":"https://www.cucloud.cn/product/tokenplan.html","vendor":"DeepSeek","model":"deepseek-v41-flash","modelLabel":"V4.1 Flash"},{"platform":"华为云","product":"MaaS Token Plan Max","billing":"订阅套餐","modelNote":"V4.1-Flash（各模型共享额度）","priceMonthly":799,"listMonthly":799,"monthlyTokens":880000000,"unitPrice":0.91,"unitPriceNormal":0.91,"verify":"unverified","tier":"B","note":"Token制直接折算","sourceUrl":"https://support.huaweicloud.com/Token-plan-maas/","vendor":"DeepSeek","model":"deepseek-v41-flash","modelLabel":"V4.1 Flash"},{"platform":"移动云","product":"政企报价套餐","billing":"订阅套餐","modelNote":"套餐内为GLM-5.2，V4.1 Flash 待核实","priceMonthly":5000,"listMonthly":5000,"monthlyTokens":null,"unitPrice":null,"verify":"pending","tier":"C","note":"支持情况待核实","sourceUrl":"manual://移动云政企报价文件","vendor":"DeepSeek","model":"deepseek-v41-flash","modelLabel":"V4.1 Flash"},{"platform":"百度千帆","product":"Token Plan Max","billing":"订阅套餐（限时5折）","modelNote":"V4-Flash（积分系数待核）","priceMonthly":299.9,"listMonthly":600,"monthlyTokens":null,"unitPrice":null,"verify":"pending","tier":"B","note":"可用量与折算单价待实测","sourceUrl":"https://cloud.baidu.com/product/codingplan.html","vendor":"DeepSeek","model":"deepseek-v41-flash","modelLabel":"V4.1 Flash","promo":{"discount":"限时 5 折","campaign":"百度千帆 Token Plan 个人版·限时活动","campaignBasis":"活动页标题「百度千帆Token Plan个人版-百度智能云」","sourceUrl":"https://cloud.baidu.com/product/codingplan.html","ruleUrl":null,"endsAt":null,"conditions":null,"listPrice":600,"promoPrice":299.9,"verifiedAt":"2026-10-15","note":"折扣与价格来自 2026-10-15 比价报告；活动截止时间与参与条件报告未记录，点链接自行确认。"}},{"platform":"天翼云","product":"星辰 TokenHub","billing":"订阅套餐（积分制）","modelNote":"DeepSeek V4 Flash","priceMonthly":199,"listMonthly":199,"monthlyTokens":null,"unitPrice":null,"verify":"pending","tier":"B","note":"25,000积分，无兑换系数","sourceUrl":"https://www.ctyun.cn/products/31761580","vendor":"DeepSeek","model":"deepseek-v41-flash","modelLabel":"V4.1 Flash"},{"platform":"腾讯云","product":"TokenHub 通用 Plan Max","billing":"订阅套餐（积分制）","modelNote":"DeepSeek V4 系列","priceMonthly":599,"listMonthly":599,"monthlyTokens":null,"unitPrice":null,"verify":"pending","tier":"B","note":"11,980积分，无兑换系数","sourceUrl":"https://cloud.tencent.com/document/product/1823/130060","vendor":"DeepSeek","model":"deepseek-v41-flash","modelLabel":"V4.1 Flash"}]},{"id":"doubao","name":"豆包 Doubao-Seed","scene":"火山引擎自研系列（Coding / 通用 / 均衡）","rows":[{"platform":"火山引擎","product":"Coding Plan Pro","billing":"订阅套餐（限时2.5折）","modelNote":"Doubao-Seed-Evolving（系数2.5）","priceMonthly":49.9,"listMonthly":200,"monthlyTokens":450000000,"unitPrice":0.11,"unitPriceNormal":0.44,"verify":"unverified","tier":"B","note":"按GLM-5.3实测锚点×系数比1.8换算","sourceUrl":"https://docs.volcengine.com/docs/82379/1544106","vendor":"字节跳动","model":"doubao-evolving","modelLabel":"Seed-Evolving","promo":{"discount":"限时 2.5 折","campaign":"火山引擎 mega-sale 限时特惠","campaignBasis":"活动规则页 acitvity-rule/mega-sale；活动页文案「旗舰模型，限时特惠」","sourceUrl":"https://www.volcengine.com/activity/ai618","ruleUrl":"https://docs.volcengine.com/docs/acitvity-rule/mega-sale","endsAt":null,"conditions":null,"listPrice":200,"promoPrice":49.9,"verifiedAt":"2026-10-15","note":"折扣与价格来自 2026-10-15 比价报告；活动截止时间与参与条件报告未记录，点链接自行确认。"}},{"platform":"火山引擎","product":"Coding Plan Pro","billing":"订阅套餐（限时2.5折）","modelNote":"Doubao-Seed-2.1-Turbo（系数2.5）","priceMonthly":49.9,"listMonthly":200,"monthlyTokens":450000000,"unitPrice":0.11,"unitPriceNormal":0.44,"verify":"unverified","tier":"B","note":"同上换算口径","sourceUrl":"https://docs.volcengine.com/docs/82379/1544106","vendor":"字节跳动","model":"doubao-21-turbo","modelLabel":"Seed-2.1-Turbo","promo":{"discount":"限时 2.5 折","campaign":"火山引擎 mega-sale 限时特惠","campaignBasis":"活动规则页 acitvity-rule/mega-sale；活动页文案「旗舰模型，限时特惠」","sourceUrl":"https://www.volcengine.com/activity/ai618","ruleUrl":"https://docs.volcengine.com/docs/acitvity-rule/mega-sale","endsAt":null,"conditions":null,"listPrice":200,"promoPrice":49.9,"verifiedAt":"2026-10-15","note":"折扣与价格来自 2026-10-15 比价报告；活动截止时间与参与条件报告未记录，点链接自行确认。"}},{"platform":"火山方舟","product":"API 按量","billing":"按量计费","modelNote":"Doubao-Seed-2.1-Turbo","priceIn":3,"priceOut":15,"priceInCache":0.6,"unitPrice":7,"unitPriceNormal":7,"verify":"unverified","tier":"B","note":"Batch 1.50/7.50；Fast档 6.00/30.00","sourceUrl":"https://docs.volcengine.com/docs/82379/1544106","vendor":"字节跳动","model":"doubao-21-turbo","modelLabel":"Seed-2.1-Turbo"},{"platform":"火山方舟","product":"API 按量","billing":"按量计费","modelNote":"Doubao-Seed-Evolving","priceIn":6,"priceOut":30,"priceInCache":1.2,"unitPrice":14,"unitPriceNormal":14,"verify":"unverified","tier":"B","note":"1M上下文、最大输出256k","sourceUrl":"https://docs.volcengine.com/docs/82379/1544106","vendor":"字节跳动","model":"doubao-evolving","modelLabel":"Seed-Evolving"},{"platform":"火山方舟","product":"API 按量","billing":"按量计费","modelNote":"Doubao-Seed-2.1-Pro","priceIn":6,"priceOut":30,"priceInCache":1.2,"unitPrice":14,"unitPriceNormal":14,"verify":"unverified","tier":"B","note":"与 Seed-Evolving 按量价相同","sourceUrl":"https://docs.volcengine.com/docs/82379/1544106","vendor":"字节跳动","model":"doubao-21-pro","modelLabel":"Seed-2.1-Pro"}]},{"id":"qwen","name":"千问 Qwen3.8","scene":"阿里百炼主力系列","rows":[{"platform":"阿里百炼","product":"API 按量（Qwen3.7-Flash）","billing":"按量计费","modelNote":"Qwen3.7-Flash（≤32k档）","priceIn":0.2,"priceOut":0.8,"unitPrice":0.4,"unitPriceNormal":0.4,"verify":"unverified","tier":"B","note":"三档计价，1M档输入1.20/输出4.80；Batch 约5折","sourceUrl":"https://help.aliyun.com/zh/model-studio/models","vendor":"阿里","model":"qwen37-flash","modelLabel":"Qwen3.7-Flash"},{"platform":"移动云","product":"政企报价套餐","billing":"订阅套餐","modelNote":"Qwen3-max（未含3.8）","priceMonthly":5000,"listMonthly":5000,"monthlyTokens":5500000000,"unitPrice":0.91,"unitPriceNormal":0.91,"verify":"nominal","tier":"C","note":"套餐内为 2026-01 快照版 Qwen3-max","sourceUrl":"manual://移动云政企报价文件","vendor":"阿里","model":"qwen3-max","modelLabel":"Qwen3-max"},{"platform":"阿里百炼","product":"API 按量（Qwen3.8-Max）","billing":"按量计费","modelNote":"Qwen3.8-Max","priceIn":12,"priceOut":36,"priceInCache":1.5,"unitPrice":20,"unitPriceNormal":20,"verify":"unverified","tier":"B","note":"夜间22:00-次日8:00 限时4折≈8.00","sourceUrl":"https://help.aliyun.com/zh/model-studio/models","vendor":"阿里","model":"qwen38-max","modelLabel":"Qwen3.8-Max"},{"platform":"阿里百炼","product":"Token Plan 个人版","billing":"订阅套餐（Credits制）","modelNote":"Qwen3.8-Max(0902)/Flash 等23款共享","priceMonthly":139,"listMonthly":180,"monthlyTokens":null,"unitPrice":null,"verify":"pending","tier":"B","note":"四档 39/79/139/499（原价60/120/180/600），Credits 11,500/25,500/45,000/180,000","sourceUrl":"https://help.aliyun.com/zh/model-studio/token-plan-personal-overview","vendor":"阿里","model":"qwen38-max","modelLabel":"Qwen3.8-Max","promo":{"discount":"限时价（原价 60/120/180/600，现 39/79/139/499）","campaign":"百炼 Token Plan 个人版·限时价","campaignBasis":"帮助页标题「Token Plan 个人版订阅与权益-大模型服务平台百炼」","sourceUrl":"https://help.aliyun.com/zh/model-studio/token-plan-personal-overview","ruleUrl":null,"endsAt":null,"conditions":null,"listPrice":180,"promoPrice":139,"verifiedAt":"2026-10-15","note":"折扣与价格来自 2026-10-15 比价报告；活动截止时间与参与条件报告未记录，点链接自行确认。"}},{"platform":"阿里百炼","product":"尊享坐席","billing":"订阅套餐（Credits制）","modelNote":"套餐内模型（千问口径待核实）","priceMonthly":1398,"listMonthly":1398,"monthlyTokens":null,"unitPrice":null,"verify":"pending","tier":"B","note":"250,000 Credits；千问折算系数待核实","sourceUrl":"https://help.aliyun.com/zh/model-studio/token-plan-personal-overview","vendor":"阿里","model":"qwen38-max","modelLabel":"Qwen3.8-Max"}]},{"id":"kimi","name":"Kimi K3 / K2.7-Code","scene":"Coding / Agent 场景","rows":[{"platform":"火山引擎","product":"Coding Plan Pro","billing":"订阅套餐（限时2.5折）","modelNote":"Kimi-K2.7-Code（系数4.5）","priceMonthly":49.9,"listMonthly":200,"monthlyTokens":250000000,"unitPrice":0.2,"unitPriceNormal":0.8,"verify":"unverified","tier":"B","note":"与同套餐GLM-5.3实测2.5亿Token互为印证","sourceUrl":"https://docs.volcengine.com/docs/82379/1544106","vendor":"月之暗面","model":"kimi-k27-code","modelLabel":"K2.7-Code","promo":{"discount":"限时 2.5 折","campaign":"火山引擎 mega-sale 限时特惠","campaignBasis":"活动规则页 acitvity-rule/mega-sale；活动页文案「旗舰模型，限时特惠」","sourceUrl":"https://www.volcengine.com/activity/ai618","ruleUrl":"https://docs.volcengine.com/docs/acitvity-rule/mega-sale","endsAt":null,"conditions":null,"listPrice":200,"promoPrice":49.9,"verifiedAt":"2026-10-15","note":"折扣与价格来自 2026-10-15 比价报告；活动截止时间与参与条件报告未记录，点链接自行确认。"}},{"platform":"火山引擎","product":"Coding Plan Pro","billing":"订阅套餐（限时2.5折）","modelNote":"Kimi-K3（系数10）","priceMonthly":49.9,"listMonthly":200,"monthlyTokens":112500000,"unitPrice":0.44,"unitPriceNormal":1.78,"verify":"unverified","tier":"B","note":"全系最高抵扣系数，可用量约1.125亿Token/月","sourceUrl":"https://docs.volcengine.com/docs/82379/1544106","vendor":"月之暗面","model":"kimi-k3","modelLabel":"K3","promo":{"discount":"限时 2.5 折","campaign":"火山引擎 mega-sale 限时特惠","campaignBasis":"活动规则页 acitvity-rule/mega-sale；活动页文案「旗舰模型，限时特惠」","sourceUrl":"https://www.volcengine.com/activity/ai618","ruleUrl":"https://docs.volcengine.com/docs/acitvity-rule/mega-sale","endsAt":null,"conditions":null,"listPrice":200,"promoPrice":49.9,"verifiedAt":"2026-10-15","note":"折扣与价格来自 2026-10-15 比价报告；活动截止时间与参与条件报告未记录，点链接自行确认。"}},{"platform":"华为云","product":"MaaS Token Plan Max","billing":"订阅套餐","modelNote":"Kimi-K2.6（未含K3/K2.7-Code）","priceMonthly":799,"listMonthly":799,"monthlyTokens":880000000,"unitPrice":0.91,"unitPriceNormal":0.91,"verify":"unverified","tier":"B","note":"Token制直接折算","sourceUrl":"https://support.huaweicloud.com/Token-plan-maas/","vendor":"月之暗面","model":"kimi-k26","modelLabel":"K2.6"},{"platform":"Kimi 官方","product":"API 按量（K2.7-Code）","billing":"按量计费","modelNote":"Kimi K2.7-Code","priceIn":6.5,"priceOut":27,"priceInCache":1.3,"unitPrice":13.33,"unitPriceNormal":13.33,"verify":"unverified","tier":"B","note":"Batch API 为标准价6折","sourceUrl":"https://platform.kimi.com/docs/pricing/chat","vendor":"月之暗面","model":"kimi-k27-code","modelLabel":"K2.7-Code"},{"platform":"Kimi 官方","product":"API 按量（K3）","billing":"按量计费","modelNote":"Kimi K3","priceIn":20,"priceOut":100,"priceInCache":2,"unitPrice":46.67,"unitPriceNormal":46.67,"verify":"unverified","tier":"B","note":"缓存写入20元（5分钟）/40元（1小时）；1M上下文","sourceUrl":"https://platform.kimi.com/docs/pricing/chat","vendor":"月之暗面","model":"kimi-k3","modelLabel":"K3"}]}],"compare":{"available":true,"lastDate":"2026-11-14","lastLabel":"上一次抓取 2026-11-14","changes":[],"streaks":[{"key":"zhipu:GLM-5.3","label":"GLM-5.3 · 智谱官方 API","days":13,"since":"2026-11-03","blended":14.67},{"key":"zhipu:GLM-5.3-Flash","label":"GLM-5.3-Flash · 智谱官方 API","days":13,"since":"2026-11-03","blended":1.47},{"key":"zhipu:GLM-5.3-FlashX","label":"GLM-5.3-FlashX · 智谱官方 API","days":13,"since":"2026-11-03","blended":3.67},{"key":"deepseek:deepseek-v41-flash:off","label":"DeepSeek V4.1 Flash · 官方 API（空闲时段）","days":13,"since":"2026-11-03","blended":2},{"key":"deepseek:deepseek-v41-flash:peak","label":"DeepSeek V4.1 Flash · 官方 API（高峰时段）","days":13,"since":"2026-11-03","blended":4},{"key":"deepseek:deepseek-v4-pro:off","label":"DeepSeek V4 Pro · 官方 API（空闲时段）","days":13,"since":"2026-11-03","blended":7.5},{"key":"deepseek:deepseek-v4-pro:peak","label":"DeepSeek V4 Pro · 官方 API（高峰时段）","days":13,"since":"2026-11-03","blended":15}],"note":null},"diffs":[{"level":"high","scope":"DeepSeek V4 Pro","title":"DeepSeek V4 Pro 官方输入价（缓存未命中）变动","from":"¥3","to":"¥4.5（空闲） / ¥9（高峰）","pct":50,"kind":"up"},{"level":"high","scope":"DeepSeek V4 Pro","title":"DeepSeek V4 Pro 官方输出价变动","from":"¥6","to":"¥13.5（空闲） / ¥27（高峰）","pct":125,"kind":"up"},{"level":"high","scope":"DeepSeek V4 Pro","title":"DeepSeek V4 Pro 官方综合单价变动","from":"¥4/百万","to":"¥7.5/百万（空闲） / ¥15/百万（高峰）","pct":87.5,"kind":"up"},{"level":"high","scope":"DeepSeek V4.1 Flash","title":"DeepSeek V4.1 Flash 官方输出价变动","from":"¥2","to":"¥4（空闲） / ¥8（高峰）","pct":100,"kind":"up"},{"level":"high","scope":"DeepSeek V4.1 Flash","title":"DeepSeek V4.1 Flash 官方综合单价变动","from":"¥1.33/百万","to":"¥2/百万（空闲） / ¥4/百万（高峰）","pct":50.4,"kind":"up"}],"diffsBaselineDate":"2026-10-15","watchChanges":[],"watch":[{"id":"aliyun-models","name":"阿里百炼 · 模型价格","url":"https://help.aliyun.com/zh/model-studio/models","tier":"B","status":"dynamic","hint":"Qwen 系列按量价","changed":false,"samples":[],"note":"页面正文由前端渲染，抓不到价格文本，仅能监控 HTTP 可达性","ms":766,"signals":0,"fingerprint":"1505","checkedAt":"2026-11-15 09:19"},{"id":"aliyun-tokenplan","name":"阿里百炼 · Token Plan 个人版","url":"https://help.aliyun.com/zh/model-studio/token-plan-personal-overview","tier":"B","status":"ok","hint":"Credits 档位与限时价","changed":false,"samples":[],"ms":554,"signals":3,"fingerprint":"16e6d9a0","checkedAt":"2026-11-15 09:19"},{"id":"qianfan-codingplan","name":"百度千帆 · Token Plan","url":"https://cloud.baidu.com/product/codingplan.html","tier":"B","status":"dynamic","hint":"活动折扣与套餐档位","changed":false,"samples":[],"note":"页面正文由前端渲染，抓不到价格文本，仅能监控 HTTP 可达性","ms":269,"signals":2,"fingerprint":"66407d59","checkedAt":"2026-11-15 09:19"},{"id":"huawei-maas","name":"华为云 · MaaS Token Plan","url":"https://www.huaweicloud.com/intl/zh-cn/product/maas.html","tier":"B","status":"dynamic","hint":"档位与共享额度（原 support.huaweicloud.com/Token-plan-maas 文档路径已 404，2026-11-03 核验）","changed":false,"samples":[],"note":"页面正文由前端渲染，抓不到价格文本，仅能监控 HTTP 可达性","ms":180,"signals":0,"fingerprint":"1505","checkedAt":"2026-11-15 09:19"},{"id":"volcengine-price","name":"火山方舟 · 模型价格与抵扣系数","url":"https://docs.volcengine.com/docs/82379/1544106","tier":"B","status":"dynamic","hint":"抵扣系数调整会改变套餐等效单价","changed":false,"samples":[],"note":"页面正文由前端渲染，抓不到价格文本，仅能监控 HTTP 可达性","ms":1779,"signals":0,"fingerprint":"1505","checkedAt":"2026-11-15 09:19"},{"id":"volcengine-codingplan","name":"火山引擎 · Coding Plan 活动页","url":"https://www.volcengine.com/activity/ai618","tier":"B","status":"ok","hint":"促销折扣与套餐价","changed":false,"samples":[],"ms":642,"signals":5,"fingerprint":"d253312","checkedAt":"2026-11-15 09:19"},{"id":"unicom-tokenplan","name":"联通云 · Token Plan","url":"https://www.cucloud.cn/product/tokenplan.html","tier":"B","status":"dynamic","hint":"个人版/团队版档位（站点有 WAF，可能抓取失败）","changed":false,"samples":[],"note":"页面正文由前端渲染，抓不到价格文本，仅能监控 HTTP 可达性","ms":279,"signals":0,"fingerprint":"1505","checkedAt":"2026-11-15 09:19"},{"id":"tencent-tokenhub","name":"腾讯云 · TokenHub","url":"https://cloud.tencent.com/document/product/1823/130060","tier":"B","status":"ok","hint":"积分兑换系数","changed":false,"samples":[],"ms":588,"signals":8,"fingerprint":"6c0e255c","checkedAt":"2026-11-15 09:19"},{"id":"ctyun-tokenhub","name":"天翼云 · 星辰 TokenHub","url":"https://www.ctyun.cn/products/31761580","tier":"B","status":"ok","hint":"积分制档位","changed":false,"samples":[],"ms":1037,"signals":6,"fingerprint":"8e3865f7","checkedAt":"2026-11-15 09:19"},{"id":"kimi-pricing","name":"Kimi 开放平台 · 模型定价","url":"https://platform.kimi.com/docs/pricing/chat","tier":"B","status":"dynamic","hint":"前端渲染，正文需 JS 执行","changed":false,"samples":[],"note":"页面正文由前端渲染，抓不到价格文本，仅能监控 HTTP 可达性","ms":743,"signals":0,"fingerprint":"1505","checkedAt":"2026-11-15 09:19"}],"sources":[{"id":"deepseek-api","name":"DeepSeek · 官方 API 定价","url":"https://api-docs.deepseek.com/zh-cn/quick_start/pricing","tier":"A","status":"ok","ms":374,"parsed":true,"items":2,"columns":["deepseek-flash","deepseek-v4-pro"]},{"id":"openrouter","name":"OpenRouter · 多模型聚合参考价","url":"https://openrouter.ai/api/v1/models","tier":"A","status":"ok","ms":1136,"parsed":true,"items":100},{"id":"zhipu-api","name":"智谱开放平台 · API 定价","url":"https://docs.bigmodel.cn/cn/guide/start/pricing.md","tier":"A","status":"ok","ms":444,"parsed":true,"items":27},{"id":"zhipu-plan","name":"智谱 · GLM Coding Plan 套餐","url":"https://docs.bigmodel.cn/cn/coding-plan/overview.md","tier":"A","status":"ok","ms":252,"parsed":true,"items":3}],"openrouterRef":[{"id":"qwen/qwen3.5-9b","name":"Qwen: Qwen3.5-9B","context":262144,"inputCny":0.291,"outputCny":0.426,"blendedCny":0.336},{"id":"z-ai/glm-5.3-flash","name":"Z.ai: GLM 5.3 Flash","context":1048576,"inputCny":0.283,"outputCny":0.557,"blendedCny":0.374},{"id":"qwen/qwen3.7-flash","name":"Qwen: Qwen3.7 Flash","context":1000000,"inputCny":0.213,"outputCny":0.923,"blendedCny":0.45},{"id":"deepseek/deepseek-v4-flash-0731","name":"DeepSeek: DeepSeek V4 Flash 0731","context":1048576,"inputCny":0.426,"outputCny":1.278,"blendedCny":0.71},{"id":"deepseek/deepseek-v4.1-flash","name":"DeepSeek: DeepSeek V4.1 Flash","context":1048576,"inputCny":0.36,"outputCny":1.44,"blendedCny":0.72},{"id":"qwen/qwen3.5-flash-02-23","name":"Qwen: Qwen3.5-Flash","context":1000000,"inputCny":0.461,"outputCny":1.846,"blendedCny":0.923},{"id":"qwen/qwen3-32b","name":"Qwen: Qwen3 32B","context":131072,"inputCny":0.568,"outputCny":1.988,"blendedCny":1.041},{"id":"qwen/qwen3-14b","name":"Qwen: Qwen3 14B","context":40960,"inputCny":0.852,"outputCny":1.704,"blendedCny":1.136},{"id":"qwen/qwen3-30b-a3b-instruct-2507","name":"Qwen: Qwen3 30B A3B Instruct 2507","context":262144,"inputCny":0.71,"outputCny":2.13,"blendedCny":1.183},{"id":"z-ai/glm-4.7-flash","name":"Z.ai: GLM 4.7 Flash","context":200000,"inputCny":0.43,"outputCny":2.84,"blendedCny":1.233},{"id":"qwen/qwen3-30b-a3b","name":"Qwen: Qwen3 30B A3B","context":40960,"inputCny":0.852,"outputCny":3.55,"blendedCny":1.751},{"id":"qwen/qwen3.8-omni-flash","name":"Qwen: Qwen3.8 Omni Flash","context":1000000,"inputCny":1.065,"outputCny":3.337,"blendedCny":1.822},{"id":"qwen/qwen3.8-flash","name":"Qwen: Qwen3.8 Flash","context":1000000,"inputCny":1.065,"outputCny":3.337,"blendedCny":1.822},{"id":"deepseek/deepseek-v3.2","name":"DeepSeek: DeepSeek V3.2","context":163840,"inputCny":1.846,"outputCny":2.698,"blendedCny":2.13}],"method":{"unitFromPlan":"折算单价 = 月单价 ÷ (单账号月额度Token数 ÷ 100万)","blended":"官方综合单价 = (2×输入单价 + 1×输出单价) ÷ 3，输入:输出=2:1 混合、不含缓存命中假设","measured":"实测单价 = 实际费用 ÷ 实际消耗Token，含缓存命中与时段折扣","freshness":"A级源每次运行自动更新；B级源监控页面变更、数值需人工复核；C级为无公开价格的政企报价"}}</script>
 <script>
 (function(){
   const D = JSON.parse(document.getElementById('payload').textContent);
@@ -245,6 +266,7 @@ details[open] summary::after{content:'−'}
     return Number(v).toFixed(2).replace(/0$/,'').replace(/\.$/,'');
   };
 
+  $('#stamp').textContent = D.stamp;
 
   /* ---------------- 云服务：价格历史 ---------------- */
   const CFG = window.__CLOUD_CFG || {};
@@ -254,7 +276,7 @@ details[open] summary::after{content:'−'}
   function setCloud(state, text){
     const dot = $('#cloudDot'), tag = $('#cloudTag');
     if(!dot || !tag) return;
-    dot.style.background = state === 'ok' ? '#8BC34A' : (state === 'loading' ? '#8A8A8C' : '#C24B3A');
+    dot.className = 'dot' + (state === 'ok' ? '' : (state === 'loading' ? ' warn' : ' err'));
     tag.textContent = text;
   }
 
@@ -308,7 +330,7 @@ details[open] summary::after{content:'−'}
     if(!window.WorkBuddyCloud || !CFG.endpoint || !CFG.publishableKey){
       CLOUD.status = 'fail';
       CLOUD.note = '云端客户端未加载，当前展示页面内置快照';
-      setCloud('err', 'OFFLINE');
+      setCloud('err', '云端离线');
       render();
       return;
     }
@@ -329,7 +351,7 @@ details[open] summary::after{content:'−'}
       if(!snaps.length){
         CLOUD.status = 'empty';
         CLOUD.note = '云端尚无历史快照，当前展示页面内置数据';
-        setCloud('warn', 'NO DATA');
+        setCloud('warn', '云端无数据');
         render();
         return;
       }
@@ -368,7 +390,8 @@ details[open] summary::after{content:'−'}
       CLOUD.status = 'ok';
       CLOUD.note = '';
 
-          setCloud('ok', 'SYNCED');
+      $('#stamp').textContent = D.stamp;
+      setCloud('ok', '云端已同步');
       render();
     }catch(e){
       let msg = e && (e.message || e.hint || e.error_description || e.error || e.code);
@@ -376,7 +399,7 @@ details[open] summary::after{content:'−'}
       if(!msg) msg = '网络或凭证异常';
       CLOUD.status = 'fail';
       CLOUD.note = '云端读取失败（' + msg + '），已回退到页面内置快照';
-      setCloud('err', 'OFFLINE');
+      setCloud('err', '云端离线');
       render();
     }
   }
@@ -393,113 +416,82 @@ details[open] summary::after{content:'−'}
 
   function unitOf(r){ return curOrder==='normal' ? (r.unitPriceNormal ?? r.unitPrice) : (r.unitPrice ?? r.unitPriceNormal); }
 
-  const DOTGLYPH = {
-    '0':['01110','10001','10001','10001','10001','10001','01110'],
-    '1':['00100','01100','00100','00100','00100','00100','01110'],
-    '2':['01110','10001','00001','00010','00100','01000','11111'],
-    '3':['11111','00010','00100','00010','00001','10001','01110'],
-    '4':['00010','00110','01010','10010','11111','00010','00010'],
-    '5':['11111','10000','11110','00001','00001','10001','01110'],
-    '6':['00110','01000','10000','11110','10001','10001','01110'],
-    '7':['11111','00001','00010','00100','01000','01000','01000'],
-    '8':['01110','10001','10001','01110','10001','10001','01110'],
-    '9':['01110','10001','10001','01111','00001','00010','01100'],
-    '.':['00000','00000','00000','00000','00000','00000','00110'],
-    ':':['00000','00110','00110','00000','00110','00110','00000']
-  };
+  function head(){
+    const h = D.health || {};
+    const C = D.compare;
+    const hi = C && C.available ? new Set(C.changes.map(c => c.key)).size : 0;
 
-  function dotMatrix(str){
-    const cell = 12, r = 3.3;
-    const chars = String(str).split('');
-    let x = 0, body = '';
-    chars.forEach(ch => {
-      const g = DOTGLYPH[ch] || DOTGLYPH['.'];
-      for(let row = 0; row < 7; row++){
-        for(let col = 0; col < 5; col++){
-          if(g[row][col] !== '1') continue;
-          body += '<circle cx="' + (x + col * cell + cell / 2) + '" cy="' + (row * cell + cell / 2) + '" r="' + r + '" fill="#FFFFFF"/>';
-        }
-      }
-      x += 5 * cell + cell;
-    });
-    const w = chars.length * 5 * cell + (chars.length - 1) * cell;
-    return '<svg viewBox="0 0 ' + w + ' 70" width="' + w + '" height="70" aria-hidden="true">' + body + '</svg>';
-  }
-
-  const DOW = ['SUN','MON','TUE','WED','THU','FRI','SAT'];
-  const MON = ['JAN','FEB','MAR','APR','MAY','JUN','JUL','AUG','SEP','OCT','NOV','DEC'];
-  function metaLine(stamp){
-    const m = String(stamp || '').match(/(\d{4})-(\d{2})-(\d{2})\s*(\d{2}:\d{2})?/);
-    if(!m) return String(stamp || '—');
-    const d = new Date(m[1] + '-' + m[2] + '-' + m[3] + 'T00:00:00');
-    return DOW[d.getDay()] + ', ' + m[3] + ' ' + MON[d.getMonth()] + (m[4] ? ' · ' + m[4] : '');
-  }
-
-  function collectItems(){
-    const out = [];
+    // 收集全部可计价口径
+    const items = [];
     (D.models || []).forEach(fam => (fam.rows || []).forEach(r => {
       const v = unitOf(r);
-      if(v == null) return;
-      out.push({
-        kind:'plan', price:v, model:r.modelLabel || fam.name, where:r.platform, ref:r, promo:!!r.promo,
-        sub:[r.product, r.priceMonthly != null ? '¥' + money(r.priceMonthly) + '/月' : '',
-          r.monthlyTokens ? (r.monthlyTokens / 1e8).toFixed(1) + '亿' : ''].filter(Boolean).join(' · ')
-      });
+      if (v == null) return;
+      const ml = r.modelLabel || fam.name;
+      const prod = String(r.product || '').replace(new RegExp('（\\s*' + ml.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + '\\s*）'), '').trim();
+      items.push({ v, k: 'plan', model: ml, ch: r.platform, prod, promo: !!r.promo });
     }));
     (D.liveQuotes || []).forEach(q => {
-      if(q.blended == null) return;
-      const meta = QUOTE_META[q.key];
-      out.push({
-        kind:'meter', price:q.blended, model:(meta ? meta[2] : q.label) + quoteSuffix(q.label),
-        where:'官方 API', ref:q, promo:false,
-        sub:'输入 ¥' + u2(q.input) + ' · 输出 ¥' + u2(q.output)
-      });
+      if (q.blended == null) return;
+      const m = q.label.match(/（(.+?)时段）/);
+      items.push({ v: q.blended, k: 'meter', model: q.label.replace(/\s*·\s*.*$/, '') + (m ? ' · ' + m[1] : ''), ch: '官方 API', prod: q.billing, promo: false });
     });
-    return out.sort((a, b) => a.price - b.price);
-  }
+    items.sort((x, y) => x.v - y.v);
+    if (!items.length) return '';
 
-  function heroCard(){
-    const C = D.compare || { available:false, changes:[], streaks:[] };
-    const h = D.health || {};
-    const items = collectItems();
-    if(!items.length) return '';
-    const min = items[0], max = items[items.length - 1];
-    const hi = C.available ? new Set(C.changes.map(c => c.key)).size : 0;
+    const lo = items[0], hiItem = items[items.length - 1];
+    const n = items.length;
+    const median = items[Math.floor(n / 2)].v;
+    const ratio = lo.v > 0 ? hiItem.v / lo.v : 0;
 
-    const lnMin = Math.log(min.price) || 0;
-    const lnMax = Math.log(max.price) || 1;
-    const span = (lnMax - lnMin) || 1;
-    const ticks = items.map(it => {
-      const pos = 2 + (Math.log(it.price) - lnMin) / span * 96;
-      return '<i class="pt' + (it === min ? ' hi' : '') + '" style="left:' + pos.toFixed(1) + '%"></i>';
-    }).join('');
+    // 半数口径所在的连续价格带（窗口最小）
+    const half = Math.ceil(n / 2);
+    let bestI = 0, bestSpan = Infinity;
+    for (let i = 0; i + half - 1 < n; i++) {
+      const span = items[i + half - 1].v - items[i].v;
+      if (span < bestSpan) { bestSpan = span; bestI = i; }
+    }
+    const bandLo = items[bestI].v, bandHi = items[bestI + half - 1].v;
 
-    const okA = h.aOk || 0, totA = okA + (h.aFail || 0);
-    const okB = h.bOk || 0, totB = okB + (h.bFail || 0);
-    let segs = '';
-    for(let i = 0; i < totA; i++) segs += '<i class="' + (i < okA ? 'a' : 'bad') + '"></i>';
-    for(let i = 0; i < totB; i++) segs += '<i class="' + (i < okB ? 'ok' : 'bad') + '"></i>';
+    // 价格区间分布
+    const edges = [0, 0.2, 0.5, 1, 2, 5, 10, 25, 1e9];
+    const labels = ['<0.2', '0.2–0.5', '0.5–1', '1–2', '2–5', '5–10', '10–25', '≥25'];
+    const counts = new Array(labels.length).fill(0);
+    items.forEach(x => { for (let i = 0; i < edges.length - 1; i++) if (x.v >= edges[i] && x.v < edges[i + 1]) { counts[i]++; break; } });
+    const peak = counts.indexOf(Math.max(...counts));
+    const cmax = Math.max(...counts, 1);
+    const dbars = counts.map((c, i) =>
+      `<div class="dcol"><span>${c || ''}</span><i class="${i === peak ? 'peak' : ''}" style="height:${c ? Math.max(10, c / cmax * 100) : 2}%"></i></div>`
+    ).join('');
+    const dlabs = labels.map(l => `<span>${l}</span>`).join('');
 
-    const streak = (C.streaks || [])[0];
+    const tag = (x, text) => x.promo ? `<span class="ptag">${text}</span>` : '';
 
-    return '<div class="card hero">'
-      + '<div class="hlabel"><svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="#8A8A8C" stroke-width="1.2"><path d="M2 9l3.5-4L8 7.5 11.5 3"/></svg>最低可及单价</div>'
-      + '<div class="hnum">' + dotMatrix(u2(min.price)) + '</div>'
-      + '<div class="hunit">元 / 百万 token</div>'
-      + '<div class="hnote">' + esc(min.model) + ' · ' + esc(min.where) + (min.promo ? ' · 含活动价' : '') + '</div>'
-      + '<div class="strip"><div class="axis"></div>' + ticks
-      + '<span class="lbl" style="left:2%">' + u2(min.price) + '</span>'
-      + '<span class="lbl" style="left:98%">' + u2(max.price) + '</span></div>'
-      + '<div class="hnote" style="margin-top:10px">' + items.length + ' 个在售口径 · 对数刻度 · 白点为最低值</div>'
-      + '</div>'
-      + '<div class="duo">'
-      + '<div class="sub"><div class="slabel"><svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="#8A8A8C" stroke-width="1.2"><circle cx="6" cy="6" r="4.5"/><path d="M6 3.5V6l2 1.2"/></svg>今日调价</div>'
-      + '<div class="snum">' + hi + '<small>个口径</small></div>'
-      + '<div class="snote">' + (streak ? '最长 ' + streak.days + ' 天未变' : '暂无变化') + '</div></div>'
-      + '<div class="sub"><div class="slabel"><svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="#8A8A8C" stroke-width="1.2"><path d="M1.5 8.5v-3M4.5 8.5v-5M7.5 8.5v-2M10.5 8.5v-4"/></svg>抓取源</div>'
-      + '<div class="snum">' + (okA + okB) + '<small>/ ' + (totA + totB) + '</small></div>'
-      + '<div class="segs">' + segs + '</div></div>'
-      + '</div>';
+    return `<div class="card">
+      <div class="ch"><h2>价格概览</h2><span class="more">${n} 个在售口径 · 由低到高</span></div>
+      <div class="px2">
+        <div class="pxi">
+          <div class="pk">最低可及算力</div>
+          <div class="pv low">¥${u2(lo.v)}</div>
+          <div class="pm">${esc(lo.model)}</div>
+          <div class="pc">${esc(lo.ch)} · ${esc(lo.prod || '')}${tag(lo, '活动价')}</div>
+        </div>
+        <div class="pxi r">
+          <div class="pk">最高单价</div>
+          <div class="pv high">¥${u2(hiItem.v)}</div>
+          <div class="pm">${esc(hiItem.model)}</div>
+          <div class="pc">${esc(hiItem.ch)} · ${esc(hiItem.prod || '')}${tag(hiItem, '活动价')}</div>
+        </div>
+      </div>
+      <div class="bandnote">
+        半数口径（<b>${half}</b> 个）落在 <b>¥${u2(bandLo)} – ¥${u2(bandHi)}</b>，中位 <b>¥${u2(median)}</b>；最高是最低的 <b>${ratio.toFixed(0)} 倍</b>。
+      </div>
+      <div class="dist">
+        <div class="dh">价格区间分布（口径数）</div>
+        <div class="dbars">${dbars}</div>
+        <div class="dlabs">${dlabs}</div>
+      </div>
+      <div class="cb"><div class="hint" style="padding-top:8px">A 级源每次运行自动覆盖，B 级源仅监控页面变更，C 级为无公开价格的政企报价。当前抓取成功率 ${h.aOk}/${h.aOk + h.aFail}（A级）、${h.bOk}/${h.bOk + h.bFail}（B级）。今日调价 ${hi} 个口径。</div></div>
+    </div>`;
   }
 
   function keySeries(k){
@@ -672,7 +664,7 @@ details[open] summary::after{content:'−'}
       </div>
       <div class="qm" style="margin-top:2px">
         <span class="tag ${v[0]}">${v[1]}</span>
-        ${r.promo ? '<span class="tag on-amber">有活动</span>' : ''}
+        ${r.promo ? '<span class="tag" style="border-color:rgba(224,118,28,.35);color:var(--accent);background:rgba(224,118,28,.08)">有活动</span>' : ''}
         ${r.unitPriceNormal != null && r.unitPriceNormal !== r.unitPrice ? `<span>常态 ¥${u2(r.unitPriceNormal)}</span>` : ''}
       </div>
       <div class="detail">${planDetail(r, u)}</div>
@@ -726,8 +718,8 @@ details[open] summary::after{content:'−'}
         <div class="rank">
           <div class="rn ${i < 3 ? 'top' : ''}">${i + 1}</div>
           <div class="rm">
-            <div class="rt">${tag}${esc(x.model)}${x.promo ? '<span class="tag on-amber">活动</span>' : ''}</div>
-            <div class="rs2">${esc(x.where)} · ${esc(x.sub)}</div>
+            <div class="rt">${tag}${esc(x.model)} <span class="plat">${esc(x.where)}</span>${x.promo ? '<span class="tag" style="border-color:rgba(224,118,28,.35);color:var(--accent);background:rgba(224,118,28,.08);margin-left:5px">活动</span>' : ''}</div>
+            <div class="rs2">${esc(x.sub)}</div>
             <div class="rbar"><i class="${x.kind}" style="width:${w.toFixed(1)}%"></i></div>
           </div>
           <div class="rp">¥${u2(x.price)}<span>/百万</span></div>
@@ -877,8 +869,7 @@ details[open] summary::after{content:'−'}
   }
 
   function render(){
-    $('#datemeta').textContent = metaLine(D.stamp);
-    $('#app').innerHTML = cloudBanner()+heroCard()+rankCard()+priceCard()+sourceCard();
+    $('#app').innerHTML = cloudBanner()+head()+rankCard()+priceCard()+sourceCard();
     document.querySelectorAll('#vtabs .tab').forEach(t=>t.onclick=()=>{
       curVendor=t.dataset.v;
       const cs=buildCatalog().find(x=>x.name===curVendor);
