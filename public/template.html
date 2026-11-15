@@ -21,6 +21,7 @@
   --brand:#12304f; --brand2:#1f4d79; --accent:#e0761c;
   --up:#cf3f32; --down:#12855c; --warn:#b8860b;
   --on-accent:#fff; --badge:#c9600e;
+  --bar:#2f6fa8; --bar-edge:#9cc9ea; --bar-hi:#3f83bf;
   --r:14px; --sh:0 1px 2px rgba(16,38,62,.06),0 4px 16px rgba(16,38,62,.05);
 }
 @media (prefers-color-scheme: dark){
@@ -30,6 +31,7 @@
     --brand:#0b1219; --brand2:#16283c; --accent:#f0952f;
     --up:#ff6b5e; --down:#31c48d; --warn:#e0b341;
     --on-accent:#1c1206; --badge:#f0952f;
+    --bar:#2f6e96; --bar-edge:#9ad9ff; --bar-hi:#3f86b4;
     --sh:0 1px 2px rgba(0,0,0,.4),0 6px 20px rgba(0,0,0,.3);
   }
 }
@@ -137,10 +139,10 @@ details.remark[open] summary{color:var(--tx2)}
 .rk2 b{color:var(--tx2);font-weight:600}
 .dcol{cursor:pointer;border-radius:3px;transition:opacity .12s}
 .dcol.act-empty{cursor:default}
-.dcol.dim{opacity:.3}
-.dcol.on i{background:var(--accent);opacity:1}
+.dcol.dim{opacity:.34}
+.dcol.on i{background:var(--accent);border-top-color:#ffd9a8;box-shadow:inset 0 -2px 0 rgba(0,0,0,.18)}
 .dcol.on span{color:var(--accent);font-weight:700}
-.dcol:hover:not(.act-empty) i{opacity:.62}
+.dcol:hover:not(.act-empty) i{background:var(--bar-hi);border-top-color:#c9e8ff}
 .dlabs span.on{color:var(--accent);font-weight:700}
 .dsl{font-size:10.5px;color:var(--tx3);margin-top:7px;line-height:1.5}
 .dsl.accent{color:var(--accent)}
@@ -153,8 +155,11 @@ details.remark[open] summary{color:var(--tx2)}
 .empty a{color:var(--accent);cursor:pointer;text-decoration:none;border-bottom:1px dashed currentColor}
 .dbars{display:flex;align-items:flex-end;gap:5px;height:56px}
 .dcol{flex:1;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;gap:3px;height:100%}
-.dcol span{font-size:9.5px;color:var(--tx3);font-variant-numeric:tabular-nums;line-height:1}
-.dcol i{width:100%;display:block;background:var(--tx3);opacity:.36;border-radius:2px 2px 0 0;min-height:2px;transition:opacity .12s}
+.dcol span{font-size:9.5px;color:var(--tx2);font-variant-numeric:tabular-nums;line-height:1}
+.dcol i{width:100%;display:block;background:var(--bar);border-radius:2px 2px 0 0;min-height:3px;
+        border-top:1px solid var(--bar-edge);
+        box-shadow:inset 0 -2px 0 rgba(0,0,0,.18);
+        transition:background .12s,border-color .12s}
 .dlabs{display:flex;gap:5px;margin-top:5px}
 .dlabs span{flex:1;text-align:center;font-size:8.5px;color:var(--tx3);letter-spacing:-.2px;white-space:nowrap}
 
