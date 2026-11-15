@@ -97,7 +97,24 @@ body{
 .bandnote{font-size:11.5px;color:var(--tx2);line-height:1.65;padding:12px 14px 0}
 .bandnote b{color:var(--tx);font-weight:700;font-variant-numeric:tabular-nums}
 .dist{margin:12px 14px 0;background:var(--card2);border:1px solid var(--line);border-radius:10px;padding:9px 10px 7px}
-.dist .dh{font-size:10.5px;color:var(--tx3);margin-bottom:6px}
+.dist .dh{font-size:10.5px;color:var(--tx3);margin-bottom:6px;display:flex;align-items:center;gap:6px}
+.dhn{font-size:9px;padding:0 4px;border-radius:3px;background:var(--line);color:var(--tx2);letter-spacing:.02em}
+.dcol{cursor:pointer;border-radius:3px;transition:opacity .12s}
+.dcol.act-empty{cursor:default}
+.dcol.dim{opacity:.3}
+.dcol.on i{background:var(--accent)}
+.dcol.on span{color:var(--accent);font-weight:700}
+.dcol:hover:not(.act-empty) i{filter:brightness(.94)}
+.dlabs span.on{color:var(--accent);font-weight:700}
+.dsl{font-size:10.5px;color:var(--tx3);margin-top:7px;line-height:1.5}
+.dsl.accent{color:var(--accent)}
+.dsl2{color:var(--tx3);font-weight:400;margin-top:2px}
+.dsl b{font-weight:700}
+.dsl a{color:var(--accent);cursor:pointer;text-decoration:none;border-bottom:1px dashed currentColor;margin-left:2px}
+.chip.bchip{border-color:var(--accent);color:var(--accent);background:rgba(224,118,28,.08);font-weight:600}
+#rankCard{scroll-margin-top:86px}
+.empty{padding:22px 0;text-align:center;font-size:11.5px;color:var(--tx3);line-height:1.7}
+.empty a{color:var(--accent);cursor:pointer;text-decoration:none;border-bottom:1px dashed currentColor}
 .dbars{display:flex;align-items:flex-end;gap:5px;height:58px}
 .dcol{flex:1;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;gap:3px;height:100%}
 .dcol span{font-size:9.5px;color:var(--tx3);font-variant-numeric:tabular-nums;line-height:1}
@@ -452,17 +469,38 @@ details[open] summary::after{content:'－'}
     }
     const bandLo = items[bestI].v, bandHi = items[bestI + half - 1].v;
 
-    // 价格区间分布
-    const edges = [0, 0.2, 0.5, 1, 2, 5, 10, 25, 1e9];
-    const labels = ['<0.2', '0.2–0.5', '0.5–1', '1–2', '2–5', '5–10', '10–25', '≥25'];
+    // 价格区间分布（可点选，与下方排行联动）
+    const labels = BUCKETS.labels;
     const counts = new Array(labels.length).fill(0);
-    items.forEach(x => { for (let i = 0; i < edges.length - 1; i++) if (x.v >= edges[i] && x.v < edges[i + 1]) { counts[i]++; break; } });
+    items.forEach(x => { counts[bucketOf(x.v)]++; });
     const peak = counts.indexOf(Math.max(...counts));
     const cmax = Math.max(...counts, 1);
-    const dbars = counts.map((c, i) =>
-      `<div class="dcol"><span>${c || ''}</span><i class="${i === peak ? 'peak' : ''}" style="height:${c ? Math.max(10, c / cmax * 100) : 2}%"></i></div>`
-    ).join('');
-    const dlabs = labels.map(l => `<span>${l}</span>`).join('');
+    const dbars = counts.map((c, i) => {
+      const cls = ['dcol'];
+      if (c === 0) cls.push('act-empty');
+      if (bucketSel != null && bucketSel === i) cls.push('on');
+      if (bucketSel != null && bucketSel !== i && c > 0) cls.push('dim');
+      return `<div class="${cls.join(' ')}" data-b="${i}" data-n="${c}">
+        <span>${c || ''}</span><i class="${i === peak && bucketSel == null ? 'peak' : ''}" style="height:${c ? Math.max(10, c / cmax * 100) : 2}%"></i>
+      </div>`;
+    }).join('');
+    const dlabs = labels.map((l, i) =>
+      `<span class="${bucketSel === i ? 'on' : ''}">${l}</span>`).join('');
+    let dstate;
+    if (bucketSel == null) {
+      dstate = `<div class="dsl">点任一区间，下方「全量价格排行」会同步筛选</div>`;
+    } else {
+      const inBucket = items.filter(x => bucketOf(x.v) === bucketSel);
+      const cnt = new Map();
+      inBucket.forEach(x => cnt.set(x.model, (cnt.get(x.model) || 0) + 1));
+      const kinds = [...cnt.entries()];
+      const names = kinds.slice(0, 3).map(([m, c]) => esc(m) + (c > 1 ? ` ×${c}` : '')).join('、');
+      const tail = kinds.length > 3 ? ' …' : '';
+      dstate = `<div class="dsl accent">
+        已选 <b>${labels[bucketSel]}</b> · ${inBucket.length} 个口径：<b>${names}</b>${tail}
+        <div class="dsl2">下方排行已同步筛选 <a id="bucketClear">清除</a></div>
+      </div>`;
+    }
 
     const tag = (x, text) => x.promo ? `<span class="ptag">${text}</span>` : '';
 
@@ -486,9 +524,10 @@ details[open] summary::after{content:'－'}
         半数口径（<b>${half}</b> 个）落在 <b>¥${u2(bandLo)} – ¥${u2(bandHi)}</b>，中位 <b>¥${u2(median)}</b>；最高是最低的 <b>${ratio.toFixed(0)} 倍</b>。
       </div>
       <div class="dist">
-        <div class="dh">价格区间分布（口径数）</div>
+        <div class="dh">价格区间分布（口径数）<span class="dhn">可选</span></div>
         <div class="dbars">${dbars}</div>
         <div class="dlabs">${dlabs}</div>
+        ${dstate}
       </div>
       <div class="cb"><div class="hint" style="padding-top:8px">A 级源每次运行自动覆盖，B 级源仅监控页面变更，C 级为无公开价格的政企报价。当前抓取成功率 ${h.aOk}/${h.aOk + h.aFail}（A级）、${h.bOk}/${h.bOk + h.bFail}（B级）。今日调价 ${hi} 个口径。</div></div>
     </div>`;
@@ -673,6 +712,17 @@ details[open] summary::after{content:'－'}
 
   let rankFilter = 'all';
   let rankExpanded = false;
+  let bucketSel = null;   // 头部区间选择的索引，null = 不限
+
+  const BUCKETS = {
+    edges: [0, 0.2, 0.5, 1, 2, 5, 10, 25, 1e9],
+    labels: ['≤0.2', '0.2–0.5', '0.5–1', '1–2', '2–5', '5–10', '10–25', '≥25']
+  };
+  function bucketOf(v){
+    const e = BUCKETS.edges;
+    for (let i = 0; i < e.length - 1; i++) if (v >= e[i] && v < e[i + 1]) return i;
+    return e.length - 2;
+  }
 
   function quoteSuffix(label){
     const m = label.match(/（(.+?)时段）/) || label.match(/（(.+?)）/);
@@ -704,7 +754,8 @@ details[open] summary::after{content:'－'}
     });
 
     const all = items.slice().sort((x, y) => x.price - y.price);
-    const shown = all.filter(x => rankFilter === 'all' || x.kind === rankFilter);
+    let shown = all.filter(x => rankFilter === 'all' || x.kind === rankFilter);
+    if (bucketSel != null) shown = shown.filter(x => bucketOf(x.price) === bucketSel);
     const list = rankExpanded ? shown : shown.slice(0, 12);
     const max = shown.length ? shown[shown.length - 1].price : 1;
     const mid = shown.length ? shown[Math.floor(shown.length / 2)].price : 0;
@@ -729,7 +780,9 @@ details[open] summary::after{content:'－'}
       </div>`;
     }).join('');
 
-    const chips = [['all', '全部'], ['plan', '仅套餐'], ['meter', '仅按量']].map(([k, n]) =>
+    const bucketChip = bucketSel == null ? '' :
+      `<div class="chip bchip on" id="bucketClear2">区间 ${BUCKETS.labels[bucketSel]} ✕</div>`;
+    const chips = bucketChip + [['all', '全部'], ['plan', '仅套餐'], ['meter', '仅按量']].map(([k, n]) =>
       `<div class="chip ${rankFilter === k ? 'on' : ''}" data-r="${k}">${n}</div>`).join('');
 
     const more = shown.length > 12
@@ -742,13 +795,13 @@ details[open] summary::after{content:'－'}
           <span>最高 <b>¥${u2(shown[shown.length - 1].price)}</b></span></div>`
       : '';
 
-    return `<div class="card">
+    return `<div class="card" id="rankCard">
       <div class="ch"><span class="idx">1</span><h2>全量价格排行</h2><span class="more">${shown.length} 个可选项</span></div>
       <div class="chips" id="rtabs">${chips}</div>
       <div class="cb">
         ${summary}
         <div class="hint" style="padding:6px 0 4px">所有套餐与官方按量价折算到同一把尺子上排序。点任意一行展开明细；跨型号比价只反映单位 token 成本，不代表能力相当。</div>
-        ${rows}
+        ${shown.length ? rows : '<div class="empty">该区间在当前筛选条件下没有符合的口径。<a id="bucketClear3">清除筛选</a></div>'}
         ${more}
       </div>
     </div>`;
@@ -877,7 +930,24 @@ details[open] summary::after{content:'－'}
       render();
     });
     document.querySelectorAll('#mtabs .chip').forEach(c=>c.onclick=()=>{curModelId=c.dataset.x;render();});
-    document.querySelectorAll('#rtabs .chip').forEach(c=>c.onclick=()=>{rankFilter=c.dataset.r;rankExpanded=false;render();});
+    document.querySelectorAll('#rtabs .chip[data-r]').forEach(c=>c.onclick=()=>{rankFilter=c.dataset.r;rankExpanded=false;render();});
+    document.querySelectorAll('.dcol[data-b]').forEach(el=>{
+      if(el.dataset.n === '0') return;
+      el.onclick=()=>{
+        const i=+el.dataset.b;
+        bucketSel = (bucketSel===i) ? null : i;
+        rankExpanded=false;
+        render();
+        if(bucketSel!=null){
+          const t=document.getElementById('rankCard');
+          if(t) t.scrollIntoView({behavior:'smooth',block:'start'});
+        }
+      };
+    });
+    ['bucketClear','bucketClear2','bucketClear3'].forEach(id=>{
+      const el=document.getElementById(id);
+      if(el) el.onclick=(e)=>{e.stopPropagation();bucketSel=null;render();};
+    });
     const rm = $('#rankMore');
     if(rm) rm.onclick=()=>{rankExpanded=!rankExpanded;render();};
     document.querySelectorAll('.quote').forEach(el=>el.onclick=(e)=>{
