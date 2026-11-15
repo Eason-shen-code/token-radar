@@ -1,10 +1,10 @@
 {
-  "updatedAt": "2026-11-14 22:27",
+  "updatedAt": "2026-11-15 09:19",
   "sources": {
     "huawei-maas": {
       "fingerprint": "1505",
       "signalsSample": [],
-      "checkedAt": "2026-11-14 22:27",
+      "checkedAt": "2026-11-15 09:19",
       "name": "华为云 · MaaS Token Plan"
     },
     "qianfan-codingplan": {
@@ -13,14 +13,24 @@
         "型每日22:00-次日8:00享2折，闲时成本立降80%！ 首购五折：新用户最低4.9元起！ 最低 4.9 元即可畅享 Token Plan 全场景",
         "AI 与 Anthropic 协议 产品优势 极致性价比长效省心 首购半价低至 4.9 元起，高倍率、超大容量的 积分/Token 供给，让用户彻底放"
       ],
-      "checkedAt": "2026-11-14 22:27",
+      "checkedAt": "2026-11-15 09:19",
       "name": "百度千帆 · Token Plan"
     },
     "unicom-tokenplan": {
       "fingerprint": "1505",
       "signalsSample": [],
-      "checkedAt": "2026-11-14 22:27",
+      "checkedAt": "2026-11-15 09:19",
       "name": "联通云 · Token Plan"
+    },
+    "aliyun-tokenplan": {
+      "fingerprint": "16e6d9a0",
+      "signalsSample": [
+        "e 套餐 Essential 套餐 Standard 套餐 Pro 套餐 定价 39 元/月 新用户限时价 19.5 元/月 79 元/月 新用户限时价",
+        "39.5 元/月 139 元/月 312 元/月 每月限额 20,000 C",
+        "用量包 ：定价 100 元/个/月，每个用量包含 20,000 Credits"
+      ],
+      "checkedAt": "2026-11-15 09:19",
+      "name": "阿里百炼 · Token Plan 个人版"
     },
     "tencent-tokenhub": {
       "fingerprint": "6c0e255c",
@@ -34,7 +44,7 @@
         "进阶套餐 （Pro） 每订阅月 4760 积分 238元/月 高频 AI 开发，Token 配额相比基础版提升至 3 倍",
         "专业套餐 （Max） 每订阅月 9360 积分 468元/月 更多额度加持，重度 AI 开发首选"
       ],
-      "checkedAt": "2026-11-14 22:27",
+      "checkedAt": "2026-11-15 09:19",
       "name": "腾讯云 · TokenHub"
     },
     "volcengine-codingplan": {
@@ -46,29 +56,19 @@
         "旗舰模型 ，赋能业务高效落地 精选豆包旗舰模型，新客限时优惠16.8元起！ 活动规则&gt",
         "业旗舰版 价格查询中... 3个席位起 1个月 立即购买 专业团队深度安全管控 100 元会话用量+代码补全不限量 IDE/插件/CLI 全形态+Ad"
       ],
-      "checkedAt": "2026-11-14 22:27",
+      "checkedAt": "2026-11-15 09:19",
       "name": "火山引擎 · Coding Plan 活动页"
-    },
-    "aliyun-tokenplan": {
-      "fingerprint": "16e6d9a0",
-      "signalsSample": [
-        "e 套餐 Essential 套餐 Standard 套餐 Pro 套餐 定价 39 元/月 新用户限时价 19.5 元/月 79 元/月 新用户限时价",
-        "39.5 元/月 139 元/月 312 元/月 每月限额 20,000 C",
-        "用量包 ：定价 100 元/个/月，每个用量包含 20,000 Credits"
-      ],
-      "checkedAt": "2026-11-14 22:27",
-      "name": "阿里百炼 · Token Plan 个人版"
     },
     "kimi-pricing": {
       "fingerprint": "1505",
       "signalsSample": [],
-      "checkedAt": "2026-11-14 22:27",
+      "checkedAt": "2026-11-15 09:19",
       "name": "Kimi 开放平台 · 模型定价"
     },
     "aliyun-models": {
       "fingerprint": "1505",
       "signalsSample": [],
-      "checkedAt": "2026-11-14 22:27",
+      "checkedAt": "2026-11-15 09:19",
       "name": "阿里百炼 · 模型价格"
     },
     "ctyun-tokenhub": {
@@ -81,39 +81,13 @@
         "aude Code 等主流编程工具 套餐额度 10000积分 模型范围动态更新 89.00 元/月 立即订购 编程Token Plan 25000积分 轻量开",
         "aude Code 等主流编程工具 套餐额度 25000积分 模型范围动态更新 199.00 元/月 立即订购 为什么选择天翼云 星辰TokenHub运营服务平"
       ],
-      "checkedAt": "2026-11-14 22:27",
+      "checkedAt": "2026-11-15 09:19",
       "name": "天翼云 · 星辰 TokenHub"
     },
     "volcengine-price": {
-      "fingerprint": "4c1a3fed",
-      "signalsSample": [
-        "足 输入长度 (128, 256] 条件，模型输入输出 token 按照：输入 2.4 元/M token，输出 24 元/M token 单价计费",
-        "足 输入长度 (128, 256] 条件，模型产生的所有 token 按照：输入4.8 元/M token，输出 24.0 元/M token 单价计",
-        "BR 材质的 3D 模型文件 ​ 2.40 ​ 30K token / 次 * 80 元/M token ​ Hyper3d-Gen2 ​ 白模 ​",
-        "带纹理 + PBR 材质模型 ​ 1.80 ​ 30K token / 次 * 60 元/M token ​ Hitem3d-2.0 ​ 标准白模",
-        "​ 5.80 ​ 72.5K token / 次 * 80 元/M token ​ ​ 标准纹理模型 ​ 10.15 ​",
-        "126.875K token / 次 * 80 元/M token ​ ​ 高精白模 ​ 8.70 ​ 108",
-        ".75K token / 次 * 80 元/M token ​ ​ 高精纹理模型 ​ 13.05 ​",
-        "163.125K token / 次 * 80 元/M token ​ ​ 按成功输出 3D 文件数计费",
-        "2 模型提供优惠资源包，购买链接： 影眸大模型服务资源包 ​ 3M token：150元，可生成 100次，平均 1.5 元/次",
-        "​ 30M token：1000元，可生成 1000次，平均 1 元/次",
-        "​ 0.5 元/小时 ​ 工具调用 ​ Agent 调用工具产生的费用，当前支持",
-        "​ web_search：0.02 元/次 ​ web_fetch：限时免费 ​ ​ Seedance",
-        "​ general_search ：0.02 元/次 ​ visual_search ：0.02 元/次 ​ c",
-        "​ 服务项 ​ 价格 ​ 服务项 ​ 价格 ​ 计算资源-知识库【旗舰版】 ​ 0.45 元/CU/小时 ​ 离线存储资源-知识库【旗舰版】 ​ 0.0",
-        "015 元/GB/小时 ​ 标准计算资源-知识库【标准版】 ​ 0.0",
-        "416 元/知识库/小时 ​ 文本向量模型-知识库【通用】 ​ 0.5",
-        "元/M token ​ 文本向量模型（多功能版）-知识库【通用】 ​ 0.5 元/M token ​ 文本向量模型（Doubao-embed",
-        "ding）-知识库【通用】 ​ 0.5 元/M token ​ 文本向量模型（Doubao-embed",
-        "ding-large）-知识库【通用】 ​ 0.7 元/M token ​ 多模态向量模型（Doubao-embe",
-        "dding-vision-text）-知识库【通用】 ​ 0.7 元/M token ​ 多模态向量模型（Doubao-embe",
-        "dding-vision-image）-知识库【通用】 ​ 1.8 元/M token ​ 重排模型-知识库【通用】 ​ 0.5",
-        "格 ​ 套餐类型 ​ 订阅时长 ​ 价格 ​ Lite 套餐 ​ 1 个月 ​ 40 元/月 ​ ​ 3 个月 ​ 120 元/季 ​ Pro 套餐 ​",
-        "1 个月 ​ 200 元/月 ​ ​ 3 个月 ​ 600 元/季 ​ ​ 套餐信息及特",
-        "​ ​ 套餐类型 ​ 价格 ​ 套餐类型 ​ 价格 ​ Small 套餐 ​ 40 元/月 ​ Medium 套餐 ​ 200 元/月 ​ Large",
-        "套餐 ​ 500 元/月 ​ Max 套餐 ​ 1000 元/月 ​ ​ 套餐信息参"
-      ],
-      "checkedAt": "2026-11-14 22:27",
+      "fingerprint": "1505",
+      "signalsSample": [],
+      "checkedAt": "2026-11-15 09:19",
       "name": "火山方舟 · 模型价格与抵扣系数"
     }
   }

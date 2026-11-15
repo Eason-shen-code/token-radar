@@ -209,12 +209,11 @@ details[open] summary::after{content:'－'}
 
 <div class="top">
   <div class="row">
-    <h1>AI算力资源价格监测</h1>
+    <h1>AI算力价格监测台</h1>
     <span class="pill" id="cloudPill"><i class="dot" id="cloudDot"></i><span id="cloudTag">连接云端</span></span>
   </div>
   <div class="sub">
     <span>数据时间 <b id="stamp">—</b></span>
-    <span>基线 <b id="bv">—</b></span>
     <span>下次抓取 <b>每日 05:30</b></span>
   </div>
 </div>
@@ -245,7 +244,6 @@ details[open] summary::after{content:'－'}
   };
 
   $('#stamp').textContent = D.stamp;
-  $('#bv').textContent = D.baselineVersion;
 
   /* ---------------- 云服务：价格历史 ---------------- */
   const CFG = window.__CLOUD_CFG || {};
@@ -336,13 +334,11 @@ details[open] summary::after{content:'－'}
       }
 
       const latest = snaps[0].date;
-      const [rq, rd, rt] = await Promise.all([
+      const [rq, rt] = await Promise.all([
         db.from('price_quotes').select('*').eq('as_of_date', latest).order('blended', { ascending: true }),
-        db.from('price_diffs').select('*').eq('as_of_date', latest).order('pct', { ascending: false }),
         db.from('price_quotes').select('as_of_date,quote_key,label,input_price,cache_hit_price,output_price,blended').order('as_of_date', { ascending: true }).limit(800)
       ]);
       if(rq.error) throw rq.error;
-      if(rd.error) throw rd.error;
 
       const quotes = (rq.data || []).map(r => ({
         key: r.quote_key, label: r.label, source: r.source, billing: r.billing,
@@ -351,10 +347,6 @@ details[open] summary::after{content:'－'}
       })).filter(q => q.blended != null);
 
       if(quotes.length) D.liveQuotes = quotes;
-      D.diffs = (rd.data || []).map(r => ({
-        level: 'med', scope: r.scope, title: r.title,
-        from: r.from_value, to: r.to_value, pct: num(r.pct), kind: r.kind
-      }));
       D.stamp = snaps[0].stamp || D.stamp;
       D.health = {
         aOk: snaps[0].a_ok || 0, aFail: snaps[0].a_fail || 0,
@@ -411,7 +403,7 @@ details[open] summary::after{content:'－'}
         <div class="stat ${hi?'hot':''}"><div class="n">${hi}</div><div class="l">今日调价</div></div>
         <div class="stat"><div class="n">${D.liveQuotes.length}</div><div class="l">实时官方报价</div></div>
       </div>
-      <div class="cb"><div class="hint">基线版本 ${esc(D.baselineVersion)}（逆向自原比价报告），A 级源每次运行自动覆盖，B 级源监控页面变更，C 级为无公开价格的政企报价。当前抓取成功率 ${h.aOk}/${h.aOk+h.aFail}（A级）、${h.bOk}/${h.bOk+h.bFail}（B级）。</div></div>
+      <div class="cb"><div class="hint">A 级源每次运行自动覆盖，B 级源仅监控页面变更，C 级为无公开价格的政企报价。当前抓取成功率 ${h.aOk}/${h.aOk+h.aFail}（A级）、${h.bOk}/${h.bOk+h.bFail}（B级）。</div></div>
     </div>`;
   }
 
@@ -537,7 +529,7 @@ details[open] summary::after{content:'－'}
       <div class="kv"><span>单账号月额度</span><b>${esc(quota)}</b></div>
       <div class="kv"><span>折算单价</span><b>¥${u == null ? '—' : u2(u)}/百万</b></div>
       ${r.note ? `<div class="kv"><span>备注</span><b style="font-weight:400;color:var(--tx2)">${esc(r.note)}</b></div>` : ''}
-      <div class="hint" style="padding:8px 0 0">套餐价格来自基线快照（${esc(D.diffsBaselineDate || D.baselineVersion)}），不是每日抓取，因此没有走势曲线。销售渠道：${esc(r.platform)}。</div>`;
+      <div class="hint" style="padding:8px 0 0">套餐价格为人工维护的报价快照，不是每日抓取，因此没有走势曲线。销售渠道：${esc(r.platform)}。</div>`;
   }
 
   function meteredRow(q, C, maxAll){
@@ -573,7 +565,7 @@ details[open] summary::after{content:'－'}
       : (r.priceIn != null ? `输入 ¥${u2(r.priceIn)} / 输出 ¥${u2(r.priceOut)}` : '—');
     return `<div class="quote">
       <div class="qh">
-        <div class="nm"><span class="src-tag plan">套餐·基线</span>${esc(r.platform)} <span style="font-weight:400;color:var(--tx2);font-size:12px">${esc(r.product)}</span></div>
+        <div class="nm"><span class="src-tag plan">套餐·人工</span>${esc(r.platform)} <span style="font-weight:400;color:var(--tx2);font-size:12px">${esc(r.product)}</span></div>
         <div class="pr">${u == null ? '<span style="font-size:12px;color:var(--tx3)">待核</span>' : '¥' + u2(u)}${u == null ? '' : '<span>/百万</span>'}</div>
         <span class="caret">▾</span>
       </div>
@@ -715,19 +707,6 @@ details[open] summary::after{content:'－'}
     const changedKeys = new Set(C.changes.map(c => c.key));
     const tag = changedKeys.size ? `${changedKeys.size} 个口径调价` : '今日无调价';
 
-    const baseRows = (D.diffs || []).map(d => {
-      const ic = d.kind === 'up' ? '↑' : '↓';
-      const pc = d.pct == null ? '' : `<div class="p ${d.kind}">${d.pct > 0 ? '+' : ''}${d.pct}%</div>`;
-      return `<div class="diff"><div class="ic ${d.kind}">${ic}</div>
-        <div class="m"><div class="t" style="font-weight:500">${esc(d.title)}</div>
-        <div class="v"><em>${esc(D.diffsBaselineDate || D.baselineVersion)} 报告值</em> ${esc(d.from)} → <b>${esc(d.to)}</b></div></div>${pc}</div>`;
-    }).join('');
-    const baseBlock = (D.diffs && D.diffs.length) ? `<details>
-        <summary>相对 ${esc(D.diffsBaselineDate || D.baselineVersion)} 报告基线的累计变化（${D.diffs.length} 条）</summary>
-        <div class="hint" style="padding:0 0 6px">历史累计，不是本期变动。原值为 ${esc(D.diffsBaselineDate || D.baselineVersion)} 版比价报告记录的数字。</div>
-        ${baseRows}
-      </details>` : '';
-
     return `<div class="card">
       <div class="ch"><span class="idx">2</span><h2>模型价格对比</h2><span class="more">${esc(tag)}</span></div>
       <div class="tabs" id="vtabs">${vtabs}</div>
@@ -740,9 +719,8 @@ details[open] summary::after{content:'－'}
         <div class="hint" style="padding-top:4px">同一把尺子：元/百万 Token。按量随用随付；套餐预买额度，折算按额度用满计。</div>
         ${gap}
         ${body}
-        <div class="hint" style="padding:10px 0 0">${model.rows.length} 个销售渠道 · ${model.quotes.length} 个官方按量口径${model.rows.length ? '；套餐数据为基线，按量数据每日自动抓取' : ''}</div>
-        ${baseBlock}
-      </div>
+        <div class="hint" style="padding:10px 0 0">${model.rows.length} 个销售渠道 · ${model.quotes.length} 个官方按量口径${model.rows.length ? '；套餐数据为人工维护，按量数据每日自动抓取' : ''}</div>
+              </div>
     </div>`;
   }
 
@@ -778,7 +756,7 @@ details[open] summary::after{content:'－'}
       <div class="cb">
         ${changed.length ? `<div class="gapbar" style="border-color:rgba(224,118,28,.3);background:rgba(224,118,28,.06)">
           <span style="color:var(--accent);font-weight:600">今日 ${changed.length} 个 B 级源页面有变更</span>
-          <span style="color:var(--tx2)">需人工核对后更新基线</span></div>` : ''}
+          <span style="color:var(--tx2)">需人工核对后更新数据</span></div>` : ''}
         <div class="chline" style="margin-top:6px"><span>A 级源 · 每日自动抓取数值</span><span style="color:var(--tx3)">${aTot} 个</span></div>
         ${aRows}
         <div class="chline" style="margin-top:12px"><span>B 级源 · 仅监控页面变更</span><span style="color:var(--tx3)">${bTot} 个</span></div>
