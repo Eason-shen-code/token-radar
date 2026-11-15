@@ -90,15 +90,16 @@ body{
       background:rgba(224,118,28,.12);color:var(--accent);vertical-align:1px}
 .bandnote{font-size:11.5px;color:var(--tx2);line-height:1.65;padding:12px 14px 0}
 .bandnote b{color:var(--tx);font-weight:700;font-variant-numeric:tabular-nums}
+.bandnote .s2{display:block;margin-top:4px;font-size:11px;color:var(--tx3)}
 .dist{margin:12px 14px 0;background:var(--card2);border:1px solid var(--line);border-radius:10px;padding:9px 10px 7px}
 .dist .dh{font-size:10.5px;color:var(--tx3);margin-bottom:6px;display:flex;align-items:center;gap:6px}
 .dhn{font-size:9px;padding:0 4px;border-radius:3px;background:var(--line);color:var(--tx2);letter-spacing:.02em}
 .dcol{cursor:pointer;border-radius:3px;transition:opacity .12s}
 .dcol.act-empty{cursor:default}
 .dcol.dim{opacity:.3}
-.dcol.on i{background:var(--accent)}
+.dcol.on i{background:var(--accent);opacity:1}
 .dcol.on span{color:var(--accent);font-weight:700}
-.dcol:hover:not(.act-empty) i{filter:brightness(.94)}
+.dcol:hover:not(.act-empty) i{opacity:.62}
 .dlabs span.on{color:var(--accent);font-weight:700}
 .dsl{font-size:10.5px;color:var(--tx3);margin-top:7px;line-height:1.5}
 .dsl.accent{color:var(--accent)}
@@ -112,8 +113,7 @@ body{
 .dbars{display:flex;align-items:flex-end;gap:5px;height:58px}
 .dcol{flex:1;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;gap:3px;height:100%}
 .dcol span{font-size:9.5px;color:var(--tx3);font-variant-numeric:tabular-nums;line-height:1}
-.dcol i{width:100%;display:block;background:var(--line);border-radius:2px 2px 0 0;min-height:2px}
-.dcol i.peak{background:var(--accent)}
+.dcol i{width:100%;display:block;background:var(--tx3);opacity:.36;border-radius:2px 2px 0 0;min-height:2px;transition:opacity .12s}
 .dlabs{display:flex;gap:5px;margin-top:5px}
 .dlabs span{flex:1;text-align:center;font-size:8.5px;color:var(--tx3);letter-spacing:-.2px;white-space:nowrap}
 
@@ -467,7 +467,6 @@ details[open] summary::after{content:'－'}
     const labels = BUCKETS.labels;
     const counts = new Array(labels.length).fill(0);
     items.forEach(x => { counts[bucketOf(x.v)]++; });
-    const peak = counts.indexOf(Math.max(...counts));
     const cmax = Math.max(...counts, 1);
     const dbars = counts.map((c, i) => {
       const cls = ['dcol'];
@@ -475,7 +474,7 @@ details[open] summary::after{content:'－'}
       if (bucketSel != null && bucketSel === i) cls.push('on');
       if (bucketSel != null && bucketSel !== i && c > 0) cls.push('dim');
       return `<div class="${cls.join(' ')}" data-b="${i}" data-n="${c}">
-        <span>${c || ''}</span><i class="${i === peak && bucketSel == null ? 'peak' : ''}" style="height:${c ? Math.max(10, c / cmax * 100) : 2}%"></i>
+        <span>${c || ''}</span><i style="height:${c ? Math.max(10, c / cmax * 100) : 2}%"></i>
       </div>`;
     }).join('');
     const dlabs = labels.map((l, i) =>
@@ -495,6 +494,10 @@ details[open] summary::after{content:'－'}
         <div class="dsl2">下方排行已同步筛选 <a id="bucketClear">清除</a></div>
       </div>`;
     }
+
+    const cheapN = items.filter(x => x.v <= 1).length;
+    const highN = items.filter(x => x.v >= 10).length;
+    const midN = n - cheapN - highN;
 
     const tag = (x, text) => x.promo ? `<span class="ptag">${text}</span>` : '';
 
@@ -516,6 +519,7 @@ details[open] summary::after{content:'－'}
       </div>
       <div class="bandnote">
         半数口径（<b>${half}</b> 个）落在 <b>¥${u2(bandLo)} – ¥${u2(bandHi)}</b>，中位 <b>¥${u2(median)}</b>；最高是最低的 <b>${ratio.toFixed(0)} 倍</b>。
+        <span class="s2">分布两头密、中间稀：¥1 以下 <b>${cheapN}</b> 个，¥10 以上 <b>${highN}</b> 个，中间的 ¥1–¥10 仅 <b>${midN}</b> 个。</span>
       </div>
       <div class="dist">
         <div class="dh">价格区间分布（口径数）<span class="dhn">可选</span></div>
