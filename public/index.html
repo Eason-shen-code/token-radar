@@ -94,9 +94,48 @@ body{
 .pc{font-size:10.5px;color:var(--tx3);margin-top:2px;line-height:1.45}
 .ptag{display:inline-block;font-size:9px;padding:0 4px;margin-left:4px;border-radius:3px;
       background:rgba(224,118,28,.12);color:var(--accent);vertical-align:1px}
-.bandnote{font-size:11.5px;color:var(--tx2);line-height:1.65;padding:12px 14px 0}
-.bandnote b{color:var(--tx);font-weight:700;font-variant-numeric:tabular-nums}
-.bandnote .s2{display:block;margin-top:4px;font-size:11px;color:var(--tx3)}
+/* 结论块：琥珀底 + 左侧竖条 */
+.concl{margin:12px 14px 0;padding:10px 12px;border-radius:9px;
+       background:rgba(224,118,28,.10);border-left:3px solid var(--accent);
+       font-size:12px;line-height:1.62;color:var(--tx)}
+.concl b{color:var(--accent);font-weight:700;font-variant-numeric:tabular-nums}
+.concl .c2{font-size:11px;color:var(--tx2);margin-top:5px}
+.concl .c2 b{font-weight:700}
+
+/* 价格异动 */
+.move{margin:10px 14px 0;border:1px solid var(--line);border-radius:9px;overflow:hidden}
+.mvt{display:flex;align-items:center;justify-content:space-between;gap:8px;
+     padding:8px 11px;font-size:11px;color:var(--tx3);background:var(--card2);
+     border-bottom:1px solid var(--line)}
+.mvc{font-size:10.5px;font-variant-numeric:tabular-nums}
+.mvc.up{color:var(--up);font-weight:600}
+.mvc.down{color:var(--down);font-weight:600}
+.mvc.ok{color:var(--tx3)}
+.mvi{display:flex;align-items:flex-start;gap:8px;padding:8px 11px;border-bottom:1px dashed var(--line)}
+.mvi:last-of-type{border-bottom:none}
+.mvd2{font-size:12px;font-weight:700;line-height:1.45;flex-shrink:0}
+.mvd2.up{color:var(--up)}
+.mvd2.down{color:var(--down)}
+.mvn{flex:1;min-width:0;font-size:12px;line-height:1.45;word-break:break-word}
+.mvf{color:var(--tx3);font-size:10.5px;margin-left:6px;white-space:nowrap}
+.mvv{font-size:11.5px;color:var(--tx2);white-space:nowrap;font-variant-numeric:tabular-nums}
+.mvv b{color:var(--tx);font-weight:700}
+.mvv span{margin-left:5px}
+.mvv span.up{color:var(--up)}
+.mvv span.down{color:var(--down)}
+.mvm{padding:7px 11px;font-size:10.5px;color:var(--tx3);background:var(--card2)}
+.mvn2{padding:9px 11px;font-size:11.5px;color:var(--tx2);line-height:1.65}
+.mvn2 b{color:var(--tx);font-weight:700}
+
+/* 备注 */
+details.remark{border-top:none;margin-top:2px}
+details.remark summary{font-size:10.5px;color:var(--tx3);padding:9px 0 2px}
+details.remark summary::before{content:'ⓘ';margin-right:5px;font-size:11px;opacity:.8}
+details.remark summary::after{font-size:11px}
+details.remark[open] summary{color:var(--tx2)}
+.rmk{background:var(--card2);border:1px solid var(--line);border-radius:8px;padding:9px 10px;margin-top:4px}
+.rk2{font-size:10.5px;color:var(--tx3);line-height:1.7;padding:2px 0}
+.rk2 b{color:var(--tx2);font-weight:600}
 .dist{margin:12px 14px 0;background:var(--card2);border:1px solid var(--line);border-radius:10px;padding:9px 10px 7px}
 .dist .dh{font-size:10.5px;color:var(--tx3);margin-bottom:6px;display:flex;align-items:center;gap:6px}
 .dhn{font-size:9px;padding:0 4px;border-radius:3px;background:var(--line);color:var(--tx2);letter-spacing:.02em}
@@ -340,7 +379,23 @@ details[open] summary::after{content:'－'}
     });
     streaks.sort((a, b) => b.days - a.days || a.blended - b.blended);
 
-    return { available:true, lastDate:prevDate, lastLabel:'上一次抓取 ' + prevDate, changes, streaks, note:null };
+    // 最近一次真实调价（逐日回溯，不只看与上一次的差异）
+    let lastChange = null;
+    for(let i = 0; i + 1 < dates.length && !lastChange; i++){
+      const cur = dates[i], pre = dates[i + 1];
+      const hits = [];
+      byKey.forEach((arr, k) => {
+        const a = arr.find(x => x.date === cur);
+        const b = arr.find(x => x.date === pre);
+        if(!a || !b || a.blended == null || b.blended == null) return;
+        if(Math.abs(a.blended - b.blended) <= EPS) return;
+        hits.push({ key:k, label:a.label, from:b.blended, to:a.blended,
+                    pct: pctOf(b.blended, a.blended), kind: a.blended > b.blended ? 'up' : 'down' });
+      });
+      if(hits.length) lastChange = { date: cur, prevDate: pre, items: hits };
+    }
+
+    return { available:true, lastDate:prevDate, lastLabel:'上一次抓取 ' + prevDate, changes, streaks, lastChange, note:null };
   }
 
   async function loadCloud(){
@@ -436,7 +491,6 @@ details[open] summary::after{content:'－'}
   function head(){
     const h = D.health || {};
     const C = D.compare;
-    const hi = C && C.available ? new Set(C.changes.map(c => c.key)).size : 0;
 
     // 收集全部可计价口径
     const items = [];
@@ -505,6 +559,35 @@ details[open] summary::after{content:'－'}
     const highN = items.filter(x => x.v >= 10).length;
     const midN = n - cheapN - highN;
 
+    // 价格异动
+    const chg = (C && C.available) ? (C.changes || []) : [];
+    const lastChg = C && C.lastChange;
+    let moveBlock;
+    if (chg.length) {
+      const rows = chg.slice(0, 6).map(c => `<div class="mvi">
+          <span class="mvd2 ${c.kind}">${c.kind === 'up' ? '↑' : '↓'}</span>
+          <div class="mvn">${esc(c.label.replace(/\s*·\s*.*$/, ''))}<span class="mvf">${esc(c.field)}</span></div>
+          <div class="mvv">¥${u2(c.from)} → <b>¥${u2(c.to)}</b><span class="${c.kind}">${c.pct > 0 ? '+' : ''}${c.pct}%</span></div>
+        </div>`).join('');
+      const more3 = chg.length > 6 ? `<div class="mvm">另有 ${chg.length - 6} 项调整，见下方「模型价格对比」</div>` : '';
+      moveBlock = `<div class="move">
+        <div class="mvt">价格异动<span class="mvc ${chg[0].kind}">${chg.length} 项 · 对比 ${esc((C.lastLabel || '上次抓取').replace('上一次抓取 ', ''))}</span></div>
+        ${rows}${more3}
+      </div>`;
+    } else if (lastChg) {
+      const top = lastChg.items.slice().sort((a, b) => Math.abs(b.pct) - Math.abs(a.pct))[0];
+      const extra = lastChg.items.length > 1 ? ` 等 ${lastChg.items.length} 项` : '';
+      moveBlock = `<div class="move quiet">
+        <div class="mvt">价格异动<span class="mvc ok">本次无调价</span></div>
+        <div class="mvn2">${n} 个口径与 ${esc((C.lastLabel || '').replace('上一次抓取 ', ''))} 完全一致。最近一次调价在 <b>${esc(lastChg.date.slice(5))}</b>：${esc(top.label.replace(/\s*·\s*.*$/, ''))} ¥${u2(top.from)} → ¥${u2(top.to)}（${top.pct > 0 ? '+' : ''}${top.pct}%）${extra}。</div>
+      </div>`;
+    } else {
+      moveBlock = `<div class="move quiet">
+        <div class="mvt">价格异动<span class="mvc ok">本次无调价</span></div>
+        <div class="mvn2">与上一次抓取相比，全部口径价格未变动。</div>
+      </div>`;
+    }
+
     const tag = (x, text) => x.promo ? `<span class="ptag">${text}</span>` : '';
 
     return `<div class="card">
@@ -523,17 +606,28 @@ details[open] summary::after{content:'－'}
           <div class="pc">${esc(hiItem.ch)} · ${esc(hiItem.prod || '')}${tag(hiItem, '活动价')}</div>
         </div>
       </div>
-      <div class="bandnote">
-        半数口径（<b>${half}</b> 个）落在 <b>¥${u2(bandLo)} – ¥${u2(bandHi)}</b>，中位 <b>¥${u2(median)}</b>；最高是最低的 <b>${ratio.toFixed(0)} 倍</b>。
-        <span class="s2">分布两头密、中间稀：¥1 以下 <b>${cheapN}</b> 个，¥10 以上 <b>${highN}</b> 个，中间的 ¥1–¥10 仅 <b>${midN}</b> 个。</span>
+      <div class="concl">
+        <div class="c1">半数口径（<b>${half}</b> 个）落在 <b>¥${u2(bandLo)} – ¥${u2(bandHi)}</b>，中位 <b>¥${u2(median)}</b>；最高是最低的 <b>${ratio.toFixed(0)} 倍</b>。</div>
+        <div class="c2">分布两头密、中间稀：¥1 以下 <b>${cheapN}</b> 个，¥10 以上 <b>${highN}</b> 个，中间的 ¥1–¥10 仅 <b>${midN}</b> 个。</div>
       </div>
+      ${moveBlock}
       <div class="dist">
         <div class="dh">价格区间分布（口径数）<span class="dhn">可选</span></div>
         <div class="dbars">${dbars}</div>
         <div class="dlabs">${dlabs}</div>
         ${dstate}
       </div>
-      <div class="cb"><div class="hint" style="padding-top:8px">A 级源每次运行自动覆盖，B 级源仅监控页面变更，C 级为无公开价格的政企报价。当前抓取成功率 ${h.aOk}/${h.aOk + h.aFail}（A级）、${h.bOk}/${h.bOk + h.bFail}（B级）。今日调价 ${hi} 个口径。</div></div>
+      <div class="cb">
+        <details class="remark">
+          <summary>备注 · 数据来源与抓取逻辑</summary>
+          <div class="rmk">
+            <div class="rk2"><b>A 级源（${h.aOk}/${h.aOk + h.aFail} 正常）</b>每天自动抓取官方定价页的数值，直接覆盖。</div>
+            <div class="rk2"><b>B 级源（${h.bOk}/${h.bOk + h.bFail} 正常）</b>页面为前端渲染或需登录，只比对页面文案中的价格表述，变了报警、数值需人工复核。</div>
+            <div class="rk2"><b>C 级</b>为政企报价，无公开价格页，靠人工维护。</div>
+            <div class="rk2">套餐价按「月费 ÷ 月额度」折算为元/百万 token，假设额度用满；官方综合价按（2×输入 + 输出）÷ 3。</div>
+          </div>
+        </details>
+      </div>
     </div>`;
   }
 
