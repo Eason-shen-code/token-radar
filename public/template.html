@@ -20,6 +20,7 @@
   --tx:#132133; --tx2:#5b6b80; --tx3:#8b9aad;
   --brand:#12304f; --brand2:#1f4d79; --accent:#e0761c;
   --up:#cf3f32; --down:#12855c; --warn:#b8860b;
+  --on-accent:#fff; --badge:#c9600e;
   --r:14px; --sh:0 1px 2px rgba(16,38,62,.06),0 4px 16px rgba(16,38,62,.05);
 }
 @media (prefers-color-scheme: dark){
@@ -28,6 +29,7 @@
     --tx:#e7eef6; --tx2:#96a7ba; --tx3:#6d7f93;
     --brand:#0b1219; --brand2:#16283c; --accent:#f0952f;
     --up:#ff6b5e; --down:#31c48d; --warn:#e0b341;
+    --on-accent:#1c1206; --badge:#f0952f;
     --sh:0 1px 2px rgba(0,0,0,.4),0 6px 20px rgba(0,0,0,.3);
   }
 }
@@ -66,13 +68,24 @@ body{
 
 /* 卡片 */
 .card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--sh);margin:14px 0;overflow:hidden}
-.ch{display:flex;align-items:center;gap:8px;padding:13px 14px;border-bottom:1px solid var(--line)}
+.ch{display:flex;align-items:center;gap:9px;padding:12px 14px;border-bottom:1px solid var(--line)}
 .ch .idx{
-  width:20px;height:20px;border-radius:6px;background:var(--brand2);color:#fff;
-  font-size:11px;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-weight:700;
+  width:21px;height:21px;border-radius:6px;background:var(--badge);color:var(--on-accent);
+  font-size:11.5px;display:flex;align-items:center;justify-content:center;flex-shrink:0;
+  font-weight:800;letter-spacing:0;font-variant-numeric:tabular-nums;
 }
-.ch h2{font-size:14px;font-weight:700;flex:1;letter-spacing:.2px}
-.ch .more{font-size:11.5px;color:var(--tx3)}
+.ch h2{font-size:14.5px;font-weight:700;flex:1;letter-spacing:.2px;color:var(--tx)}
+.ch .more{font-size:10.5px;color:var(--tx3);white-space:nowrap;letter-spacing:.02em}
+
+/* L2 区块：卡内子模块 */
+.blk{margin:11px 14px 0;border:1px solid var(--line);border-radius:10px;overflow:hidden;background:var(--card)}
+.blk-h{display:flex;align-items:center;gap:8px;padding:7px 11px;background:var(--card2);border-bottom:1px solid var(--line)}
+.blk-t{display:flex;align-items:center;gap:6px;font-size:11.5px;font-weight:700;color:var(--tx);letter-spacing:.02em}
+.blk-t::before{content:'';width:3px;height:11px;border-radius:2px;background:var(--accent);flex-shrink:0}
+.blk-m{margin-left:auto;font-size:10px;color:var(--tx3);white-space:nowrap;letter-spacing:.02em}
+.blk-m.up{color:var(--up);font-weight:700}
+.blk-m.down{color:var(--down);font-weight:700}
+.blk-b{padding:9px 11px 10px}
 .cb{padding:0 14px 14px}
 .hint{font-size:11.5px;color:var(--tx3);padding:12px 0 2px;line-height:1.6}
 
@@ -97,16 +110,8 @@ body{
 .concl .c2 b{font-weight:700}
 
 /* 价格异动 */
-.move{margin:10px 14px 0;border:1px solid var(--line);border-radius:9px;overflow:hidden}
-.mvt{display:flex;align-items:center;justify-content:space-between;gap:8px;
-     padding:8px 11px;font-size:11px;color:var(--tx3);background:var(--card2);
-     border-bottom:1px solid var(--line)}
-.mvc{font-size:10.5px;font-variant-numeric:tabular-nums}
-.mvc.up{color:var(--up);font-weight:600}
-.mvc.down{color:var(--down);font-weight:600}
-.mvc.ok{color:var(--tx3)}
-.mvi{display:flex;align-items:flex-start;gap:8px;padding:8px 11px;border-bottom:1px dashed var(--line)}
-.mvi:last-of-type{border-bottom:none}
+.mvi{display:flex;align-items:flex-start;gap:8px;padding:7px 0}
+.mvi + .mvi{border-top:1px dashed var(--line)}
 .mvd2{font-size:12px;font-weight:700;line-height:1.45;flex-shrink:0}
 .mvd2.up{color:var(--up)}
 .mvd2.down{color:var(--down)}
@@ -117,22 +122,19 @@ body{
 .mvv span{margin-left:5px}
 .mvv span.up{color:var(--up)}
 .mvv span.down{color:var(--down)}
-.mvm{padding:7px 11px;font-size:10.5px;color:var(--tx3);background:var(--card2)}
-.mvn2{padding:9px 11px;font-size:11.5px;color:var(--tx2);line-height:1.65}
+.mvm{padding-top:8px;font-size:10.5px;color:var(--tx3)}
+.mvn2{font-size:11.5px;color:var(--tx2);line-height:1.65}
 .mvn2 b{color:var(--tx);font-weight:700}
 
 /* 备注 */
 details.remark{border-top:none;margin-top:2px}
-details.remark summary{font-size:10.5px;color:var(--tx3);padding:9px 0 2px}
+details.remark summary{font-size:10.5px;color:var(--tx3);padding:9px 0 2px;justify-content:flex-start;gap:6px}
 details.remark summary::before{content:'ⓘ';margin-right:5px;font-size:11px;opacity:.8}
-details.remark summary::after{font-size:11px}
+details.remark summary::after{font-size:11px;margin-left:auto}
 details.remark[open] summary{color:var(--tx2)}
 .rmk{background:var(--card2);border:1px solid var(--line);border-radius:8px;padding:9px 10px;margin-top:4px}
 .rk2{font-size:10.5px;color:var(--tx3);line-height:1.7;padding:2px 0}
 .rk2 b{color:var(--tx2);font-weight:600}
-.dist{margin:12px 14px 0;background:var(--card2);border:1px solid var(--line);border-radius:10px;padding:9px 10px 7px}
-.dist .dh{font-size:10.5px;color:var(--tx3);margin-bottom:6px;display:flex;align-items:center;gap:6px}
-.dhn{font-size:9px;padding:0 4px;border-radius:3px;background:var(--line);color:var(--tx2);letter-spacing:.02em}
 .dcol{cursor:pointer;border-radius:3px;transition:opacity .12s}
 .dcol.act-empty{cursor:default}
 .dcol.dim{opacity:.3}
@@ -149,7 +151,7 @@ details.remark[open] summary{color:var(--tx2)}
 #rankCard{scroll-margin-top:86px}
 .empty{padding:22px 0;text-align:center;font-size:11.5px;color:var(--tx3);line-height:1.7}
 .empty a{color:var(--accent);cursor:pointer;text-decoration:none;border-bottom:1px dashed currentColor}
-.dbars{display:flex;align-items:flex-end;gap:5px;height:58px}
+.dbars{display:flex;align-items:flex-end;gap:5px;height:56px}
 .dcol{flex:1;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;gap:3px;height:100%}
 .dcol span{font-size:9.5px;color:var(--tx3);font-variant-numeric:tabular-nums;line-height:1}
 .dcol i{width:100%;display:block;background:var(--tx3);opacity:.36;border-radius:2px 2px 0 0;min-height:2px;transition:opacity .12s}
@@ -564,28 +566,28 @@ details[open] summary::after{content:'－'}
           <div class="mvv">¥${u2(c.from)} → <b>¥${u2(c.to)}</b><span class="${c.kind}">${c.pct > 0 ? '+' : ''}${c.pct}%</span></div>
         </div>`).join('');
       const more3 = chg.length > 6 ? `<div class="mvm">另有 ${chg.length - 6} 项调整，见下方「模型价格对比」</div>` : '';
-      moveBlock = `<div class="move">
-        <div class="mvt">价格异动<span class="mvc ${chg[0].kind}">${chg.length} 项 · 对比 ${esc((C.lastLabel || '上次抓取').replace('上一次抓取 ', ''))}</span></div>
-        ${rows}${more3}
+      moveBlock = `<div class="blk">
+        <div class="blk-h"><span class="blk-t">价格异动</span><span class="blk-m ${chg[0].kind}">${chg.length} 项 · 对比 ${esc((C.lastLabel || '上次抓取').replace('上一次抓取 ', ''))}</span></div>
+        <div class="blk-b">${rows}${more3}</div>
       </div>`;
     } else if (lastChg) {
       const top = lastChg.items.slice().sort((a, b) => Math.abs(b.pct) - Math.abs(a.pct))[0];
       const extra = lastChg.items.length > 1 ? ` 等 ${lastChg.items.length} 项` : '';
-      moveBlock = `<div class="move quiet">
-        <div class="mvt">价格异动<span class="mvc ok">本次无调价</span></div>
-        <div class="mvn2">${n} 个口径与 ${esc((C.lastLabel || '').replace('上一次抓取 ', ''))} 完全一致。最近一次调价在 <b>${esc(lastChg.date.slice(5))}</b>：${esc(top.label.replace(/\s*·\s*.*$/, ''))} ¥${u2(top.from)} → ¥${u2(top.to)}（${top.pct > 0 ? '+' : ''}${top.pct}%）${extra}。</div>
+      moveBlock = `<div class="blk">
+        <div class="blk-h"><span class="blk-t">价格异动</span><span class="blk-m">本次无调价</span></div>
+        <div class="blk-b"><div class="mvn2">${n} 个口径与 ${esc((C.lastLabel || '').replace('上一次抓取 ', ''))} 完全一致。最近一次调价在 <b>${esc(lastChg.date.slice(5))}</b>：${esc(top.label.replace(/\s*·\s*.*$/, ''))} ¥${u2(top.from)} → ¥${u2(top.to)}（${top.pct > 0 ? '+' : ''}${top.pct}%）${extra}。</div></div>
       </div>`;
     } else {
-      moveBlock = `<div class="move quiet">
-        <div class="mvt">价格异动<span class="mvc ok">本次无调价</span></div>
-        <div class="mvn2">与上一次抓取相比，全部口径价格未变动。</div>
+      moveBlock = `<div class="blk">
+        <div class="blk-h"><span class="blk-t">价格异动</span><span class="blk-m">本次无调价</span></div>
+        <div class="blk-b"><div class="mvn2">与上一次抓取相比，全部口径价格未变动。</div></div>
       </div>`;
     }
 
     const tag = (x, text) => x.promo ? `<span class="ptag">${text}</span>` : '';
 
     return `<div class="card">
-      <div class="ch"><h2>价格概览</h2><span class="more">${n} 个在售口径 · 由低到高</span></div>
+      <div class="ch"><span class="idx">1</span><h2>价格概览</h2><span class="more">${n} 个在售口径</span></div>
       <div class="px2">
         <div class="pxi">
           <div class="pk">最低可及算力</div>
@@ -605,11 +607,13 @@ details[open] summary::after{content:'－'}
         <div class="c2">分布两头密、中间稀：¥1 以下 <b>${cheapN}</b> 个，¥10 以上 <b>${highN}</b> 个，中间的 ¥1–¥10 仅 <b>${midN}</b> 个。</div>
       </div>
       ${moveBlock}
-      <div class="dist">
-        <div class="dh">价格区间分布（口径数）<span class="dhn">可选</span></div>
-        <div class="dbars">${dbars}</div>
-        <div class="dlabs">${dlabs}</div>
-        ${dstate}
+      <div class="blk">
+        <div class="blk-h"><span class="blk-t">价格区间分布</span><span class="blk-m">口径数 · 可点选联动</span></div>
+        <div class="blk-b">
+          <div class="dbars">${dbars}</div>
+          <div class="dlabs">${dlabs}</div>
+          ${dstate}
+        </div>
       </div>
       <div class="cb">
         <details class="remark">
@@ -888,7 +892,7 @@ details[open] summary::after{content:'－'}
       : '';
 
     return `<div class="card" id="rankCard">
-      <div class="ch"><span class="idx">1</span><h2>全量价格排行</h2><span class="more">${shown.length} 个可选项</span></div>
+      <div class="ch"><span class="idx">2</span><h2>全量价格排行</h2><span class="more">${shown.length} 个可选项</span></div>
       <div class="chips" id="rtabs">${chips}</div>
       <div class="cb">
         ${summary}
@@ -940,7 +944,7 @@ details[open] summary::after{content:'－'}
     const tag = changedKeys.size ? `${changedKeys.size} 个口径调价` : '今日无调价';
 
     return `<div class="card">
-      <div class="ch"><span class="idx">2</span><h2>模型价格对比</h2><span class="more">${esc(tag)}</span></div>
+      <div class="ch"><span class="idx">3</span><h2>模型价格对比</h2><span class="more">${esc(tag)}</span></div>
       <div class="tabs" id="vtabs">${vtabs}</div>
       <div class="chips" id="mtabs">${chips}</div>
       <div class="seg">
@@ -983,7 +987,7 @@ details[open] summary::after{content:'－'}
         <span class="rs">¥${u2(o.blendedCny)}/百万</span></div>`).join('');
 
     return `<div class="card">
-      <div class="ch"><span class="idx">3</span><h2>数据来源与变更监控</h2>
+      <div class="ch"><span class="idx">4</span><h2>数据来源与变更监控</h2>
         <span class="more">A ${h.aOk || 0}/${aTot} · B ${h.bOk || 0}/${bTot}</span></div>
       <div class="cb">
         ${changed.length ? `<div class="gapbar" style="border-color:rgba(224,118,28,.3);background:rgba(224,118,28,.06)">
