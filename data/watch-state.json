@@ -1,11 +1,17 @@
 {
-  "updatedAt": "2026-11-15 09:19",
+  "updatedAt": "2026-11-16 00:30",
   "sources": {
     "huawei-maas": {
       "fingerprint": "1505",
       "signalsSample": [],
-      "checkedAt": "2026-11-15 09:19",
+      "checkedAt": "2026-11-16 00:30",
       "name": "华为云 · MaaS Token Plan"
+    },
+    "unicom-tokenplan": {
+      "fingerprint": "1505",
+      "signalsSample": [],
+      "checkedAt": "2026-11-16 00:30",
+      "name": "联通云 · Token Plan"
     },
     "qianfan-codingplan": {
       "fingerprint": "66407d59",
@@ -13,14 +19,20 @@
         "型每日22:00-次日8:00享2折，闲时成本立降80%！ 首购五折：新用户最低4.9元起！ 最低 4.9 元即可畅享 Token Plan 全场景",
         "AI 与 Anthropic 协议 产品优势 极致性价比长效省心 首购半价低至 4.9 元起，高倍率、超大容量的 积分/Token 供给，让用户彻底放"
       ],
-      "checkedAt": "2026-11-15 09:19",
+      "checkedAt": "2026-11-16 00:30",
       "name": "百度千帆 · Token Plan"
     },
-    "unicom-tokenplan": {
-      "fingerprint": "1505",
-      "signalsSample": [],
-      "checkedAt": "2026-11-15 09:19",
-      "name": "联通云 · Token Plan"
+    "volcengine-codingplan": {
+      "fingerprint": "d253312",
+      "signalsSample": [
+        "方案 定价 更多 登录 注册 11.11 AI 智选 - 火山引擎 豆包旗舰模型19元起 豆包旗舰模型19元起，更有2500万Tokens免费领取",
+        "立即购买 抢购爆款 19元享约440万Tokens 旗舰模型 新客首单5折起 热门场景",
+        "视频生成 立即购买 旗舰模型 ，赋能业务高效落地 精选豆包旗舰模型，新客限时优惠16.8元起！ 活动规则&gt",
+        "旗舰模型 ，赋能业务高效落地 精选豆包旗舰模型，新客限时优惠16.8元起！ 活动规则&gt",
+        "业旗舰版 价格查询中... 3个席位起 1个月 立即购买 专业团队深度安全管控 100 元会话用量+代码补全不限量 IDE/插件/CLI 全形态+Ad"
+      ],
+      "checkedAt": "2026-11-16 00:30",
+      "name": "火山引擎 · Coding Plan 活动页"
     },
     "aliyun-tokenplan": {
       "fingerprint": "16e6d9a0",
@@ -29,8 +41,33 @@
         "39.5 元/月 139 元/月 312 元/月 每月限额 20,000 C",
         "用量包 ：定价 100 元/个/月，每个用量包含 20,000 Credits"
       ],
-      "checkedAt": "2026-11-15 09:19",
+      "checkedAt": "2026-11-16 00:30",
       "name": "阿里百炼 · Token Plan 个人版"
+    },
+    "aliyun-models": {
+      "fingerprint": "1505",
+      "signalsSample": [],
+      "checkedAt": "2026-11-16 00:30",
+      "name": "阿里百炼 · 模型价格"
+    },
+    "ctyun-tokenhub": {
+      "fingerprint": "8e3865f7",
+      "signalsSample": [
+        "星辰TokenHub运营服务平台-天翼云 AI 创作平台会员 32.67 元 / 年起！ 查看详情 活动 天翼云最新优惠活动，涵盖免费试用",
+        "，产品折扣等，助您降本增效！ 热门活动 天翼云11·11国云智算 云服务器53.3元/年起，AI上云一步到位！ 安全隔离版OpenClaw NE",
+        "聚力AI赋能 天翼云大模型专项 大模型特惠专区·Token Plan 轻享包低至9.9元起 青云志云端助力计划 NEW 一站式科研助手，海外资源安全",
+        "laude Code 等主流编程工具 套餐额度 3000积分 模型范围动态更新 29.00 元/月 立即订购 编程Token Plan 10000积分 日常使",
+        "aude Code 等主流编程工具 套餐额度 10000积分 模型范围动态更新 89.00 元/月 立即订购 编程Token Plan 25000积分 轻量开",
+        "aude Code 等主流编程工具 套餐额度 25000积分 模型范围动态更新 199.00 元/月 立即订购 为什么选择天翼云 星辰TokenHub运营服务平"
+      ],
+      "checkedAt": "2026-11-16 00:30",
+      "name": "天翼云 · 星辰 TokenHub"
+    },
+    "kimi-pricing": {
+      "fingerprint": "1505",
+      "signalsSample": [],
+      "checkedAt": "2026-11-16 00:30",
+      "name": "Kimi 开放平台 · 模型定价"
     },
     "tencent-tokenhub": {
       "fingerprint": "6c0e255c",
@@ -44,50 +81,13 @@
         "进阶套餐 （Pro） 每订阅月 4760 积分 238元/月 高频 AI 开发，Token 配额相比基础版提升至 3 倍",
         "专业套餐 （Max） 每订阅月 9360 积分 468元/月 更多额度加持，重度 AI 开发首选"
       ],
-      "checkedAt": "2026-11-15 09:19",
+      "checkedAt": "2026-11-16 00:30",
       "name": "腾讯云 · TokenHub"
-    },
-    "volcengine-codingplan": {
-      "fingerprint": "d253312",
-      "signalsSample": [
-        "方案 定价 更多 登录 注册 11.11 AI 智选 - 火山引擎 豆包旗舰模型19元起 豆包旗舰模型19元起，更有2500万Tokens免费领取",
-        "立即购买 抢购爆款 19元享约440万Tokens 旗舰模型 新客首单5折起 热门场景",
-        "视频生成 立即购买 旗舰模型 ，赋能业务高效落地 精选豆包旗舰模型，新客限时优惠16.8元起！ 活动规则&gt",
-        "旗舰模型 ，赋能业务高效落地 精选豆包旗舰模型，新客限时优惠16.8元起！ 活动规则&gt",
-        "业旗舰版 价格查询中... 3个席位起 1个月 立即购买 专业团队深度安全管控 100 元会话用量+代码补全不限量 IDE/插件/CLI 全形态+Ad"
-      ],
-      "checkedAt": "2026-11-15 09:19",
-      "name": "火山引擎 · Coding Plan 活动页"
-    },
-    "kimi-pricing": {
-      "fingerprint": "1505",
-      "signalsSample": [],
-      "checkedAt": "2026-11-15 09:19",
-      "name": "Kimi 开放平台 · 模型定价"
-    },
-    "aliyun-models": {
-      "fingerprint": "1505",
-      "signalsSample": [],
-      "checkedAt": "2026-11-15 09:19",
-      "name": "阿里百炼 · 模型价格"
-    },
-    "ctyun-tokenhub": {
-      "fingerprint": "8e3865f7",
-      "signalsSample": [
-        "星辰TokenHub运营服务平台-天翼云 AI 创作平台会员 32.67 元 / 年起！ 查看详情 活动 天翼云最新优惠活动，涵盖免费试用",
-        "，产品折扣等，助您降本增效！ 热门活动 天翼云11·11国云智算 云服务器53.3元/年起，AI上云一步到位！ 安全隔离版OpenClaw NE",
-        "聚力AI赋能 天翼云大模型专项 大模型特惠专区·Token Plan 轻享包低至9.9元起 青云志云端助力计划 NEW 一站式科研助手，海外资源安全",
-        "laude Code 等主流编程工具 套餐额度 3000积分 模型范围动态更新 29.00 元/月 立即订购 编程Token Plan 10000积分 日常使",
-        "aude Code 等主流编程工具 套餐额度 10000积分 模型范围动态更新 89.00 元/月 立即订购 编程Token Plan 25000积分 轻量开",
-        "aude Code 等主流编程工具 套餐额度 25000积分 模型范围动态更新 199.00 元/月 立即订购 为什么选择天翼云 星辰TokenHub运营服务平"
-      ],
-      "checkedAt": "2026-11-15 09:19",
-      "name": "天翼云 · 星辰 TokenHub"
     },
     "volcengine-price": {
       "fingerprint": "1505",
       "signalsSample": [],
-      "checkedAt": "2026-11-15 09:19",
+      "checkedAt": "2026-11-16 00:30",
       "name": "火山方舟 · 模型价格与抵扣系数"
     }
   }

@@ -120,6 +120,7 @@ body{
 .mvd2.down{color:var(--down)}
 .mvn{flex:1;min-width:0;font-size:12px;line-height:1.45;word-break:break-word}
 .mvf{color:var(--tx3);font-size:10.5px;margin-left:6px;white-space:nowrap}
+.mvsub{color:var(--tx3);font-size:10px;margin-top:1px;line-height:1.45}
 .mvv{font-size:11.5px;color:var(--tx2);white-space:nowrap;font-variant-numeric:tabular-nums}
 .mvv b{color:var(--tx);font-weight:700}
 .mvv span{margin-left:5px}
@@ -381,6 +382,43 @@ details[open] summary::after{content:'－'}
     });
     streaks.sort((a, b) => b.days - a.days || a.blended - b.blended);
 
+    // 近 7 天窗口：以窗口起点与最新一日做净比较
+    const WEEK = 7;
+    const winDates = dates.slice(0, WEEK);
+    const winTo = winDates[0], winFrom = winDates[winDates.length - 1];
+    const weekItems = [];
+    if (winDates.length >= 2) {
+      byKey.forEach((arr, k) => {
+        const a = arr.find(x => x.date === winTo);
+        const b = arr.find(x => x.date === winFrom);
+        if (!a || !b || a.blended == null || b.blended == null) return;
+
+        const fields = [];
+        [['输入价', a.input, b.input], ['输出价', a.output, b.output], ['缓存命中价', a.cacheHit, b.cacheHit]]
+          .forEach(([name, cur, old]) => {
+            if (cur == null || old == null || Math.abs(cur - old) <= EPS) return;
+            fields.push({ name, from: old, to: cur, pct: pctOf(old, cur) });
+          });
+        if (Math.abs(a.blended - b.blended) <= EPS && !fields.length) return;
+
+        // 窗口内逐日相邻对比，统计调整次数
+        const seq = winDates.map(d => arr.find(x => x.date === d)).filter(Boolean).reverse();
+        let hits = 0;
+        for (let i = 1; i < seq.length; i++) {
+          if (seq[i].blended != null && seq[i - 1].blended != null &&
+              Math.abs(seq[i].blended - seq[i - 1].blended) > EPS) hits++;
+        }
+        weekItems.push({
+          key: k, label: a.label,
+          from: b.blended, to: a.blended, pct: pctOf(b.blended, a.blended),
+          kind: a.blended >= b.blended ? 'up' : 'down',
+          fields, hits
+        });
+      });
+    }
+    weekItems.sort((x, y) => Math.abs(y.pct) - Math.abs(x.pct));
+    const week = { from: winFrom, to: winTo, days: winDates.length, items: weekItems, tracked: byKey.size };
+
     // 最近一次真实调价（逐日回溯，不只看与上一次的差异）
     let lastChange = null;
     for(let i = 0; i + 1 < dates.length && !lastChange; i++){
@@ -397,7 +435,7 @@ details[open] summary::after{content:'－'}
       if(hits.length) lastChange = { date: cur, prevDate: pre, items: hits };
     }
 
-    return { available:true, lastDate:prevDate, lastLabel:'上一次抓取 ' + prevDate, changes, streaks, lastChange, note:null };
+    return { available:true, lastDate:prevDate, lastLabel:'上一次抓取 ' + prevDate, changes, streaks, lastChange, week, note:null };
   }
 
   async function loadCloud(){
@@ -561,32 +599,59 @@ details[open] summary::after{content:'－'}
     const highN = items.filter(x => x.v >= 10).length;
     const midN = n - cheapN - highN;
 
-    // 价格异动
+    // 价格异动 · 近 7 天窗口
+    const week = (C && C.available && C.week) ? C.week : null;
     const chg = (C && C.available) ? (C.changes || []) : [];
     const lastChg = C && C.lastChange;
+    const md = d => String(d || '').slice(5);
     let moveBlock;
-    if (chg.length) {
+
+    if (week && week.items.length) {
+      const rows = week.items.slice(0, 6).map(x => {
+        const extras = x.fields
+          .filter(f => Math.abs(f.pct - x.pct) > 0.5)
+          .map(f => `${f.name.replace('价', '')} ${f.pct > 0 ? '+' : ''}${f.pct}%`)
+          .join(' · ');
+        const sub = ['官方综合单价', x.hits > 1 ? `期间调整 ${x.hits} 次` : '', extras]
+          .filter(Boolean).join(' · ');
+        return `<div class="mvi">
+          <span class="mvd2 ${x.kind}">${x.kind === 'up' ? '↑' : '↓'}</span>
+          <div class="mvn">${esc(x.label.replace(/\s*·\s*.*$/, ''))}
+            <div class="mvsub">${esc(sub)}</div>
+          </div>
+          <div class="mvv">¥${u2(x.from)} → <b>¥${u2(x.to)}</b><span class="${x.kind}">${x.pct > 0 ? '+' : ''}${x.pct}%</span></div>
+        </div>`;
+      }).join('');
+      const more3 = week.items.length > 6
+        ? `<div class="mvm">另有 ${week.items.length - 6} 个口径调整，见下方「全量价格排行」</div>` : '';
+      moveBlock = `<div class="blk">
+        <div class="blk-h"><span class="blk-t">价格异动</span><span class="blk-m ${week.items[0].kind}">${week.items.length} 个口径 · 近 ${week.days} 天</span></div>
+        <div class="blk-b">${rows}${more3}</div>
+      </div>`;
+    } else if (week) {
+      const tail = lastChg
+        ? `最近一次调价在 <b>${esc(md(lastChg.date))}</b>：${esc(lastChg.items[0].label.replace(/\s*·\s*.*$/, ''))} ¥${u2(lastChg.items[0].from)} → ¥${u2(lastChg.items[0].to)}（${lastChg.items[0].pct > 0 ? '+' : ''}${lastChg.items[0].pct}%）${lastChg.items.length > 1 ? ` 等 ${lastChg.items.length} 项` : ''}，不在本窗口内。`
+        : '窗口内无调价记录。';
+      moveBlock = `<div class="blk">
+        <div class="blk-h"><span class="blk-t">价格异动</span><span class="blk-m">近 ${week.days} 天无调价</span></div>
+        <div class="blk-b"><div class="mvn2">
+          ${md(week.from)} → ${md(week.to)} 期间，追踪的 ${week.tracked || 0} 个官方按量口径价格均未变动。${tail}
+        </div></div>
+      </div>`;
+    } else if (chg.length) {
       const rows = chg.slice(0, 6).map(c => `<div class="mvi">
           <span class="mvd2 ${c.kind}">${c.kind === 'up' ? '↑' : '↓'}</span>
           <div class="mvn">${esc(c.label.replace(/\s*·\s*.*$/, ''))}<span class="mvf">${esc(c.field)}</span></div>
           <div class="mvv">¥${u2(c.from)} → <b>¥${u2(c.to)}</b><span class="${c.kind}">${c.pct > 0 ? '+' : ''}${c.pct}%</span></div>
         </div>`).join('');
-      const more3 = chg.length > 6 ? `<div class="mvm">另有 ${chg.length - 6} 项调整，见下方「模型价格对比」</div>` : '';
       moveBlock = `<div class="blk">
-        <div class="blk-h"><span class="blk-t">价格异动</span><span class="blk-m ${chg[0].kind}">${chg.length} 项 · 对比 ${esc((C.lastLabel || '上次抓取').replace('上一次抓取 ', ''))}</span></div>
-        <div class="blk-b">${rows}${more3}</div>
-      </div>`;
-    } else if (lastChg) {
-      const top = lastChg.items.slice().sort((a, b) => Math.abs(b.pct) - Math.abs(a.pct))[0];
-      const extra = lastChg.items.length > 1 ? ` 等 ${lastChg.items.length} 项` : '';
-      moveBlock = `<div class="blk">
-        <div class="blk-h"><span class="blk-t">价格异动</span><span class="blk-m">本次无调价</span></div>
-        <div class="blk-b"><div class="mvn2">${n} 个口径与 ${esc((C.lastLabel || '').replace('上一次抓取 ', ''))} 完全一致。最近一次调价在 <b>${esc(lastChg.date.slice(5))}</b>：${esc(top.label.replace(/\s*·\s*.*$/, ''))} ¥${u2(top.from)} → ¥${u2(top.to)}（${top.pct > 0 ? '+' : ''}${top.pct}%）${extra}。</div></div>
+        <div class="blk-h"><span class="blk-t">价格异动</span><span class="blk-m ${chg[0].kind}">${chg.length} 项 · 对比上次抓取</span></div>
+        <div class="blk-b">${rows}</div>
       </div>`;
     } else {
       moveBlock = `<div class="blk">
-        <div class="blk-h"><span class="blk-t">价格异动</span><span class="blk-m">本次无调价</span></div>
-        <div class="blk-b"><div class="mvn2">与上一次抓取相比，全部口径价格未变动。</div></div>
+        <div class="blk-h"><span class="blk-t">价格异动</span><span class="blk-m">读取中</span></div>
+        <div class="blk-b"><div class="mvn2">正在读取云端历史，稍候会显示近 7 天的价格变动。</div></div>
       </div>`;
     }
 
@@ -713,20 +778,22 @@ details[open] summary::after{content:'－'}
   }
 
   function meterDetail(q, C){
-    const mine = C.changes.filter(c => c.key === q.key);
-    const main = mine.find(c => c.field === '官方综合单价') || mine[0];
+    const week = C.week || { items: [], days: 7, from: '', to: '' };
+    const hasWeek = !!(C.week && C.week.from);
+    const wk = week.items.find(x => x.key === q.key);
     const pts = keySeries(q.key);
-    const svg = pts.length >= 2 ? miniChart(pts, main ? (main.kind === 'up' ? 'var(--up)' : 'var(--down)') : '#e0761c') : '';
-    const det = mine.filter(c => c !== main).map(c =>
-      `<div class="wt"><i class="st ok"></i><span class="nm">${esc(c.field)}</span>
-        <span class="rs" style="color:${c.kind === 'up' ? 'var(--up)' : 'var(--down)'}">¥${u2(c.from)} → ¥${u2(c.to)} · ${c.pct > 0 ? '+' : ''}${c.pct}%</span></div>`).join('');
+    const svg = pts.length >= 2 ? miniChart(pts, wk ? (wk.kind === 'up' ? 'var(--up)' : 'var(--down)') : '#e0761c') : '';
+    const det = wk ? wk.fields.map(f =>
+      `<div class="wt"><i class="st ok"></i><span class="nm">${esc(f.name)}</span>
+        <span class="rs" style="color:${f.pct > 0 ? 'var(--up)' : 'var(--down)'}">¥${u2(f.from)} → ¥${u2(f.to)} · ${f.pct > 0 ? '+' : ''}${f.pct}%</span></div>`).join('') : '';
 
     return `${svg ? `<div class="chline"><span>官方综合单价走势</span><span style="color:var(--tx3)">近 30 天窗口 · 已存档 ${pts.length} 天</span></div>${svg}
         ${pts.length >= 2 && pts.every(x => Math.abs(x.v - pts[0].v) < 1e-4)
           ? `<div class="hint" style="padding:2px 0 0">窗口内价格全程未变，恒定 ¥${u2(pts[0].v)}。</div>` : ''}`
       : `<div class="hint" style="padding:2px 0 6px">历史记录不足 2 天，暂无法绘制走势。</div>`}
-      ${main ? `<div class="hint" style="padding:8px 0 2px">与${esc(C.lastLabel || '上一次抓取')}相比，本口径共 ${mine.length} 项调整：</div>${det}`
-             : `<div class="hint" style="padding:8px 0 2px">与${esc(C.lastLabel || '上一次抓取')}相比，本口径价格无变化。</div>`}
+      ${!hasWeek ? ''
+        : wk ? `<div class="hint" style="padding:8px 0 2px">近 ${week.days} 天（${esc(String(week.from).slice(5))} → ${esc(String(week.to).slice(5))}）综合单价 ¥${u2(wk.from)} → ¥${u2(wk.to)}，共 ${wk.hits || 1} 次调整：</div>${det}`
+             : `<div class="hint" style="padding:8px 0 2px">近 ${week.days} 天（${esc(String(week.from).slice(5))} → ${esc(String(week.to).slice(5))}）本口径价格未变动。</div>`}
       <div class="hint" style="padding:6px 0 0">数据来源：${esc(q.source || '—')} · 每日自动抓取</div>`;
   }
 

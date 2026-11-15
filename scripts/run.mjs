@@ -22,8 +22,9 @@ const stamp = `${asOfDate} ${new Intl.DateTimeFormat('zh-CN', { timeZone: 'Asia/
 
 const health = { aOk: 0, aFail: 0, bOk: 0, bFail: 0, bChanged: 0 };
 const sources = [];
-const diffs = [];          // 相对报告基线的累计差异（不是「本期」变动）
+const baselineDiffs = [];  // 相对报告基线的累计差异（历史值，仅供对照，不参与推送）
 const watchChanges = [];   // B 级源页面内容变化
+let diffs = [];            // 本期变动（对比上一次抓取，即前一天的报价），由 buildCompare 产出
 
 /* ---------- A 级：确定性抓取 ---------- */
 const autoById = Object.fromEntries(cfg.autoSources.map(s => [s.id, s]));
@@ -161,7 +162,7 @@ for (const model of baseline.models) {
     // 输入价变化
     if (row.priceIn != null && liveIn != null && row.priceIn !== liveIn) {
       const d = pct(row.priceIn, liveIn);
-      diffs.push({
+      baselineDiffs.push({
         level: Math.abs(d) >= 20 ? 'high' : 'low',
         scope: model.name,
         title: `${model.name} 官方输入价（缓存未命中）变动`,
@@ -171,7 +172,7 @@ for (const model of baseline.models) {
     }
     if (row.priceOut != null && liveOut != null && row.priceOut !== liveOut) {
       const d = pct(row.priceOut, liveOut);
-      diffs.push({
+      baselineDiffs.push({
         level: Math.abs(d) >= 20 ? 'high' : 'low',
         scope: model.name,
         title: `${model.name} 官方输出价变动`,
@@ -181,7 +182,7 @@ for (const model of baseline.models) {
     }
     if (row.unitPrice != null && liveBlend != null && Math.abs(row.unitPrice - liveBlend) > 0.05) {
       const d = pct(row.unitPrice, liveBlend);
-      diffs.push({
+      baselineDiffs.push({
         level: 'high',
         scope: model.name,
         title: `${model.name} 官方综合单价变动`,
@@ -337,6 +338,23 @@ async function buildCompare(todayQuotes, todayDate) {
 
 await buildCompare(liveQuotes, asOfDate);
 
+/* ---------- 本期变动：对比上一次抓取（即前一天），转成 diffs 结构用于推送 ---------- */
+const scopeOf = (label) => String(label || '').replace(/\s*·\s*.*$/, '').trim();
+diffs = (compare.changes || []).map(c => {
+  const d = c.pct;
+  return {
+    level: d == null ? 'med' : (Math.abs(d) >= 20 ? 'high' : 'low'),
+    scope: scopeOf(c.label),
+    title: `${c.label} ${c.field}变动`,
+    from: `¥${c.from}`,
+    to: `¥${c.to}`,
+    pct: d,
+    kind: c.kind === 'up' ? 'up' : 'down',
+    vs: compare.lastDate,
+    key: c.key
+  };
+});
+
 /* ---------- 汇总 ---------- */
 const orderedSources = [...sources].sort((a, b) => a.id.localeCompare(b.id));
 const latest = {
@@ -351,6 +369,8 @@ const latest = {
   models: baseline.models,
   compare,
   diffs,
+  diffsCompareDate: compare.lastDate,
+  baselineDiffs,
   diffsBaselineDate: baseline.version,
   watchChanges,
   watch: watch.sort((a, b) => (b.changed - a.changed) || a.name.localeCompare(b.name)),
@@ -379,15 +399,15 @@ if (diffs.length) {
 const line = (s) => process.stdout.write(s + '\n');
 line(`[${stamp}] 抓取完成  A级 ${health.aOk}成功/${health.aFail}失败  B级 ${health.bOk}成功/${health.bFail}失败，变更 ${health.bChanged}`);
 line(`实时官方报价 ${liveQuotes.length} 条 | OpenRouter 参考 ${orRef.length} 条`);
+line(`本期变动（对比 ${compare.lastDate || '无历史'}）：${diffs.length} 条  ← 推送口径`);
 if (compare.available) {
-  line(`本期变动（对比 ${compare.lastDate}）：${compare.changes.length} 条`);
   for (const c of compare.changes) line(`  · ${c.label} ${c.field}: ¥${c.from} → ¥${c.to} (${c.pct > 0 ? '+' : ''}${c.pct}%)`);
   if (compare.streaks.length) {
     const t = compare.streaks[0];
     line(`  · 最久未变：${t.label} ¥${t.blended}，已连续 ${t.days} 天（自 ${t.since}）`);
   }
 } else {
-  line(`本期变动：无法计算（${compare.note}）`);
+  line(`  · 原因：${compare.note}`);
 }
-line(`相对 ${baseline.version} 报告基线的累计差异：${diffs.length} 条（历史值，非本期变动）`);
+line(`相对 ${baseline.version} 报告基线的累计差异：${baselineDiffs.length} 条（历史值，仅对照，不推送）`);
 for (const w of watch.filter(x => x.changed)) line(`  · 变更监控: ${w.name} 新增价格表述 ${w.samples.length} 处`);
